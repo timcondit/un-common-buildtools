@@ -31,6 +31,9 @@
         wrote it this way because antcontrib does not have an "is greater than
         or equal to" method, AFAIK. -->
         <!-- TODO add to propset -->
+        <!-- TODO VIPER -timc 9/20/2010 -->
+        <antcall target="jar-EnvisionPlugin"/>
+        <!--
         <property name="EnvisionPluginAfter" value="9.7.0100"/>
         <ac:if>
             <or>
@@ -54,6 +57,7 @@
                 <echo message="Skipping target jar-EnvisionPlugin (only version 9.8 or later)"/>
             </else>
         </ac:if>
+        -->
     </target>
 
     <!-- ================================================================= -->

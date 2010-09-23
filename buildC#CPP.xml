@@ -43,12 +43,16 @@
     <!-- ================================================================= -->
     <!--  Make AgentSupport                                                -->
     <!-- ================================================================= -->
+    <!-- TODO VIPER -timc 9/20/2010 -->
     <!-- TODO organize this such that the languages are separable.  In other
     words, do it the same way EnvisionControls_CAB is done in build.xml. -->
     <!-- TODO macrodefs?  Maybe this should come after the previous TODO about
     separating by languages.  See buildSetup.xml for an example. -->
     <target name="make-AgentSupport" depends="propset" description="Makes AgentSupport">
         <build-cpp solution.file="${dir.src}/clients/AgentSupport.sln"/>
+        <build-cpp configuration="ReleaseGerman" solution.file="${dir.src}/clients/AgentSupport.sln"/>
+        <build-cpp configuration="ReleaseSpanish" solution.file="${dir.src}/clients/AgentSupport.sln"/>
+        <!--
         <ac:if>
             <or>
                 <and>
@@ -70,13 +74,20 @@
                     solution.file="${dir.src}/clients/AgentSupport.sln"/>
             </then>
         </ac:if>
+        -->
     </target>
 
     <!-- ================================================================= -->
     <!--  Make AgentX.ocx                                                  -->
     <!-- ================================================================= -->
+    <!-- TODO VIPER -timc 9/20/2010 -->
     <target name="make-AgentX_OCX" depends="propset" description="Makes AgentX.ocx">
         <build-cpp solution.file="${dir.src}/clients/quality/agentdesktop/AgentX.vcproj"/>
+        <build-cpp configuration="ReleaseGerman"
+            solution.file="${dir.src}/clients/quality/agentdesktop/AgentX.vcproj"/>
+        <build-cpp configuration="ReleaseSpanish"
+            solution.file="${dir.src}/clients/quality/agentdesktop/AgentX.vcproj"/>
+        <!--
         <ac:if>
             <or>
                 <and>
@@ -98,6 +109,7 @@
                     solution.file="${dir.src}/clients/quality/agentdesktop/AgentX.vcproj"/>
             </then>
         </ac:if>
+        -->
     </target>
 
     <!-- ================================================================= -->
@@ -132,8 +144,14 @@
     <!-- ================================================================= -->
     <!--  Make C2CReportingControls.ocx                                    -->
     <!-- ================================================================= -->
+    <!-- TODO VIPER -timc 9/20/2010 -->
     <target name="make-C2CReportingControls_OCX" depends="propset" description="Makes C2CReportingControls.ocx">
         <build-cpp solution.file="${dir.src}/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
+        <build-cpp configuration="ReleaseGerman"
+            solution.file="${dir.src}/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
+        <build-cpp configuration="ReleaseSpanish"
+            solution.file="${dir.src}/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
+        <!--
         <ac:if>
             <or>
                 <and>
@@ -155,6 +173,7 @@
                     solution.file="${dir.src}/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
             </then>
         </ac:if>
+        -->
     </target>
 
     <!-- ================================================================= -->
@@ -272,9 +291,15 @@
     <!-- ================================================================= -->
     <!--  Make eLearning                                                   -->
     <!-- ================================================================= -->
+    <!-- TODO VIPER -timc 9/20/2010 -->
     <!-- TODO is there an eLearning solution? -timc, Cinco de Mayo -->
     <target name="make-eLearning" depends="propset" description="Makes eLearning">
         <build-cpp configuration="eLearningRelease" solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
+        <build-cpp configuration="eLearningReleaseGerman"
+            solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
+        <build-cpp configuration="eLearningReleaseSpanish"
+            solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
+        <!--
         <ac:if>
             <or>
                 <and>
@@ -294,6 +319,7 @@
                 <build-cpp configuration="eLearningReleaseSpanish" solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
             </then>
         </ac:if>
+        -->
     </target>
 
     <!-- ================================================================= -->
@@ -405,8 +431,14 @@
     separately, this one will standalone.  IOW, it will not be a prerequisite
     compile for anything else (as far as I know). -->
     <!-- TODO is there a QM solution? -timc, Cinco de Mayo -->
+    <!-- TODO VIPER -timc 9/20/2010 -->
     <target name="make-QualityMonitoring" depends="propset" description="Makes QM">
         <build-cpp solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
+        <build-cpp configuration="ReleaseGerman"
+            solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
+        <build-cpp configuration="ReleaseSpanish"
+            solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
+        <!--
         <ac:if>
             <or>
                 <and>
@@ -428,6 +460,7 @@
                     solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
             </then>
         </ac:if>
+        -->
     </target>
 
     <!-- ================================================================= -->
@@ -484,9 +517,19 @@
     for English; German and Spanish are not affected.  Finally, if it's 9.10.0
     or later, we switch back and use Release for English. -->
     <!-- TODO is there a SharedResources solution? -timc, Cinco de Mayo -->
+    <!-- TODO VIPER -timc 9/20/2010 -->
     <target name="make-SharedResources" depends="propset" description="Makes SharedResources.dll">
+        <echo message="Release, ReleaseGerman, ReleaseSpanish"/>
+        <build-cpp solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
+        <build-cpp configuration="ReleaseGerman"
+            solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
+        <build-cpp configuration="ReleaseSpanish"
+            solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
+        <!--
         <ac:if>
+        -->
             <!-- up to 9.6.x, no localization -->
+        <!--
             <or>
                 <and>
                     <ac:equals arg1="${MAJOR}" arg2="9"/>
@@ -504,7 +547,9 @@
                 <build-cpp solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
             </then>
             <ac:elseif>
+        -->
                 <!-- 9.7.0 thru 9.9.x, localization with ReleaseEnglish -->
+        <!--
                 <and>
                     <or>
                         <and>
@@ -532,8 +577,10 @@
                 </then>
             </ac:elseif>
             <ac:else>
+        -->
                 <!-- DRY (combine with 9.6 check?) -->
                 <!-- 9.10.x or later, localization with Release for English -->
+        <!--
                 <echo message="Release, ReleaseGerman, ReleaseSpanish"/>
                 <build-cpp solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
                 <build-cpp configuration="ReleaseGerman"
@@ -542,6 +589,7 @@
                     solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
             </ac:else>
         </ac:if>
+        -->
     </target>
 
     <!-- ================================================================= -->
@@ -612,8 +660,14 @@
     <!-- Make WebControls.ocx                                              -->
     <!-- ================================================================= -->
     <!-- TODO is there a WebControls solution? -timc, Cinco de Mayo -->
+    <!-- TODO VIPER -timc 9/20/2010 -->
     <target name="make-WebControls_OCX" depends="propset" description="Makes WebControls.ocx">
         <build-cpp solution.file="${dir.src}/clients/reporting/controls/WebControls.vcproj"/>
+        <build-cpp configuration="ReleaseGerman"
+            solution.file="${dir.src}/clients/reporting/controls/WebControls.vcproj"/>
+        <build-cpp configuration="ReleaseSpanish"
+            solution.file="${dir.src}/clients/reporting/controls/WebControls.vcproj"/>
+        <!--
         <ac:if>
             <or>
                 <and>
@@ -635,6 +689,7 @@
                     solution.file="${dir.src}/clients/reporting/controls/WebControls.vcproj"/>
             </then>
         </ac:if>
+        -->
     </target>
 
     <!-- ================================================================= -->
@@ -737,11 +792,13 @@
     <!--  Sign AgentX.ocx                                                  -->
     <!-- ================================================================= -->
     <!-- TODO is there an AgentX solution? -timc, Cinco de Mayo -->
+    <!-- TODO VIPER -timc 9/20/2010 -->
     <target name="sign-AgentX_OCX" depends="propset, make-AgentX_OCX" description="Digitally signs AgentX.ocx to verify its authenticity.">
         <!-- English -->
         <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.workdir}/quality/AgentX.ocx"/>
         </exec>
+        <!--
         <ac:if>
             <or>
                 <and>
@@ -757,6 +814,7 @@
                 </and>
             </or>
             <then>
+        -->
                 <!-- NB: don't forget the ${basedir}! -->
                 <!-- German -->
                 <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
@@ -766,8 +824,10 @@
                 <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
                     <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/quality/agentdesktop/ReleaseSpanish/AgentX.ocx"/>
                 </exec>
+        <!--
             </then>
         </ac:if>
+        -->
     </target>
 
     <!-- ================================================================= -->
@@ -800,12 +860,14 @@
     <!--  Sign C2CReportingControls.ocx                                    -->
     <!-- ================================================================= -->
     <!-- TODO is there a C2CReportingControls solution? -timc, Cinco de Mayo -->
+    <!-- TODO VIPER -timc 9/20/2010 -->
     <target name="sign-C2CReportingControls_OCX" depends="propset, make-C2CReportingControls_OCX" description="Digitally signs C2CReportingControls.ocx to verify its authenticity.">
         <!-- English -->
         <!-- NB: don't forget the ${basedir}! -->
         <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/C2CReportingControls/Release/C2CReportingControls.ocx"/>
         </exec>
+        <!--
         <ac:if>
             <or>
                 <and>
@@ -821,6 +883,7 @@
                 </and>
             </or>
             <then>
+        -->
                 <!-- German -->
                 <!-- NB: don't forget the ${basedir}! -->
                 <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
@@ -831,8 +894,10 @@
                 <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
                     <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/C2CReportingControls/ReleaseSpanish/C2CReportingControls.ocx"/>
                 </exec>
+        <!--
             </then>
         </ac:if>
+        -->
     </target>
 
     <!-- ================================================================= -->
@@ -849,12 +914,14 @@
     <!-- ================================================================= -->
     <!-- Sign WebControls.ocx                                              -->
     <!-- ================================================================= -->
+    <!-- TODO VIPER -timc 9/20/2010 -->
     <target name="sign-WebControls_OCX" depends="propset, make-WebControls_OCX" description="Digitally signs WebControls.ocx to verify its authenticity.">
         <!-- English -->
         <!-- NB: don't forget the ${basedir}! -->
         <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.workdir}/agentdesktop/WebControls.ocx"/>
         </exec>
+        <!--
         <ac:if>
             <or>
                 <and>
@@ -870,6 +937,7 @@
                 </and>
             </or>
             <then>
+        -->
                 <!-- German -->
                 <!-- NB: don't forget the ${basedir}! -->
                 <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
@@ -880,23 +948,10 @@
                 <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
                     <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/controls/ReleaseSpanish/WebControls.ocx"/>
                 </exec>
+        <!--
             </then>
         </ac:if>
+        -->
     </target>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </project>
 

@@ -183,6 +183,7 @@ have comments in-place.
     service packs.  If that changes, I'll subdivide it further.  -->
 
     <!-- short-circuit sanity check -->
+    <!--
     <ac:if>
         <or>
             <and>
@@ -197,6 +198,7 @@ have comments in-place.
             <fail message="common-buildtools are only for product version 9.6 and later"/>
         </then>
     </ac:if>
+    -->
 
     <!-- Part 1 of 2: set properties based on build version -->
     <!-- 10.1 (Viper) -->
@@ -212,6 +214,7 @@ have comments in-place.
     </ac:if>
 
     <!-- 10.0 -->
+    <!--
     <ac:if>
         <or>
             <ac:equals arg1="${MAJOR}.${MINOR}" arg2="10.0"/>
@@ -222,8 +225,10 @@ have comments in-place.
             <property name="dir.sdk" value="${dir.build}/SDK"/>
         </then>
     </ac:if>
+    -->
 
     <!-- 9.10 -->
+    <!--
     <ac:if>
         <or>
             <and>
@@ -242,8 +247,10 @@ have comments in-place.
             <echo message="INFO setting 9.10 properties (if any)"/>
         </then>
     </ac:if>
+    -->
 
     <!-- 9.9 -->
+    <!--
     <ac:if>
         <or>
             <and>
@@ -262,8 +269,10 @@ have comments in-place.
             <echo message="INFO setting 9.9 properties (if any)"/>
         </then>
     </ac:if>
+    -->
 
     <!-- 9.8 -->
+    <!--
     <ac:if>
         <or>
             <and>
@@ -285,8 +294,10 @@ have comments in-place.
             <property name="vscommontools" value="${env.VS90COMNTOOLS}"/>
         </then>
     </ac:if>
+    -->
 
     <!-- 9.7 -->
+    <!--
     <ac:if>
         <or>
             <and>
@@ -307,8 +318,10 @@ have comments in-place.
             <property name="signtool.password" value="${signtool.envisionpass}"/>
         </then>
     </ac:if>
+    -->
 
     <!-- 9.6 -->
+    <!--
     <ac:if>
         <or>
             <and>
@@ -329,11 +342,16 @@ have comments in-place.
             <property name="compiler.message" value="${vs80_mc}"/>
             <property name="vscommontools" value="${env.VS80COMNTOOLS}"/>
             <property name="file.pfx" value="${cert.private}"/>
+    -->
             <!-- <property name="signtool.password" value="${signtool.privatepass}"/> -->
+    <!--
             <property name="signtool.password" value="${signtool.envisionpass}"/>
+    -->
             <!-- <property name="javac.source" value="1.6"/> -->
+    <!--
         </then>
     </ac:if>
+    -->
 
     <!-- Part 2 of 2: Check for resources that we need in order to move
     on.  If property is not set, fail fast.  This still leaves open the
@@ -414,6 +432,7 @@ have comments in-place.
     <echo message="certificate file: ${file.pfx}"/>
     <echo message="signtool password: ${signtool.password}"/>
 
+
     <!-- ================================================================= -->
     <!-- Common classpath                                                  -->
     <!-- ================================================================= -->
@@ -486,6 +505,7 @@ have comments in-place.
         end"/>
     -->
 
+    <!-- TODO aggregate these -timc 9/20/2010 -->
     <target name="official-build">
         <antcall target="begin"/>
         <antcall target="nuke-workdir"/>
@@ -567,9 +587,11 @@ have comments in-place.
         <!-- The old Symantec virus checker is gone.  This can likewise go
         away (but that's not what I'm doing right now, so come back to it
         later).  -timc, Cinco de Mayo 2010 -->
+        <!--
         <exec dir="${dir.bin}" executable="cmd.exe" vmlauncher="${vmlauncher}" failonerror="false">
             <arg line="/c stopsym.bat"/>
         </exec>
+        -->
     </target>
 
     <!-- ================================================================= -->
@@ -623,6 +645,7 @@ have comments in-place.
     <!-- ================================================================= -->
     <!-- Build C#                                                          -->
     <!-- ================================================================= -->
+    <!-- TODO VIPER -timc 9/20/2010 -->
     <target name="build-CSharp">
 
         <!--
@@ -718,54 +741,6 @@ have comments in-place.
     <!-- ================================================================= -->
     <target name="build-CSUnitTests" description="Build the C# unit test projects">
         <build-cpp solution.file="${dir.src}/tests/DotNetUnitTests/DotNetUnitTests.sln"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildJars.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make JARs                                                         -->
-    <!-- ================================================================= -->
-    <!-- Ugliness: I added depends="propset" because calls to antcall seem to
-    run in their own namespace.  (That's a VERY good thing.  The ugliness is
-    the fact that we're using antcall in the first place.) -timc, Cinco de
-    Mayo 2010 -->
-    <target name="build-jars-MANGLED" depends="propset">
-        <antcall target="clean_Envision"/>
-        <antcall target="compile_Envision"/>
-        <antcall target="jar_Envision"/>
-        <antcall target="release_Envision"/>
-        <antcall target="clean_license"/>
-        <antcall target="compile_license"/>
-        <antcall target="jar_license"/>
-        <antcall target="release_license"/>
-        <!-- TODO the product versions should be collected in a map somewhere -->
-        <!-- Note: property EnvisionPluginAfter identifies the last version of
-        the product that does *not* include the target jar-EnvisionPlugin.  I
-        wrote it this way because antcontrib does not have an "is greater than
-        or equal to" method, AFAIK. -->
-        <!-- TODO add to propset -->
-        <property name="EnvisionPluginAfter" value="9.7.0100"/>
-        <ac:if>
-            <or>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                    <ac:equals arg1="${RELEASE}" arg2="0100"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-            </or>
-            <then>
-                <antcall target="jar-EnvisionPlugin"/>
-            </then>
-            <else>
-                <echo message="Skipping target jar-EnvisionPlugin (only version 9.8 or later)"/>
-            </else>
-        </ac:if>
     </target>
 
     <!-- ================================================================= -->
@@ -1007,31 +982,6 @@ have comments in-place.
         </exec>
     </target>
 
-    <!-- @@@ MOVE TO buildJars.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- clean_Envision                                                    -->
-    <!-- ================================================================= -->
-    <!-- timc: Obsolete?  Maybe not.  We call into this target (and the rest
-    of the _Envision targets) twice. -->
-    <target name="clean_Envision-MANGLED" description="Deletes compiled classes and jars">
-        <delete quiet="true" failonerror="false" includeEmptyDirs="true">
-            <fileset dir="${dir.src}" includes="**/*.class"/>
-        </delete>
-        <delete quiet="true" failonerror="false" file="${dir.release}/Envision.jar"/>
-        <delete quiet="true" failonerror="false" file="${dir.src}/Envision.jar"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildJars.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- clean_license                                                     -->
-    <!-- ================================================================= -->
-    <target name="clean_license-MANGLED" description="Deletes existing compiled classes and jars">
-        <delete quiet="true" failonerror="false" includeEmptyDirs="true">
-            <fileset dir="${dir.src}/server/com/et/license/" includes="**/*.class"/>
-        </delete>
-        <delete quiet="true" failonerror="false" file="${dir.src}/server/com/et/license/license.jar"/>
-    </target>
-
     <!-- ================================================================= -->
     <!-- Commit all version and installer project files                    -->
     <!-- ================================================================= -->
@@ -1096,211 +1046,6 @@ have comments in-place.
         </svn>
     </target>
 
-    <!-- @@@ MOVE TO buildJars.xml @@@ -->
-    <!-- =================================================================== -->
-    <!-- compile-genstubskel-jar                                             -->
-    <!-- =================================================================== -->
-    <target name="compile-genstubskel-jar-MANGLED" depends="propset" description="Compiles genstubskel">
-        <javac srcdir="${dir.src}/tools/genstubskel"
-            destdir="${dir.src}/tools/genstubskel"
-            debug="${javac.debug}"
-            deprecation="${javac.deprecation}"
-            source="${javac.source}"
-            optimize="on">
-            <classpath refid="project-classpath"/>
-        </javac>
-    </target>
-
-    <!-- @@@ MOVE TO buildJars.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- compile_Envision                                                  -->
-    <!-- ================================================================= -->
-    <target name="compile_Envision-MANGLED" description="Compiles Envision">
-        <!-- TODO fork, memoryInitialSize & memoryMaximumSize need to go to
-        build.properties (or, better, to runbuild.py -timc 2/5/2010 -->
-        <javac srcdir="${dir.src}" destdir="${dir.src}"
-            debug="${javac.debug}"
-            deprecation="${javac.deprecation}"
-            fork="yes"
-            memoryInitialSize="200m" memoryMaximumSize="1024m">
-            <classpath refid="project-classpath"/>
-        </javac>
-
-        <!-- TODO do we need this? -->
-        <delete quiet="false" failonerror="true"
-            file="${dir.src}/com/et/license/LicenseManager.class"/>
-        <delete quiet="false" failonerror="true"
-            file="${dir.src}/server/com/et/license/LicenseManager.class"/>
-        <delete quiet="false" failonerror="true"
-            file="${dir.src}/server/com/et/license/jar/LicenseManager.class"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildJars.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- compile_java_dev                                                  -->
-    <!-- ================================================================= -->
-    <target name="compile_java_dev-MANGLED" description="Compiles java for Devs">
-        <echo message="Delete existing class files..."/>
-        <delete quiet="true" failonerror="false">
-            <fileset dir="${dir.src}" includes="**/*.class"/>
-        </delete>
-        <echo message="Build source..."/>
-        <!-- TODO fork, memoryInitialSize & memoryMaximumSize need to go to
-        build.properties (or, better, to runbuild.py -timc 2/5/2010 -->
-        <javac srcdir="${dir.src}"
-            debug="${javac.debug}"
-            deprecation="false"
-            nowarn="on"
-            fork="yes"
-            memoryInitialSize="256m" memoryMaximumSize="378m">
-            <classpath refid="project-classpath"/>
-            <classpath>
-                <dirset dir="${dir.src}">
-                    <include name="clients/admin"/>
-                    <include name="contactsources/nuasis"/>
-                    <include name="contactsources/nuasisPlugIn"/>
-                    <include name="contactsources/avayapds"/>
-                    <include name="contactsources/cmiaspect"/>
-                    <include name="contactsources/concerto"/>
-                    <include name="contactsources/generic"/>
-                    <include name="contactsources/Genesys"/>
-                    <include name="generated"/>
-                    <include name="server"/>
-                    <include name="tests"/>
-                    <include name="tools"/>
-                </dirset>
-            </classpath>
-        </javac>
-    </target>
-
-    <!-- @@@ MOVE TO buildJars.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- compile_license                                                   -->
-    <!-- ================================================================= -->
-    <target name="compile_license-MANGLED" description="Compiles license">
-        <!-- TODO fork, memoryInitialSize & memoryMaximumSize need to go to
-        build.properties (or, better, to runbuild.py -timc 2/5/2010 -->
-        <javac srcdir="${dir.src}/server/com/et/license/"
-            destdir="${dir.src}/server/"
-            debug="${javac.debug}"
-            deprecation="${javac.deprecation}"
-            fork="yes"
-            memoryInitialSize="100m"
-            memoryMaximumSize="100m" >
-            <classpath refid="project-classpath"/>
-        </javac>
-    </target>
-
-    <!-- @@@ MOVE TO buildJars.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Copy Envision jar resources                                       -->
-    <!-- ================================================================= -->
-    <!-- timc: called from build.xml -->
-    <target name="copy-jar-resources-MANGLED" description="Copy Envision jar resources">
-        <copy todir="${dir.src}/com/et">
-            <fileset dir="${dir.src}/Server/com/et"
-                includes="
-                **/*.xml
-                **/*.gif
-                **/*.jpg
-                **/*.png
-                **/*.html
-                **/*.js
-                **/*.ico
-                **/*.properties"
-                excludes="**/*UTF16.properties"/>
-        </copy>
-
-        <copy todir="${dir.src}/com/et">
-            <fileset dir="${dir.src}/clients/admin/com/et"
-                includes="
-                **/*.xml
-                **/*.gif
-                **/*.jpg
-                **/*.png
-                **/*.html
-                **/*.js
-                **/*.ico
-                **/*.properties"
-                excludes="**/*UTF16.properties"/>
-        </copy>
-
-        <!-- timc: Nothing with these extensions are present, AFAIK -->
-        <copy todir="${dir.src}/com/et">
-            <fileset dir="${dir.src}/Generated/com/et"
-                includes="
-                **/*.xml
-                **/*.gif
-                **/*.jpg
-                **/*.png
-                **/*.html
-                **/*.js
-                **/*.ico
-                **/*.properties"
-                excludes="**/*UTF16.properties"/>
-        </copy>
-
-        <!-- timc: Nothing with these extensions are present, AFAIK -->
-        <copy todir="${dir.src}/com/et">
-            <fileset dir="${dir.src}/apis/bi/com/et"
-                includes="
-                **/*.xml
-                **/*.gif
-                **/*.jpg
-                **/*.png
-                **/*.html
-                **/*.js
-                **/*.ico
-                **/*.properties"
-                excludes="**/*UTF16.properties"/>
-        </copy>
-
-        <!-- timc: Nothing with these extensions are present, AFAIK -->
-        <copy todir="${dir.src}/com/et">
-            <fileset dir="${dir.src}/contactsources/avayapds/com/et"
-                includes="
-                **/*.xml
-                **/*.gif
-                **/*.jpg
-                **/*.png
-                **/*.html
-                **/*.js
-                **/*.ico
-                **/*.properties"
-                excludes="**/*UTF16.properties"/>
-        </copy>
-
-        <!-- timc: Nothing with these extensions are present, AFAIK -->
-        <copy todir="${dir.src}/com/et">
-            <fileset dir="${dir.src}/contactsources/cmiaspect/com/et"
-                includes="
-                **/*.xml
-                **/*.gif
-                **/*.jpg
-                **/*.png
-                **/*.html
-                **/*.js
-                **/*.ico
-                **/*.properties"
-                excludes="**/*UTF16.properties"/>
-        </copy>
-
-        <!-- timc: Nothing with these extensions are present, AFAIK -->
-        <copy todir="${dir.src}/com/et">
-            <fileset dir="${dir.src}/contactsources/concerto/com/et"
-                includes="
-                **/*.xml
-                **/*.gif
-                **/*.jpg
-                **/*.png
-                **/*.html
-                **/*.js
-                **/*.ico
-                **/*.properties"
-                excludes="**/*UTF16.properties"/>
-        </copy>
-    </target>
-
     <!-- ================================================================= -->
     <!-- Create the release directory                                      -->
     <!-- ================================================================= -->
@@ -1334,13 +1079,6 @@ have comments in-place.
     <target name="do-test">
         <ant antfile="buildC#CPP.xml" dir="." target="make-SharedResources"/>
     </target>
-
-    <!-- @@@ MOVE TO buildJars.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Do Nothing, so eclipse will read this file and make targets       -->
-    <!-- accessible                                                        -->
-    <!-- ================================================================= -->
-    <target name="do_nothing-MANGLED" />
 
     <!-- ================================================================= -->
     <!-- e-mail build results                                              -->
@@ -1390,9 +1128,11 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         <!-- The old Symantec virus checker is gone.  This can likewise go
         away (but that's not what I'm doing right now, so come back to it
         later).  -timc, Cinco de Mayo 2010 -->
+        <!--
         <exec dir="${dir.bin}" executable="cmd.exe" vmlauncher="${vmlauncher}" failonerror="false">
             <arg line="/c startsym.bat"/>
         </exec>
+        -->
         <!-- See Java's SimpleDateFormat for formatting details -->
         <tstamp>
             <format property="time.end" pattern="yyyy-MM-dd',' HH:mm:ss" locale="en_US"/>
@@ -1473,69 +1213,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         <echo message="Type 'ant -projecthelp' for the full list of public targets"/>
     </target>
 
-    <!-- @@@ MOVE TO buildJars.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Jar EnvisionPlugin                                                -->
-    <!-- ================================================================= -->
-    <!-- This plugin goes on the customer's PBX to pass contact source
-    messages back and forth with the Server -->
-    <target name="jar-EnvisionPlugin-MANGLED" description="Creates EnvisionPlugin.jar"
-        depends="make-EnvisionPlugin">
-        <jar jarfile="${EnvisionPluginBasedir}/EnvisionPlugin.jar"
-            basedir="${EnvisionPluginBasedir}"
-            duplicate="preserve"
-            includes="
-            com/**/*.class
-            com/**/*.xml
-            com/**/*.html
-            com/**/*.gif
-            com/**/*.png
-            com/**/*.jpg
-            com/**/*.ico
-            com/**/*.properties"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildJars.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- jar_Envision                                                      -->
-    <!-- ================================================================= -->
-    <target name="jar_Envision-MANGLED" description="Jar Envision">
-        <jar destfile="${dir.src}/Envision.jar"
-            basedir="${dir.src}"
-            duplicate="preserve"
-            includes="
-            com/**/*.class
-            com/**/*.xml
-            com/**/*.gif
-            com/**/*.jpg
-            com/**/*.png
-            com/**/*.html
-            com/**/*.js
-            com/**/*.ico
-            com/**/*.properties"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildJars.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- jar_license                                                       -->
-    <!-- ================================================================= -->
-    <target name="jar_license-MANGLED" description="Jar license">
-        <copy file="${dir.src}/server/com/et/license/LicenseManager.class"
-            tofile="${dir.src}/com/et/license/LicenseManager.class"/>
-        <jar destfile="${dir.src}/server/com/et/license/license.jar"
-            basedir="${dir.src}"
-            duplicate="preserve"
-            includes="com/**/*.class"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make ADIT                                                         -->
-    <!-- ================================================================= -->
-    <target name="make-ADIT-MANGLED" description="Makes ADIT">
-        <build-cpp solution.file="${dir.src}/tools/ADIT/Gold/ADIT.sln"/>
-    </target>
-
     <!-- ================================================================= -->
     <!-- Make ADIT installer                                               -->
     <!-- ================================================================= -->
@@ -1544,72 +1221,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             product.name="ADIT"
             installer.path="${dir.installs}/ADIT"
             project.file="${dir.installs}/ADIT/ADIT.aip"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make Administrator.exe                                            -->
-    <!-- ================================================================= -->
-    <target name="make-Administrator-MANGLED" description="Makes Administrator.exe">
-        <build-cpp solution.file="${dir.src}/clients/admin/Administrator/Administrator.vcproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Make AgentAdherence.ocx                                          -->
-    <!-- ================================================================= -->
-    <target name="make-AgentAdherence_OCX-MANGLED" description="Makes AgentAdherence.ocx">
-        <build-cpp solution.file="${dir.src}/clients/wfm/agentadherence/AgentAdherence.vcproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Make Agent Automation                                            -->
-    <!-- ================================================================= -->
-    <!-- TODO why depends="propset" here? -timc, Cinco de Mayo 2010 -->
-    <target name="make-AgentAutomation-MANGLED" depends="propset" description="Makes AgentAutomation.dll">
-        <build-cpp solution.file="${dir.src}/apis/AgentAutomation.sln"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Make AgentSchedule.ocx                                           -->
-    <!-- ================================================================= -->
-    <target name="make-AgentSchedule_OCX-MANGLED" description="Makes AgentSchedule.ocx">
-        <build-cpp solution.file="${dir.src}/clients/wfm/agentschedule/AgentSchedule.vcproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Make AgentSupport                                                -->
-    <!-- ================================================================= -->
-    <!-- TODO organize this such that the languages are separable.  In other
-    words, do it the same way EnvisionControls_CAB is done in build.xml. -->
-    <!-- TODO macrodefs?  Maybe this should come after the previous TODO about
-    separating by languages.  See buildSetup.xml for an example. -->
-    <target name="make-AgentSupport-MANGLED" depends="propset" description="Makes AgentSupport">
-        <build-cpp solution.file="${dir.src}/clients/AgentSupport.sln"/>
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-                <build-cpp configuration="ReleaseGerman"
-                    solution.file="${dir.src}/clients/AgentSupport.sln"/>
-                <build-cpp configuration="ReleaseSpanish"
-                    solution.file="${dir.src}/clients/AgentSupport.sln"/>
-            </then>
-        </ac:if>
     </target>
 
     <!-- ================================================================= -->
@@ -1621,43 +1232,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             product.name="AgentSupport"
             installer.path="${dir.installs}/AgentSupport"
             project.file="${dir.installs}/AgentSupport/AgentSupport.aip"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Make AgentX.ocx                                                  -->
-    <!-- ================================================================= -->
-    <target name="make-AgentX_OCX-MANGLED" depends="propset" description="Makes AgentX.ocx">
-        <build-cpp solution.file="${dir.src}/clients/quality/agentdesktop/AgentX.vcproj"/>
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-                <build-cpp configuration="ReleaseGerman"
-                    solution.file="${dir.src}/clients/quality/agentdesktop/AgentX.vcproj"/>
-                <build-cpp configuration="ReleaseSpanish"
-                    solution.file="${dir.src}/clients/quality/agentdesktop/AgentX.vcproj"/>
-            </then>
-        </ac:if>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make AGMS                                                         -->
-    <!-- ================================================================= -->
-    <target name="make-AGMS-MANGLED" description="Makes AGMS">
-        <build-cpp solution.file="${dir.src}/tools/AGMS/AGMS.sln"/>
     </target>
 
     <!-- ================================================================= -->
@@ -1680,80 +1254,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             project.file="${dir.installs}/Analytics/Analytics.aip"/>
     </target>
 
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make AnalyticsUtilities                                           -->
-    <!-- ================================================================= -->
-    <target name="make-AnalyticsUtilities-MANGLED" description="Makes EnvisionAnalyticsUtilities.dll">
-        <build-cpp solution.file="${dir.src}/clients/centricity/Analytics/AnalyticsUtilities/AnalyticsUtilities.sln"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make C# APICommon.dll                                             -->
-    <!-- ================================================================= -->
-    <target name="make-APICommon_CS-MANGLED" description="Makes APICommon.dll">
-        <build-cpp solution.file="${dir.src}/apis/bi/com/et/bi/api/common/APICommon.csproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make Automated Tagger DLLs                                        -->
-    <!-- ================================================================= -->
-    <!-- VB, but compiled with build-CSharp (go figure) -->
-    <target name="make-AutoTagger" description="Makes Automated Tagger DLLs">
-        <build-cpp solution.file="${dir.src}/clients/focus/PSPost.root/AutomatedTagger.sln"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Make C2CReportingControls.ocx                                    -->
-    <!-- ================================================================= -->
-    <target name="make-C2CReportingControls_OCX-MANGLED" depends="propset" description="Makes C2CReportingControls.ocx">
-        <build-cpp solution.file="${dir.src}/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-                <build-cpp configuration="ReleaseGerman"
-                    solution.file="${dir.src}/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
-                <build-cpp configuration="ReleaseSpanish"
-                    solution.file="${dir.src}/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
-            </then>
-        </ac:if>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make BI Call Tagger                                               -->
-    <!-- ================================================================= -->
-    <target name="make-CallTagger_CS-MANGLED" description="Makes BI Call Tagger">
-        <build-cpp solution.file="${dir.src}/apis/bi/com/et/bi/api/tagger/ETCallTagger.csproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make Centricity web app                                           -->
-    <!-- ================================================================= -->
-    <!-- Dependencies:
-    . \\Bigfoot\Engineering\Software\MICROSOFT\VS2005Pro-SP1
-    . \\Bigfoot\Engineering\Software\MICROSOFT\VS2005 Addins\webdeploymentsetup.msi
-    . ASPAJAXExtSetup.msi [ASP.NET 2.0 AJAX Extensions 1.0] -->
-    <target name="make-Centricity-MANGLED" description="Makes Centricity web app">
-        <build-cpp configuration="Production" solution.file="${dir.src}/clients/centricity/Centricity.sln"/>
-    </target>
-
     <!-- ================================================================= -->
     <!-- Make Centricity installer                                         -->
     <!-- ================================================================= -->
@@ -1774,82 +1274,10 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             project.file="${dir.installs}/CentricityQM/CentricityQM.aip"/>
     </target>
 
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Make Channel Manager                                             -->
-    <!-- ================================================================= -->
-    <!-- TODO break into projects! -timc 5/4/2009 -->
-    <target name="make-ChannelManager-MANGLED" description="Makes channelmanager devenv.exe">
-        <build-cpp solution.file="${dir.src}/winservices/ChannelManager.sln"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Make CiscoICM                                                    -->
-    <!-- ================================================================= -->
-    <target name="make-CiscoICM-MANGLED" description="Makes CiscoICM.dll">
-        <build-cpp solution.file="${dir.src}/contactsources/ciscoicm/CiscoICM.vcproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make ContactSourceUtilities.lib                                   -->
-    <!-- ================================================================= -->
-    <target name="make-ContactSourceUtilities_LIB-MANGLED" description="Makes ContactSourceUtils.lib">
-        <build-cpp solution.file="${dir.src}/contactsources/contactsourceutilities/ContactSourceUtils.sln"/>
-    </target>
-
     <!-- ================================================================= -->
     <!-- Make C# and C++ files                                             -->
     <!-- ================================================================= -->
     <target name="make-CPP" depends="build-CPP, build-CSharp, build-Loaders"/>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make CSTA Loader                                                   -->
-    <!-- ================================================================= -->
-    <!-- TODO are we using these? -timc 5/27/2009 -->
-    <!-- TODO is there a cstaLoader solution? -timc, Cinco de Mayo 2010 -->
-    <target name="make-cstaLoader-MANGLED" description="Makes cstaLoader">
-        <build-cpp solution.file="${dir.src}/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
-        <build-cpp configuration="Release_1_2"
-            solution.file="${dir.src}/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
-        <build-cpp configuration="Release_1_3_3"
-            solution.file="${dir.src}/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
-        <build-cpp configuration="Release_3_33"
-            solution.file="${dir.src}/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
-        <build-cpp configuration="Release_9_1"
-            solution.file="${dir.src}/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
-        <build-cpp configuration="Release_9_5"
-            solution.file="${dir.src}/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Make ctcLoader6.0                                                -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a ctcLoader solution? -timc, Cinco de Mayo 2010 -->
-    <target name="make-ctcLoader6.0-MANGLED" description="Makes ctcLoader6.0">
-        <build-cpp solution.file="${dir.src}/contactsources/netmerge/ctcLoader_6_0/ctcLoader_6_0.vcproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Make ctcLoader7.0                                                -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a ctcLoader solution? -timc, Cinco de Mayo 2010 -->
-    <target name="make-ctcLoader7.0-MANGLED" description="Makes ctcLoader7.0">
-        <build-cpp solution.file="${dir.src}/contactsources/netmerge/ctcLoader_7_0/ctcLoader.vcproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make DADI                                                         -->
-    <!-- ================================================================= -->
-    <!-- It's not in buildtools/branches/9.0/SP4/base/buildC#CPP.xml -->
-    <target name="make-DADI-MANGLED" description="Makes DADI">
-        <build-cpp solution.file="${dir.src}/tools/DADI/DADI.sln"/>
-    </target>
 
     <!-- ================================================================= -->
     <!-- Make DADI installer                                               -->
@@ -1859,14 +1287,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             product.name="DADI"
             installer.path="${dir.installs}/DADI"
             project.file="${dir.installs}/DADI/DADI.aip"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- make-DBMigration                                                  -->
-    <!-- ================================================================= -->
-    <target name="make-DBMigration-MANGLED" description="Makes DBMigrationWizard.exe">
-        <build-cpp solution.file="${dir.src}/tools/DBMigration/DBMIGRATIONWIZARD/DBMigrationWizard.sln"/>
     </target>
 
     <!-- ================================================================= -->
@@ -1879,24 +1299,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             project.file="${dir.installs}/DBMigration/DBMigration.aip"/>
     </target>
 
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make DeployAnalyticsTool                                          -->
-    <!-- ================================================================= -->
-    <target name="make-DeployAnalyticsTool-MANGLED" description="TODO">
-        <build-cpp solution.file="${dir.src}/clients/centricity/Analytics/DeployAnalyticsTool/DeployAnalyticsTool.sln"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make DialogicChannel60                                            -->
-    <!-- ================================================================= -->
-    <!-- TODO why is this a separate vcproj? -timc 5/4/2009 -->
-    <!-- TODO can I remove this from the build list? -timc 1/7/2010 -->
-    <target name="make-DialogicChannel60-MANGLED" description="Makes DialogicChannel60 devenv.exe">
-        <build-cpp configuration="ReleaseSR60" solution.file="${dir.src}/winservices/ChannelManager.sln"/>
-    </target>
-
     <!-- ================================================================= -->
     <!-- Make EvaluationConsistencyCheck (ECC) installer                   -->
     <!-- ================================================================= -->
@@ -1907,48 +1309,13 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             project.file="${dir.installs}/EvaluationConsistencyCheck/EvaluationConsistencyCheck.aip"/>
     </target>
 
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Make eLearning                                                   -->
-    <!-- ================================================================= -->
-    <!-- TODO is there an eLearning solution? -timc, Cinco de Mayo -->
-    <target name="make-eLearning-MANGLED" depends="propset" description="Makes eLearning">
-        <build-cpp configuration="eLearningRelease" solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-                <build-cpp configuration="eLearningReleaseGerman" solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
-                <build-cpp configuration="eLearningReleaseSpanish" solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
-            </then>
-        </ac:if>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make EnvisionCLR (includes DeployAnalyticsTool)                   -->
-    <!-- ================================================================= -->
-    <target name="make-EnvisionCLR-MANGLED" description="Makes EnvisionCLR.dll for use with RDL files">
-        <build-cpp solution.file="${dir.src}/clients/centricity/Analytics/EnvisionCLR/EnvisionCLR.sln"/>
-    </target>
-
     <!-- ================================================================= -->
     <!--  Make Envision CAB files (EN, DE, ES)                             -->
     <!-- ================================================================= -->
     <!-- TODO clean this up -->
     <!-- TODO defmacro? -timc 1/2/2009 -->
     <!-- TODO depends? -timc 4/17/2009 -->
+    <!-- TODO VIPER -timc 9/20/2010 -->
     <target name="make-EnvisionControls_CAB" depends="propset">
         <antcall target="make-EnvisionControls_CAB_EN"/>
         <!-- localized in 9.7.x or later -->
@@ -2124,124 +1491,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             verbose="yes"/>
     </target>
 
-    <!-- @@@ MOVE TO buildJars.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make EnvisionPlugin                                               -->
-    <!-- ================================================================= -->
-    <!-- This plugin goes on the customer's PBX to pass contact source
-    messages back and forth with the Server -->
-    <target name="make-EnvisionPlugin-MANGLED" description="Compiles EnvisionPlugin">
-        <property name="EnvisionPluginBasedir"
-            value="${dir.workdir}/ContactSourceRunner/EnvisionPlugin/"/>
-        <mkdir dir="${EnvisionPluginBasedir}"/>
-        <!-- TODO fork, memoryInitialSize & memoryMaximumSize need to go to
-        build.properties (or, better, to runbuild.py -timc 2/5/2010 -->
-        <javac srcdir="${dir.src}/contactSources/nuasisPlugin/"
-            destdir="${EnvisionPluginBasedir}"
-            debug="${javac.debug}"
-            deprecation="${javac.deprecation}"
-            fork="yes"
-            memoryInitialSize="100m"
-            memoryMaximumSize="100m" >
-            <classpath refid="project-classpath"/>
-        </javac>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make ETService                                                    -->
-    <!-- ================================================================= -->
-    <!-- TODO is there an EnvisionService solution? -timc, Cinco de Mayo -->
-    <target name="make-EnvisionService-MANGLED" depends="propset" description="Makes ETService.exe">
-        <!-- NOTE: I'm not sure exactly what this is doing for us, but the
-        ETService Release configuration occasionally fails with errors about
-        multiply defined libraries.  Running this batch file fixes it.  But it
-        needs to be run in the same environment as ETService.vcproj.  That's
-        why it's not invoked with executable="cmd.exe" and arg
-        line="vsvars.bat" (although that seems to work as well). -->
-        <exec dir="${vscommontools}" executable="cmd.exe">
-            <arg line="vsvars32.bat"/>
-        </exec>
-        <build-cpp solution.file="${dir.src}/server/startserverprocess/C2CServerPro.vcproj"/>
-        <build-cpp solution.file="${dir.src}/server/shutdownserverprocess/ShutdownServer.vcproj"/>
-        <build-cpp solution.file="${dir.src}/winservices/etservice/ETService.vcproj"/>
-        <build-cpp solution.file="${dir.src}/winservices/etservice/ETServiceInstall.vcproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make Evaluation Consistency Check                                 -->
-    <!-- ================================================================= -->
-    <target name="make-EvaluationConsistencyCheck-MANGLED" description="Make EvaluationConsistencyCheck.exe (a database migration utility)">
-        <build-cpp solution.file="${dir.src}/tools/EvaluationConsistencyCheck/EvaluationConsistencyCheck.sln"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make C# finder.dll                                                -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a Finder solution? -timc, Cinco de Mayo -->
-    <target name="make-Finder_CS-MANGLED" description="Makes finder.dll">
-        <build-cpp solution.file="${dir.src}/apis/bi/com/et/bi/api/finder/finder.csproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make BI Finder Client                                             -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a FinderClient solution? -timc, Cinco de Mayo -->
-    <target name="make-FinderClient_CS-MANGLED" description="Makes BI Finder Client">
-        <build-cpp solution.file="${dir.src}/clients/finder/finderclient.csproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make Generated                                                    -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a Generated solution? -timc, Cinco de Mayo -->
-    <target name="make-Generated-MANGLED" description="Makes generated devenv.exe">
-        <build-cpp solution.file="${dir.src}/generated/generated.vcproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Make hook                                                        -->
-    <!-- ================================================================= -->
-    <!-- Per Ed in email, 1/21/09 "This is the hook.dll component for getting
-    Windows messages into AgentSupport to process start/stop email captures.
-    This is used for email integrations.  This is a class of components that
-    just needs to be built once when we change toolset (compiler version)."
-    -->
-    <target name="make-hook-MANGLED" description="Makes hook.dll">
-        <build-cpp solution.file="${dir.src}/clients/quality/agentsupport/monitoring/KanaDriver/dll/hook.sln"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make JavaContactSource.dll                                        -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a JavaContactSource solution? -timc, Cinco de Mayo -->
-    <target name="make-JavaContactSource-MANGLED" description="Makes javacontactsource.dll">
-        <build-cpp solution.file="${dir.src}/contactsources/javacontactsource/JavaContactSource.vcproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make NativeServiceWin32                                           -->
-    <!-- ================================================================= -->
-    <target name="make-NativeServiceWin32-MANGLED" description="Makes NativeServiceWin32.dll">
-        <build-cpp solution.file="${dir.src}/server/nativeservicewin32/nativeServiceWin32.sln"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make NotificationWindow.lib                                       -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a NotificationWindow solution? -timc, Cinco de Mayo -->
-    <target name="make-NotificationWindow_LIB-MANGLED" description="Makes notificationwindow.lib">
-        <build-cpp solution.file="${dir.src}/clients/quality/notificationwindow/NotificationWindow.vcproj"/>
-    </target>
-
     <!-- ================================================================= -->
     <!-- Make PerformanceSuite installer                                   -->
     <!-- ================================================================= -->
@@ -2251,81 +1500,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             product.name="PerformanceSuite"
             installer.path="${dir.installs}/PerformanceSuite"
             project.file="${dir.installs}/PerformanceSuite/PerformanceSuite.aip"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make BI Portal                                                    -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a BI Portal solution? -timc, Cinco de Mayo -->
-    <target name="make-Portal_CS-MANGLED" description="Makes BI Portal">
-        <build-cpp solution.file="${dir.src}/clients/portal/portal.csproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Make Quality Monitoring                                          -->
-    <!-- ================================================================= -->
-    <!-- NOTE This looks like a PerformanceSuite target only.  So when I
-    reorganize the buildtools toward the goal of creating each product
-    separately, this one will standalone.  IOW, it will not be a prerequisite
-    compile for anything else (as far as I know). -->
-    <!-- TODO is there a QM solution? -timc, Cinco de Mayo -->
-    <target name="make-QualityMonitoring-MANGLED" depends="propset" description="Makes QM">
-        <build-cpp solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-                <build-cpp configuration="ReleaseGerman"
-                    solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
-                <build-cpp configuration="ReleaseSpanish"
-                    solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
-            </then>
-        </ac:if>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make RegUtils                                                     -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a RegUtils solution? -timc, Cinco de Mayo -->
-    <target name="make-RegUtils-MANGLED" description="Makes RegUtils.lib">
-        <build-cpp solution.file="${dir.src}/clients/quality/regutils/regutils.vcproj"/>
-        <!-- TODO are we using this? -timc 5/27/2009 -->
-        <build-cpp configuration="Debug"
-            solution.file="${dir.src}/clients/quality/regutils/regutils.vcproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Make RO                                                          -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a RO solution? -timc, Cinco de Mayo -->
-    <target name="make-RO-MANGLED" description="Makes RO">
-        <build-cpp solution.file="${dir.src}/server/ro/cpp/ro.vcproj"/>
-        <!-- TODO are we using this? -timc 5/27/2009 -->
-        <build-cpp configuration="Debug" solution.file="${dir.src}/server/ro/cpp/ro.vcproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make Serializable                                                 -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a Serializable solution? -timc, Cinco de Mayo -->
-    <target name="make-Serializable_LIB-MANGLED" description="Makes Serializable.lib">
-        <build-cpp solution.file="${dir.src}/serializable/serializable.vcproj"/>
     </target>
 
     <!-- ================================================================= -->
@@ -2350,129 +1524,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             project.file="${dir.installs}/Server/Server.aip"/>
     </target>
 
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make C# Server                                                    -->
-    <!-- ================================================================= -->
-    <!-- NB: The project is corearch in Acme, and server in Maya -->
-    <target name="make-Server_CS-MANGLED" description="Makes Server.dll">
-        <build-cpp solution.file="${dir.src}/server/server.sln"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make Shared.Lib                                                   -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a SharedLib solution? -timc, Cinco de Mayo -->
-    <target name="make-Shared_LIB-MANGLED" description="Makes Shared Lib">
-        <build-cpp solution.file="${dir.src}/clients/quality/shared/Shared.vcproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Make SharedResources DLL                                         -->
-    <!-- ================================================================= -->
-    <!-- Note the "logic": first we figure out if it's 9.6 or earlier.  Those
-    are not localized, so they get English only.  Then we check if it's
-    between 9.7.0 up to but not including 9.10.0.  Those use ReleaseEnglish
-    for English; German and Spanish are not affected.  Finally, if it's 9.10.0
-    or later, we switch back and use Release for English. -->
-    <!-- TODO is there a SharedResources solution? -timc, Cinco de Mayo -->
-    <target name="make-SharedResources-MANGLED" depends="propset" description="Makes SharedResources.dll">
-        <ac:if>
-            <!-- up to 9.6.x, no localization -->
-            <or>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="6"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:islessthan arg1="${MINOR}" arg2="6"/>
-                </and>
-                <and>
-                    <ac:islessthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-            </or>
-            <then>
-                <build-cpp solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
-            </then>
-            <ac:elseif>
-                <!-- 9.7.0 thru 9.9.x, localization with ReleaseEnglish -->
-                <and>
-                    <or>
-                        <and>
-                            <ac:equals arg1="${MAJOR}" arg2="9"/>
-                            <ac:equals arg1="${MINOR}" arg2="7"/>
-                        </and>
-                        <and>
-                            <ac:equals arg1="${MAJOR}" arg2="9"/>
-                            <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                        </and>
-                    </or>
-                    <and>
-                        <ac:equals arg1="${MAJOR}" arg2="9"/>
-                        <ac:islessthan arg1="${MINOR}" arg2="10"/>
-                    </and>
-                </and>
-                <then>
-                    <echo message="ReleaseEnglish, ReleaseGerman, ReleaseSpanish"/>
-                    <build-cpp configuration="ReleaseEnglish"
-                        solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
-                    <build-cpp configuration="ReleaseGerman"
-                        solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
-                    <build-cpp configuration="ReleaseSpanish"
-                        solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
-                </then>
-            </ac:elseif>
-            <ac:else>
-                <!-- DRY (combine with 9.6 check?) -->
-                <!-- 9.10.x or later, localization with Release for English -->
-                <echo message="Release, ReleaseGerman, ReleaseSpanish"/>
-                <build-cpp solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
-                <build-cpp configuration="ReleaseGerman"
-                    solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
-                <build-cpp configuration="ReleaseSpanish"
-                    solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
-            </ac:else>
-        </ac:if>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Make SmartAgentErrs                                              -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a SmartAgentErrs solution? -timc, Cinco de Mayo -->
-    <target name="make-SmartAgentErrs-MANGLED" description="Makes SmartAgentErrs.dll">
-        <exec dir="${dir.src}/clients/quality/agentsupport/smartagenterrs" executable="${compiler.message}" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="-v -c -s -h ..\ -r .\ -x .\ -U smartagenterrs.mc" />
-        </exec>
-        <build-cpp solution.file="${dir.src}/clients/quality/agentsupport/smartagenterrs/SmartAgentErrs.vcproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make SourceRunnerService.exe                                      -->
-    <!-- ================================================================= -->
-    <target name="make-SourceRunner-MANGLED" depends="make-ContactSourceUtilities_LIB" description="Makes SourceRunnerService.exe">
-        <build-cpp solution.file="${dir.src}/winservices/SourceRunnerService.sln"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make Speech Server Service and Speech Processing Client           -->
-    <!-- ================================================================= -->
-    <!-- The Speech apps depends on RAL.dll, Centricity_BLL.dll and
-    Centricity_DAL.dll from Centricity, and Server.dll that I'm getting from
-    the same location to simplify the dependencies.  The simplest thing that
-    works here is to add make-Centricity as a dependency.  We need most of
-    Centricity except for the deployment piece here, but I'd rather not cause
-    Centricity to be redeployed just to build audio mining.  It'll stay for
-    now. -timc 2/5/2009 -->
-    <target name="make-Speech-MANGLED" depends="make-Centricity" description="Makes SpeechServerService and SpeechProcessingClient">
-        <build-cpp solution.file="${dir.src}/winservices/AudioMining.sln"/>
-    </target>
-
     <!-- ================================================================= -->
     <!-- Make SpeechProcessingClient installer                             -->
     <!-- ================================================================= -->
@@ -2493,92 +1544,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             project.file="${dir.installs}/SpeechServerService/SpeechServerService.aip"/>
     </target>
 
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make C# TaggerWrapperService.dll                                  -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a TaggerWrapperService solution? -timc, Cinco de Mayo -->
-    <target name="make-TaggerWrapperService_CS-MANGLED" description="Makes TaggerWrapperService.dll">
-        <build-cpp solution.file="${dir.src}/apis/bi/com/et/bi/api/tagger/wrapperservice/TaggerWrapperService.csproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make BI Tagging Client                                            -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a TaggingClient solution? -timc, Cinco de Mayo -->
-    <target name="make-TaggingClient_CS-MANGLED" description="Makes BI Tagging Client">
-        <build-cpp solution.file="${dir.src}/clients/taggingclient/TaggingClient.csproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make TSAPI                                                        -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a TSAPI solution? -timc, Cinco de Mayo -->
-    <target name="make-TSAPI-MANGLED" description="Makes tsapi">
-        <build-cpp solution.file="${dir.src}/contactsources/tsapi/Tsapi.vcproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make UserTree                                                     -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a UserTree solution? -timc, Cinco de Mayo -->
-    <target name="make-UserTree_LIB-MANGLED" description="Makes usertree.lib devenv.exe">
-        <build-cpp solution.file="${dir.src}/clients/quality/usertree/usertree.vcproj"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make WebControls.ocx                                              -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a WebControls solution? -timc, Cinco de Mayo -->
-    <target name="make-WebControls_OCX-MANGLED" depends="propset" description="Makes WebControls.ocx">
-        <build-cpp solution.file="${dir.src}/clients/reporting/controls/WebControls.vcproj"/>
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-                <build-cpp configuration="ReleaseGerman"
-                    solution.file="${dir.src}/clients/reporting/controls/WebControls.vcproj"/>
-                <build-cpp configuration="ReleaseSpanish"
-                    solution.file="${dir.src}/clients/reporting/controls/WebControls.vcproj"/>
-            </then>
-        </ac:if>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make WFM                                                          -->
-    <!-- ================================================================= -->
-    <target name="make-WFM-MANGLED" description="Makes WFM">
-        <build-cpp solution.file="${dir.src}/clients/wfm/wfm.sln"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make Windows Media Wrapper Service                                -->
-    <!-- ================================================================= -->
-    <!-- C:\Source\Maya\src\winservices\WMWrapperService\Redist\setup.bat -->
-    <!-- NB: this target depends on WMEncoder.exe being installed on the build
-    machine.  It's available locally at
-    \\Bigfoot\Engineering\Software\Installs\WindowsMediaEncoder9 -->
-    <target name="make-WMWrapperService-MANGLED" depends="register-NCT-binaries" description="Makes Windows Media wrapper service for Centricity">
-        <build-cpp solution.file="${dir.src}/winservices/WMWrapperService/WMWrapperService.sln"/>
-    </target>
-
     <!-- ================================================================= -->
     <!-- Make WMWrapperService installer                                   -->
     <!-- ================================================================= -->
@@ -2587,15 +1552,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             product.name="WMWrapperService"
             installer.path="${dir.installs}/WMWrapperService"
             project.file="${dir.installs}/WMWrapperService/WMWrapperService.aip"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make XFloorWnd.ocx                                                -->
-    <!-- ================================================================= -->
-    <!-- TODO is there an XFloorWnd solution? -timc, Cinco de Mayo -->
-    <target name="make-XFloorWnd-MANGLED" description="Makes XFloorWnd.ocx">
-        <build-cpp solution.file="${dir.src}/clients/quality/xfloorwnd/XFloorWnd.vcproj"/>
     </target>
 
     <!-- ================================================================= -->
@@ -2667,19 +1623,10 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         <property name="target1" value="${dir.products}/${version.product}/CD1"/>
         <property name="target2" value="${dir.products}/${version.product}/CD2"/>
         <property name="target3" value="${dir.products}/${version.product}/CD3"/>
+        <property name="target4" value="${dir.products}/${version.product}/CD4"/>
+        <property name="dir.retired" value="${target2}/Retired"/>
         <property name="dir.utils" value="${target2}/utils"/>
         <property name="dir.nuasis-plugin" value="${target2}/utils/Nuasis"/>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make, sign, and publish Centricity AV Player (Click Once)         -->
-    <!-- ================================================================= -->
-    <!-- timc: Do we need this any longer? -->
-    <target name="publish-AVPlayer-MANGLED" description="Publishes Centricity AVPlayer (Click Once) using MSBuild">
-        <exec dir="${dir.build}" executable="${compiler.msbuild}" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="/target:publish ${dir.src}/clients/AVPlayer/AVPlayer.csproj /property:Configuration=Release;PublishDir=${dir.workdir}/AVPlayer/ /l:FileLogger,Microsoft.Build.Engine;logfile=${dir.build}/BuildLog.txt;append=true"/>
-        </exec>
     </target>
 
     <!-- ================================================================= -->
@@ -2698,17 +1645,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         tofile="${dir.projects.converted}/unittests/${version.product}_verbose.xml"/>
     </target>
 
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Make, sign, and publish RecordingDownloadTool (Click Once)        -->
-    <!-- ================================================================= -->
-    <!-- timc: Do we need this any longer? -->
-    <target name="publish-RecordingDownloadTool-MANGLED" description="Publishes Centricity RecordingDownloadTool (Click Once) using MSBuild">
-        <exec dir="${dir.build}" executable="${compiler.msbuild}" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="/target:publish ${dir.src}/clients/RecordingDownloadTool/RecordingDownloadTool.csproj /property:Configuration=Release;PublishDir=${dir.workdir}/RecordingDownloadTool/ /l:FileLogger,Microsoft.Build.Engine;logfile=${dir.build}/BuildLog.txt;append=true"/>
-        </exec>
-    </target>
-
     <!-- ================================================================= -->
     <!-- build, run, and publish the unit test results                     -->
     <!-- ================================================================= -->
@@ -2723,35 +1659,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         <loadfile property="unittest.csharpresults"
             srcFile="${dir.projects.converted}\unittests\${version.product}_summary.txt"/>
     </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Register NCT binaries (for use with WMWrapperService)             -->
-    <!-- ================================================================= -->
-    <target name="register-NCT-binaries-MANGLED">
-        <!-- Don't fail on error.  The binaries may already be registered. -->
-        <apply executable="regsvr32" relative="true" dir="${dir.src}/winservices/WMWrapperService/Redist">
-            <!-- trailing space may be important here -->
-            <arg line="/s "/>
-            <fileset dir="${dir.src}/winservices/WMWrapperService/Redist" includes="**/NCT*.dll"/>
-        </apply>
-    </target>
-    <!--
-    regsvr32 exit codes:
-
-    0 { &$Write "$DllPath Registered Successfully" }
-    1 { &$Write "Bad arguments to RegSvr32" }
-    2 { &$Write "OLE initialization failed for $DllPath" }
-    3 { &$Write "Failed to load the module ($DllPath), you may need to check for problems with dependencies." }
-    4 { &$Write "Can't find DllRegisterServer entry point in the file ($DllPath), maybe it's not a .DLL or .OCX?" }
-    5 { &$Write "The assembly ($DllPath) was loaded, but the call to DllRegisterServer failed." }
-
-    courtesy of
-    http://huddledmasses.org/register-dll-calling-regsvr32-without-messageboxes-in-powershell/
-
-    Watch out for result code 3.  This probably means that regsvr32 is not
-    being run from the same directory as where the DLLs are located.
-    -->
 
     <!-- ================================================================= -->
     <!-- Release ADIT installer                                            -->
@@ -2798,43 +1705,20 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     </target>
 
     <!-- ================================================================= -->
-    <!-- Release AutoRun files                                             -->
-    <!-- ================================================================= -->
-    <!-- Note: this is just a copy operation.  These files do not need to be
-    compiled on a nightly basis. -->
-    <!-- timc: not used -->
-    <!--
-    <target name="release-AutoRun-CD1" depends="prepare">
-        <copy file="${dir.build}/setup/CD-Autorun/CD1/autorun.apm"
-            tofile="${target1}/autorun.apm"/>
-        <copy file="${dir.build}/setup/CD-Autorun/CD1/autorun.exe"
-            tofile="${target1}/autorun.exe"/>
-        <copy file="${dir.build}/setup/CD-Autorun/CD1/autorun.inf"
-            tofile="${target1}/autorun.inf"/>
-        <copy todir="${target1}/DATA">
-            <fileset dir="${dir.build}/setup/CD-Autorun/CD1/DATA"/>
-        </copy>
-    </target>
-
-    <target name="release-AutoRun-CD2" depends="prepare">
-        <copy file="${dir.build}/setup/CD-Autorun/CD2/autorun.apm"
-            tofile="${target2}/autorun.apm"/>
-        <copy file="${dir.build}/setup/CD-Autorun/CD2/autorun.exe"
-            tofile="${target2}/autorun.exe"/>
-        <copy file="${dir.build}/setup/CD-Autorun/CD2/autorun.inf"
-            tofile="${target2}/autorun.inf"/>
-        <copy todir="${target2}/DATA">
-            <fileset dir="${dir.build}/setup/CD-Autorun/CD2/DATA"/>
-        </copy>
-    </target>
-    -->
-
-    <!-- ================================================================= -->
     <!-- Publish CD3                                                       -->
     <!-- ================================================================= -->
     <target name="release-CD3" depends="prepare">
         <copy todir="${target3}">
             <fileset dir="${uncpath.cd3_sources}"/>
+        </copy>
+    </target>
+
+    <!-- ================================================================= -->
+    <!-- Publish CD4                                                       -->
+    <!-- ================================================================= -->
+    <target name="release-CD4" depends="prepare">
+        <copy todir="${target4}">
+            <fileset dir="${uncpath.cd4_sources}"/>
         </copy>
     </target>
 
@@ -3003,30 +1887,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             product.path="${target2}"/>
     </target>
 
-    <!-- @@@ MOVE TO buildJars.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- release_Envision                                                  -->
-    <!-- ================================================================= -->
-    <target name="release_Envision-MANGLED" description="copies jar to release dir">
-        <delete quiet="true" failonerror="false" file="${dir.release}/Envision.jar"/>
-        <copy file="${dir.src}/Envision.jar" tofile="${dir.release}/Envision.jar"/>
-        <delete>
-            <fileset dir="${dir.src}/com" />
-        </delete>
-    </target>
-
-    <!-- @@@ MOVE TO buildJars.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- release_license                                                   -->
-    <!-- ================================================================= -->
-    <target name="release_license-MANGLED" description="Copies jar to release dir">
-        <delete quiet="true" failonerror="false" file="${dir.release}/license.jar"/>
-        <copy file="${dir.src}/server/com/et/license/license.jar" tofile="${dir.release}/license.jar"/>
-        <delete>
-            <fileset dir="${dir.src}/server/com/et/license" includes="**/*.class"/>
-        </delete>
-    </target>
-
     <!-- ================================================================= -->
     <!-- Run C# unit tests                                                 -->
     <!-- ================================================================= -->
@@ -3081,151 +1941,10 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         <antcall target="release-installers"/>
     </target>
 
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Sign AgentAdherence.ocx                                          -->
-    <!-- ================================================================= -->
-    <!-- TODO is there an AgentAdherence solution? -timc, Cinco de Mayo -->
-    <target name="sign-AgentAdherence_OCX-MANGLED" depends="make-AgentAdherence_OCX" description="Digitally signs AgentAdherence.ocx to verify its authenticity.">
-        <!-- NB: don't forget the ${basedir}! -->
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.workdir}/wfm/AgentAdherence.ocx"/>
-        </exec>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Sign AgentSchedule.ocx                                           -->
-    <!-- ================================================================= -->
-    <!-- TODO is there an AgentSchedule solution? -timc, Cinco de Mayo -->
-    <target name="sign-AgentSchedule_OCX-MANGLED" depends="make-AgentSchedule_OCX" description="Digitally signs AgentSchedule.ocx to verify its authenticity.">
-        <!-- NB: don't forget the ${basedir}! -->
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.workdir}/wfm/AgentSchedule.ocx"/>
-        </exec>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Sign AgentX.ocx                                                  -->
-    <!-- ================================================================= -->
-    <!-- TODO is there an AgentX solution? -timc, Cinco de Mayo -->
-    <target name="sign-AgentX_OCX-MANGLED" depends="propset, make-AgentX_OCX" description="Digitally signs AgentX.ocx to verify its authenticity.">
-        <!-- English -->
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.workdir}/quality/AgentX.ocx"/>
-        </exec>
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-                <!-- NB: don't forget the ${basedir}! -->
-                <!-- German -->
-                <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
-                    <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/quality/agentdesktop/ReleaseGerman/AgentX.ocx"/>
-                </exec>
-                <!-- Spanish -->
-                <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
-                    <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/quality/agentdesktop/ReleaseSpanish/AgentX.ocx"/>
-                </exec>
-            </then>
-        </ac:if>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Sign AnalyticsResources                                           -->
-    <!-- ================================================================= -->
-    <!-- AnalyticsResources is compiled in make-DeployAnalyticsTool.
-    Originally I had a make-AnalyticsResources target, which compiled
-    AnalyticsResources.csproj, but it's redundant. -->
-    <!-- TODO is there an AnalyticsResources solution? -timc, Cinco de Mayo -->
-    <target name="sign-AnalyticsResources-MANGLED" depends="make-DeployAnalyticsTool" description="Digitally signs EnvisionAnalyticsResources.dll to verify its authenticity.">
-        <!-- NB: don't forget the ${basedir}! -->
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
-            <!-- /f ${dir.build}/setup/Signature/myprivatecert.pfx -->
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/Centricity/Analytics/AnalyticsResources/obj/Release/EnvisionAnalyticsResources.dll"/>
-        </exec>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Sign AnalyticsUtilities                                           -->
-    <!-- ================================================================= -->
-    <target name="sign-AnalyticsUtilities-MANGLED" depends="make-AnalyticsUtilities" description="Digitally signs EnvisionAnalyticsUtilities.dll to verify its authenticity.">
-        <!-- NB: don't forget the ${basedir}! -->
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
-            <!-- /f ${dir.build}/setup/Signature/myprivatecert.pfx -->
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/Centricity/Analytics/AnalyticsUtilities/obj/Release/EnvisionAnalyticsUtilities.dll"/>
-        </exec>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!--  Sign C2CReportingControls.ocx                                    -->
-    <!-- ================================================================= -->
-    <!-- TODO is there a C2CReportingControls solution? -timc, Cinco de Mayo -->
-    <target name="sign-C2CReportingControls_OCX-MANGLED" depends="propset, make-C2CReportingControls_OCX" description="Digitally signs C2CReportingControls.ocx to verify its authenticity.">
-        <!-- English -->
-        <!-- NB: don't forget the ${basedir}! -->
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/C2CReportingControls/Release/C2CReportingControls.ocx"/>
-        </exec>
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-                <!-- German -->
-                <!-- NB: don't forget the ${basedir}! -->
-                <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
-                    <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/C2CReportingControls/ReleaseGerman/C2CReportingControls.ocx"/>
-                </exec>
-                <!-- Spanish -->
-                <!-- NB: don't forget the ${basedir}! -->
-                <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
-                    <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/C2CReportingControls/ReleaseSpanish/C2CReportingControls.ocx"/>
-                </exec>
-            </then>
-        </ac:if>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Sign EnvisionCLR (includes DeployAnalyticsTool)                   -->
-    <!-- ================================================================= -->
-    <target name="sign-EnvisionCLR-MANGLED" depends="make-EnvisionCLR" description="Digitally signs EnvisionCLR.dll to verify its authenticity.">
-        <!-- NB: don't forget the ${basedir}! -->
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
-            <!-- /f ${dir.build}/setup/Signature/myprivatecert.pfx -->
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/Centricity/Analytics/EnvisionCLR/obj/Release/EnvisionCLR.dll"/>
-        </exec>
-    </target>
-
     <!-- ================================================================= -->
     <!--  Sign Envision CAB files                                          -->
     <!-- ================================================================= -->
+    <!-- TODO VIPER -timc 9/20/2010 -->
     <target name="sign-EnvisionControls_CAB" depends="propset">
         <antcall target="sign-EnvisionControls_CAB_EN"/>
         <!-- localized in 9.7.x or later -->
@@ -3286,45 +2005,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
                 /t ${signtool.timestampurl}
                 ${dir.build}/setup/Signature/ES/EnvisionControls.cab"/>
         </exec>
-    </target>
-
-    <!-- @@@ MOVE TO buildC#CPP.xml @@@ -->
-    <!-- ================================================================= -->
-    <!-- Sign WebControls.ocx                                              -->
-    <!-- ================================================================= -->
-    <target name="sign-WebControls_OCX-MANGLED" depends="propset, make-WebControls_OCX" description="Digitally signs WebControls.ocx to verify its authenticity.">
-        <!-- English -->
-        <!-- NB: don't forget the ${basedir}! -->
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.workdir}/agentdesktop/WebControls.ocx"/>
-        </exec>
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-                <!-- German -->
-                <!-- NB: don't forget the ${basedir}! -->
-                <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
-                    <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/controls/ReleaseGerman/WebControls.ocx"/>
-                </exec>
-                <!-- Spanish -->
-                <!-- NB: don't forget the ${basedir}! -->
-                <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
-                    <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/controls/ReleaseSpanish/WebControls.ocx"/>
-                </exec>
-            </then>
-        </ac:if>
     </target>
 
     <!-- ================================================================= -->
@@ -3459,6 +2139,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- ================================================================= -->
     <!-- Unzip Centricity WebHelp for the Server installer                 -->
     <!-- ================================================================= -->
+    <!-- TODO VIPER -timc 9/20/2010 -->
     <target name="unzip-Centricity_WebHelp" depends="propset">
         <!-- Maybe later this will become three separate tasks. -->
         <!-- Centricity documentation for Supervisors -->
@@ -3567,6 +2248,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- ================================================================= -->
     <!-- Unzip the default Nuance profile for the Speech Server            -->
     <!-- ================================================================= -->
+    <!-- TODO VIPER -timc 9/20/2010 -->
     <target name="unzip-NuanceProfile" depends="propset">
         <unjar src="${dir.sdk}/Nuance/Envision.zip"
             dest="${dir.workdir}/AudioMining"/>
