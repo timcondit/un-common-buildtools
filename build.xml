@@ -2,29 +2,7 @@
 <!-- ===================================================================== -->
 <!-- Envision build file                                                   -->
 <!-- ===================================================================== -->
-
 <project name="EPS" default="official-build" basedir="." xmlns:ac="antlib:net.sf.antcontrib">
-<!-- <project name="EPS" default="help" basedir="."> -->
-
-<!-- A couple TODO items that belong in more than one place.  Individual items
-have comments in-place.
-
-(1) It looks like antcall targets do not inherit the caller's environment.
-    Consider getting rid of it and instead make each top-level target depend
-    on these other targets.
-
-    A less radical approach might be use 'depends="propset"' on all targets
-    that include calls to antcall.  That seems to work okay from my limited
-    testing.  -timc Cinco de Mayo 2010.
-
-(2) I'd like to get rid of insert.exe, and replace it with my insert.py or some
-    other tool that does regular expression matching.
-
-(3) Inventory: fix the target names
-    * mixed-case
-    * underscores
-    * hyphens
--->
 
     <!-- ================================================================= -->
     <!-- <Set up the environment (non-targets)>                            -->
@@ -50,8 +28,10 @@ have comments in-place.
     <!-- ================================================================= -->
     <import file="buildJars.xml"/>
     <import file="buildC#CPP.xml"/>
+    <!--
     <import file="buildSetup.xml"/>
     <import file="unitTests.xml"/>
+    -->
 
     <!-- ================================================================= -->
     <!-- taskdef ant-contrib                                               -->
@@ -182,6 +162,9 @@ have comments in-place.
     <!-- This target implicitly depends on not having big changes in
     service packs.  If that changes, I'll subdivide it further.  -->
 
+    <!-- TODO put these things into a target - otherwise they get called over
+    and over and over ... -->
+
     <!-- short-circuit sanity check -->
     <!--
     <ac:if>
@@ -202,16 +185,20 @@ have comments in-place.
 
     <!-- Part 1 of 2: set properties based on build version -->
     <!-- 10.1 (Viper) -->
+    <!--
     <ac:if>
         <or>
             <ac:isgreaterthan arg1="${MAJOR}.${MINOR}" arg2="10.1"/>
             <ac:equals arg1="${MAJOR}.${MINOR}" arg2="10.1"/>
         </or>
         <then>
+    -->
             <echo message="INFO setting 10.1 properties (if any)"/>
             <property name="dir.sdk" value="${env.ETSDK}"/>
+    <!--
         </then>
     </ac:if>
+    -->
 
     <!-- 10.0 -->
     <!--
@@ -288,10 +275,12 @@ have comments in-place.
             </and>
         </or>
         <then>
+    -->
             <echo message="INFO setting 9.8 properties (if any)"/>
             <property name="compiler.cpp" value="${vs90_devenv}"/>
             <property name="compiler.message" value="${vs90_mc}"/>
             <property name="vscommontools" value="${env.VS90COMNTOOLS}"/>
+    <!--
         </then>
     </ac:if>
     -->
@@ -313,9 +302,11 @@ have comments in-place.
             </and>
         </or>
         <then>
+    -->
             <echo message="INFO setting 9.7 properties (if any)"/>
             <property name="file.pfx" value="${cert.envision}"/>
             <property name="signtool.password" value="${signtool.envisionpass}"/>
+    <!--
         </then>
     </ac:if>
     -->
@@ -508,8 +499,8 @@ have comments in-place.
     <!-- TODO aggregate these -timc 9/20/2010 -->
     <target name="official-build">
         <antcall target="begin"/>
-        <antcall target="nuke-workdir"/>
-        <antcall target="fetch-source"/>
+        <!-- <antcall target="nuke-workdir"/> -->
+        <!-- <antcall target="fetch-source"/> -->
         <antcall target="change-version"/>
         <antcall target="create-release-dir"/>
         <antcall target="build-jars"/>
@@ -522,12 +513,12 @@ have comments in-place.
         <antcall target="sign-EnvisionControls_CAB"/>
         <antcall target="touch-build"/>
         <antcall target="setup-installers"/>
-        <antcall target="commit-all"/>
+        <!-- <antcall target="commit-all"/> -->
         <antcall target="publish-unit-test-results"/>
         <antcall target="email-build-complete"/>
         <antcall target="tag-build"/>
         <antcall target="move-workdir-postbuild"/>
-        <antcall target="end"/>
+        <!-- <antcall target="end"/> -->
     </target>
 
     <!-- ================================================================= -->
@@ -588,7 +579,7 @@ have comments in-place.
         away (but that's not what I'm doing right now, so come back to it
         later).  -timc, Cinco de Mayo 2010 -->
         <!--
-        <exec dir="${dir.bin}" executable="cmd.exe" vmlauncher="${vmlauncher}" failonerror="false">
+        <exec executable="cmd.exe" vmlauncher="${vmlauncher}" failonerror="false">
             <arg line="/c stopsym.bat"/>
         </exec>
         -->
@@ -666,6 +657,7 @@ have comments in-place.
         <antcall target="make-APICommon_CS"/>
         <antcall target="make-Finder_CS"/>
         <!-- make-TaggerWrapperService_CS is in 9.6.x only -->
+        <!--
         <ac:if>
             <and>
                 <or>
@@ -678,6 +670,7 @@ have comments in-place.
                 <antcall target="make-TaggerWrapperService_CS"/>
             </then>
         </ac:if>
+        -->
         <antcall target="make-CallTagger_CS"/>
         <antcall target="make-FinderClient_CS"/>
         <antcall target="make-TaggingClient_CS"/>
@@ -695,6 +688,7 @@ have comments in-place.
         <antcall target="publish-RecordingDownloadTool"/>
         <antcall target="sign-EnvisionCLR"/>
         <!-- 9.7.x (localization is handled in the targets) -->
+        <!--
         <ac:if>
             <or>
                 <and>
@@ -710,12 +704,16 @@ have comments in-place.
                 </and>
             </or>
             <then>
+        -->
                 <antcall target="make-DeployAnalyticsTool"/>
                 <antcall target="sign-AnalyticsResources"/>
                 <antcall target="sign-AnalyticsUtilities"/>
+        <!--
             </then>
         </ac:if>
+        -->
         <!-- 9.8.x -->
+        <!--
         <ac:if>
             <or>
                 <and>
@@ -731,9 +729,12 @@ have comments in-place.
                 </and>
             </or>
             <then>
+        -->
                 <antcall target="make-Speech"/>
+        <!--
             </then>
         </ac:if>
+        -->
     </target>
 
     <!-- ================================================================= -->
@@ -774,7 +775,7 @@ have comments in-place.
     <target name="chver-AVPlayer">
         <property name="AVPlayer_csproj"
             value="${dir.src}/clients/AVPlayer/AVPlayer.csproj"/>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c80
                 -s:x3cApplicationVersion:x3e${version.previous}:x3c:x2fApplicationVersion:x3e
                 -r:x3cApplicationVersion:x3e${version.product}:x3c:x2fApplicationVersion:x3e
@@ -792,25 +793,25 @@ have comments in-place.
     <!-- #define _PRODUCT_ABOUT "Version 9.0.0300.4\0" -->
     <target name="chver-CPP">
         <property name="version_info_h" value="${dir.src}/include/version_info.h"/>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c40
                 -s:x20_PRODUCT_VERSION:x20${p_MAJOR}:x2C${p_MINOR}:x2C${p_RELEASE}:x2C${p_BUILD}
                 -r:x20_PRODUCT_VERSION:x20${MAJOR}:x2C${MINOR}:x2C${RELEASE}:x2C${BUILD}
                 -o ${version_info_h}"/>
         </exec>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c40
                 -s:x20_PRODUCT_VER_STR:x20:x22${p_MAJOR}.${p_MINOR}.${p_RELEASE}.${p_BUILD}
                 -r:x20_PRODUCT_VER_STR:x20:x22${version.product}
                 -o ${version_info_h}"/>
         </exec>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c40
                 -s:x20_PRODUCT_VER_LOGIN_STR:x20:x22${p_MAJOR}.${p_MINOR}.${p_RELEASE}.${p_BUILD}
                 -r:x20_PRODUCT_VER_LOGIN_STR:x20:x22${version.product}
                 -o ${version_info_h}"/>
         </exec>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c40
                 -s:x20_PRODUCT_ABOUT:x20:x22Version:x20${p_MAJOR}.${p_MINOR}.${p_RELEASE}.${p_BUILD}
                 -r:x20_PRODUCT_ABOUT:x20:x22Version:x20${version.product}
@@ -829,13 +830,13 @@ have comments in-place.
     <target name="chver-CSharp">
         <property name="version_info_cs"
             value="${dir.src}/server/com/et/versioninfo/VersionInfo.cs"/>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20MAJOR:x20=:x20:x22${p_MAJOR}:x22;
                 -r:x20MAJOR:x20=:x20:x22${MAJOR}:x22;
                 -o ${version_info_cs}"/>
         </exec>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20MINOR:x20=:x20:x22${p_MINOR}:x22;
                 -r:x20MINOR:x20=:x20:x22${MINOR}:x22;
@@ -844,13 +845,13 @@ have comments in-place.
         <!-- prn20765: this is incompatible with VersionInfo.cs, and probably
         broken.  I just opened the PRN, so we'll see what comes of it.  WFM
         and BI use this file. -->
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20RELEASE:x20=:x20:x22${p_RELEASE}:x22;
                 -r:x20RELEASE:x20=:x20:x22${RELEASE}:x22;
                 -o ${version_info_cs}"/>
         </exec>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20BUILD:x20=:x20:x22${p_BUILD}:x22;
                 -r:x20BUILD:x20=:x20:x22${BUILD}:x22;
@@ -861,25 +862,25 @@ have comments in-place.
         <property name="daisy_version_cs_SERVER"
             value="${dir.src}/server/com/et/wfm/daisy/DaisyVersion.cs"/>
         <!-- clients/wfm/WFMClient/com/et/daisy/DaisyVersion.cs -->
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20MAJOR:x20=:x20${p_MAJOR};
                 -r:x20MAJOR:x20=:x20${MAJOR};
                 -o ${daisy_version_cs_SERVER}"/>
         </exec>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20MINOR:x20=:x20${p_MINOR};
                 -r:x20MINOR:x20=:x20${MINOR};
                 -o ${daisy_version_cs_SERVER}"/>
         </exec>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20RELEASE:x20=:x20${p_RELEASE};
                 -r:x20RELEASE:x20=:x20${RELEASE};
                 -o ${daisy_version_cs_SERVER}"/>
         </exec>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20BUILD:x20=:x20${p_BUILD};
                 -r:x20BUILD:x20=:x20${BUILD};
@@ -889,25 +890,25 @@ have comments in-place.
         <!-- prn18732 (in 9.0.4) hopefully temporary workaround -->
         <property name="daisy_version_cs_CLIENT"
             value="${dir.src}/clients/wfm/WFMClient/com/et/daisy/DaisyVersion.cs"/>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20MAJOR:x20=:x20${p_MAJOR};
                 -r:x20MAJOR:x20=:x20${MAJOR};
                 -o ${daisy_version_cs_CLIENT}"/>
         </exec>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20MINOR:x20=:x20${p_MINOR};
                 -r:x20MINOR:x20=:x20${MINOR};
                 -o ${daisy_version_cs_CLIENT}"/>
         </exec>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20RELEASE:x20=:x20${p_RELEASE};
                 -r:x20RELEASE:x20=:x20${RELEASE};
                 -o ${daisy_version_cs_CLIENT}"/>
         </exec>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20BUILD:x20=:x20${p_BUILD};
                 -r:x20BUILD:x20=:x20${BUILD};
@@ -922,7 +923,7 @@ have comments in-place.
         <!-- FileVersion=9,0,0,504 -->
         <property name="EnvisionControls_INF"
             value="${dir.build}/setup/Signature/EnvisionControls.inf"/>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c80
                 -sFileVersion:x3d${p_MAJOR},${p_MINOR},${p_RELEASE},${p_BUILD}
                 -rFileVersion:x3d${MAJOR},${MINOR},${RELEASE},${BUILD}
@@ -941,25 +942,25 @@ have comments in-place.
     <!-- public static final int BUILD = 4; -->
     <target name="chver-Java">
         <property name="ProductVersion_java" value="${dir.src}/server/com/et/startup/ProductVersion.java"/>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20MAJOR:x20=:x20${p_MAJOR};
                 -r:x20MAJOR:x20=:x20${MAJOR};
                 -o ${ProductVersion_java}"/>
         </exec>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20MINOR:x20=:x20${p_MINOR};
                 -r:x20MINOR:x20=:x20${MINOR};
                 -o ${ProductVersion_java}"/>
         </exec>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20RELEASE:x20=:x20:x22${p_RELEASE}:x22;
                 -r:x20RELEASE:x20=:x20:x22${RELEASE}:x22;
                 -o ${ProductVersion_java}"/>
         </exec>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20BUILD:x20=:x20${p_BUILD};
                 -r:x20BUILD:x20=:x20${BUILD};
@@ -974,7 +975,7 @@ have comments in-place.
     <target name="chver-RecordingDownloadTool">
         <property name="RecordingDownloadTool_csproj"
             value="${dir.src}/clients/RecordingDownloadTool/RecordingDownloadTool.csproj"/>
-        <exec dir="${dir.bin}" executable="insert.exe" vmlauncher="${vmlauncher}">
+        <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c80
                 -s:x3cApplicationVersion:x3e${version.previous}:x3c:x2fApplicationVersion:x3e
                 -r:x3cApplicationVersion:x3e${version.product}:x3c:x2fApplicationVersion:x3e
@@ -1076,9 +1077,11 @@ have comments in-place.
     <!-- pimpin'                                                           -->
     <!-- ================================================================= -->
     <!-- TODO get rid of this, or at least find a new target -->
+    <!--
     <target name="do-test">
         <ant antfile="buildC#CPP.xml" dir="." target="make-SharedResources"/>
     </target>
+    -->
 
     <!-- ================================================================= -->
     <!-- e-mail build results                                              -->
@@ -1129,7 +1132,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         away (but that's not what I'm doing right now, so come back to it
         later).  -timc, Cinco de Mayo 2010 -->
         <!--
-        <exec dir="${dir.bin}" executable="cmd.exe" vmlauncher="${vmlauncher}" failonerror="false">
+        <exec executable="cmd.exe" vmlauncher="${vmlauncher}" failonerror="false">
             <arg line="/c startsym.bat"/>
         </exec>
         -->
@@ -1316,9 +1319,11 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- TODO defmacro? -timc 1/2/2009 -->
     <!-- TODO depends? -timc 4/17/2009 -->
     <!-- TODO VIPER -timc 9/20/2010 -->
-    <target name="make-EnvisionControls_CAB" depends="propset">
+    <!-- <target name="make-EnvisionControls_CAB" depends="propset"> -->
+    <target name="make-EnvisionControls_CAB">
         <antcall target="make-EnvisionControls_CAB_EN"/>
         <!-- localized in 9.7.x or later -->
+        <!--
         <ac:if>
             <or>
                 <and>
@@ -1334,10 +1339,13 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
                 </and>
             </or>
             <then>
+        -->
                 <antcall target="make-EnvisionControls_CAB_DE"/>
                 <antcall target="make-EnvisionControls_CAB_ES"/>
+        <!--
             </then>
         </ac:if>
+        -->
     </target>
 
     <!-- English -->
@@ -1373,17 +1381,22 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         between 9.7.0 up to but not including 9.10.0.  Those use ReleaseEnglish
         for English; German and Spanish are not affected.  Finally, if it's
         9.10.0 or later, we switch back and use Release for English. -->
+        <!--
         <ac:if>
+        -->
             <!-- 9.7.0 thru 9.9.x, localization with ReleaseEnglish -->
             <!-- TODO break this out into MAJOR and MINOR and make it work for
             10.0 like everywhere else. -timc 12/09/2009 -->
+            <!--
             <and>
                 <or>
                     <ac:equals arg1="${MAJOR}.${MINOR}.${RELEASE}" arg2="9.7.0000"/>
                     <ac:isgreaterthan arg1="${MAJOR}.${MINOR}.${RELEASE}" arg2="9.7.0000"/>
                 </or>
                 <or>
+            -->
                     <!-- Can't use 9.10.0000, seems to be a string compare issue -->
+            <!--
                     <ac:equals arg1="${MAJOR}.${MINOR}.${RELEASE}" arg2="9.9.9999"/>
                     <ac:islessthan arg1="${MAJOR}.${MINOR}.${RELEASE}" arg2="9.9.9999"/>
                 </or>
@@ -1393,10 +1406,13 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
                     tofile="${dir.toCab_EN}/SharedResources.dll"/>
             </then>
             <else>
+            -->
                 <copy file="${dir.workdir}/quality/SharedResources.dll"
                     tofile="${dir.toCab_EN}/SharedResources.dll"/>
+            <!--
             </else>
         </ac:if>
+            -->
 
         <!-- NB: CabArc.exe must be in the path or this will fail -->
         <!-- PRN23215 - remove WFM ActiveX controls -->
@@ -1648,7 +1664,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- ================================================================= -->
     <!-- build, run, and publish the unit test results                     -->
     <!-- ================================================================= -->
-    <target name="publish-unit-test-results" depends="propset"
+    <!-- <target name="publish-unit-test-results" depends="propset" -->
+    <target name="publish-unit-test-results"
         description="Publishes the results of the unit tests">
         <!-- publish the results for the c# unit tests -->
         <antcall target="publish-CSUnitTests"/>
@@ -1934,7 +1951,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- Run the installer software and release the installers       -->
     <!-- =========================================================== -->
     <!-- TODO call release-installers directly -timc, Cinco de Mayo 2010 -->
-    <target name="setup-installers" depends="propset"
+    <!-- <target name="setup-installers" depends="propset" -->
+    <target name="setup-installers"
         description="Create and deploy the installers">
         <!-- <ant antfile="buildSetup.xml" dir="."
             target="release-installers"/> -->
@@ -1945,9 +1963,11 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!--  Sign Envision CAB files                                          -->
     <!-- ================================================================= -->
     <!-- TODO VIPER -timc 9/20/2010 -->
-    <target name="sign-EnvisionControls_CAB" depends="propset">
+    <!-- <target name="sign-EnvisionControls_CAB" depends="propset"> -->
+    <target name="sign-EnvisionControls_CAB">
         <antcall target="sign-EnvisionControls_CAB_EN"/>
         <!-- localized in 9.7.x or later -->
+        <!--
         <ac:if>
             <or>
                 <and>
@@ -1963,17 +1983,23 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
                 </and>
             </or>
             <then>
+        -->
                 <antcall target="sign-EnvisionControls_CAB_DE"/>
                 <antcall target="sign-EnvisionControls_CAB_ES"/>
+        <!--
             </then>
         </ac:if>
+        -->
     </target>
 
 
     <!-- English -->
+    <!--
     <target name="sign-EnvisionControls_CAB_EN" depends="propset, make-EnvisionControls_CAB_EN"
+    -->
+    <target name="sign-EnvisionControls_CAB_EN" depends="make-EnvisionControls_CAB_EN"
         description="Signs EnvisionControls.cab (English) using signtool">
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}"
+        <exec executable="signtool.exe"
             vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a
                 /f ${file.pfx}
@@ -1983,9 +2009,12 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         </exec>
     </target>
     <!-- German -->
+    <!--
     <target name="sign-EnvisionControls_CAB_DE" depends="propset, make-EnvisionControls_CAB_DE"
+    -->
+    <target name="sign-EnvisionControls_CAB_DE" depends="make-EnvisionControls_CAB_DE"
         description="Signs EnvisionControls.cab (German) using signtool">
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}"
+        <exec executable="signtool.exe"
             vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a
                 /f ${file.pfx}
@@ -1995,9 +2024,12 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         </exec>
     </target>
     <!-- Spanish -->
+    <!--
     <target name="sign-EnvisionControls_CAB_ES" depends="propset, make-EnvisionControls_CAB_ES"
+    -->
+    <target name="sign-EnvisionControls_CAB_ES" depends="make-EnvisionControls_CAB_ES"
         description="Signs EnvisionControls.cab (Spanish) using signtool">
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}"
+        <exec executable="signtool.exe"
             vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a
                 /f ${file.pfx}
@@ -2140,7 +2172,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- Unzip Centricity WebHelp for the Server installer                 -->
     <!-- ================================================================= -->
     <!-- TODO VIPER -timc 9/20/2010 -->
-    <target name="unzip-Centricity_WebHelp" depends="propset">
+    <!-- <target name="unzip-Centricity_WebHelp" depends="propset"> -->
+    <target name="unzip-Centricity_WebHelp">
         <!-- Maybe later this will become three separate tasks. -->
         <!-- Centricity documentation for Supervisors -->
         <unjar
@@ -2229,7 +2262,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     .
     PKI09 (9.9) -> 1.6.0_03
     July09 (9.10) -> 1.6.0_14 -->
-    <target name="unzip-Envision_JRE" depends="propset">
+    <!-- <target name="unzip-Envision_JRE" depends="propset"> -->
+    <target name="unzip-Envision_JRE">
         <property name="Envision_JRE" value="jre1.6.0_14-Envision-no-jars.zip"/>
         <unjar
             src="${dir.jre}/${Envision_JRE}"
@@ -2239,19 +2273,23 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- ================================================================= -->
     <!-- Unzip the Iontas client files                                     -->
     <!-- ================================================================= -->
+    <!--
     <target name="unzip-IontasClient" depends="propset">
         <unjar
             src="${uncpath.iontas}/IontasClient4.1.zip"
             dest="${dir.sdk}/Iontas"/>
     </target>
+    -->
 
     <!-- ================================================================= -->
     <!-- Unzip the default Nuance profile for the Speech Server            -->
     <!-- ================================================================= -->
     <!-- TODO VIPER -timc 9/20/2010 -->
-    <target name="unzip-NuanceProfile" depends="propset">
+    <!-- <target name="unzip-NuanceProfile" depends="propset"> -->
+    <target name="unzip-NuanceProfile">
         <unjar src="${dir.sdk}/Nuance/Envision.zip"
             dest="${dir.workdir}/AudioMining"/>
+        <!--
         <ac:if>
             <or>
                 <and>
@@ -2267,18 +2305,21 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
                 </and>
             </or>
             <then>
+        -->
                 <unjar src="${dir.sdk}/Nuance/EnvisionEnglishUK.zip"
                     dest="${dir.workdir}/AudioMining"/>
                 <unjar src="${dir.sdk}/Nuance/EnvisionGerman.zip"
                     dest="${dir.workdir}/AudioMining"/>
-                <exec dir="${dir.bin}" executable="7za.exe" vmlauncher="${vmlauncher}" failonerror="false">
+                <exec executable="7za.exe" vmlauncher="${vmlauncher}" failonerror="false">
                     <arg line="x ${dir.sdk}/Nuance/EnvisionSpanish.zip -o${dir.workdir}/AudioMining"/>
                 </exec>
-                <exec dir="${dir.bin}" executable="7za.exe" vmlauncher="${vmlauncher}" failonerror="false">
+                <exec executable="7za.exe" vmlauncher="${vmlauncher}" failonerror="false">
                     <arg line="x ${dir.sdk}/Nuance/EnvisionSpanishLA.zip -o${dir.workdir}/AudioMining"/>
                 </exec>
+        <!--
             </then>
         </ac:if>
+        -->
     </target>
 
     <!-- ================================================================= -->
@@ -2291,10 +2332,96 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     (make-PerformanceSuite depends on both of them.) -->
     <!-- TODO this needs to be updated.  At least ActiveMQ is out of date,
     possibly others as well. -timc, Cinco de Mayo 2010 -->
-    <target name="unzip-PerformanceSuite-jars_ZIP" depends="propset">
+    <!-- <target name="unzip-PerformanceSuite-jars_ZIP" depends="propset"> -->
+    <target name="unzip-PerformanceSuite-jars_ZIP">
         <property name="EPS-jars_ZIP" value="jar-files-EnvisionPerformanceSuite-9.10.zip"/>
         <unjar
             src="${dir.jre}/${EPS-jars_ZIP}"
+            dest="${dir.sdk}/java"/>
+    </target>
+
+    <!-- ================================================================= -->
+    <!-- Unzip the Server JARs into the working copy                       -->
+    <!-- ================================================================= -->
+    <!-- I decided to keep the JAR files out of the JRE at the level of the
+    working copy.  They will be added in by the installer, but this keeps
+    things from getting messy.  And it removes an artificial dependency, since
+    unzip-Server-jars_ZIP would otherwise depend on unzip-Envision_JRE.
+    (make-Server depends on both of them.) -->
+    <target name="unzip-Server-jars_ZIP">
+        <!-- aaaand the ugliness continues.  I've added a new zip file,
+        jar-files-EnvisionServer-9.10SP3, for (9.10SP3 and later), (10.0SP2
+        and later), and (10.1 and later).  The conditional for this is going
+        to be awful. -timc 5/21/2010 -->
+        <!-- Late note: you believe this shit? -timc 5/21/2010 -->
+        <!--
+        <ac:if>
+            <or>
+                <and>
+        -->
+                    <!-- M > 10 -->
+        <!--
+                    <ac:isgreaterthan arg1="${MAJOR}" arg2="10"/>
+                </and>
+                <and>
+        -->
+                    <!-- M.m > 10.1 -->
+        <!--
+                    <ac:equals arg1="${MAJOR}" arg2="10"/>
+                    <ac:isgreaterthan arg1="${MINOR}" arg2="1"/>
+                </and>
+                <and>
+        -->
+                    <!-- M.m == 10.1 -->
+        <!--
+                    <ac:equals arg1="${MAJOR}" arg2="10"/>
+                    <ac:equals arg1="${MINOR}" arg2="1"/>
+                </and>
+                <and>
+        -->
+                    <!-- M.m.SP > 10.0.0200 -->
+        <!--
+                    <ac:equals arg1="${MAJOR}" arg2="10"/>
+                    <ac:equals arg1="${MINOR}" arg2="0"/>
+                    <ac:isgreaterthan arg1="${RELEASE}" arg2="0200"/>
+                </and>
+                <and>
+        -->
+                    <!-- M.m.SP == 10.0.0200 -->
+        <!--
+                    <ac:equals arg1="${MAJOR}" arg2="10"/>
+                    <ac:equals arg1="${MINOR}" arg2="0"/>
+                    <ac:equals arg1="${RELEASE}" arg2="0200"/>
+                </and>
+                <and>
+        -->
+                    <!-- M.m.SP > 9.10.0300 -->
+        <!--
+                    <ac:equals arg1="${MAJOR}" arg2="9"/>
+                    <ac:equals arg1="${MINOR}" arg2="10"/>
+                    <ac:isgreaterthan arg1="${RELEASE}" arg2="0300"/>
+                </and>
+                <and>
+        -->
+                    <!-- M.m.SP == 9.10.0300 -->
+        <!--
+                    <ac:equals arg1="${MAJOR}" arg2="9"/>
+                    <ac:equals arg1="${MINOR}" arg2="10"/>
+                    <ac:equals arg1="${RELEASE}" arg2="0300"/>
+                </and>
+            </or>
+            <then>
+        -->
+                <property name="Server-jars_ZIP" value="jar-files-EnvisionServer-9.10SP3.zip"/>
+        <!--
+            </then>
+            <else>
+                <property name="Server-jars_ZIP" value="jar-files-EnvisionServer-9.10.zip"/>
+            </else>
+        </ac:if>
+        -->
+        <unjar
+            src="${dir.jre}/${Server-jars_ZIP}"
             dest="${dir.sdk}/java"/>
     </target>
 

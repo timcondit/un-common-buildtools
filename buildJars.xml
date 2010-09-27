@@ -12,7 +12,7 @@
     run in their own namespace.  (That's a VERY good thing.  The ugliness is
     the fact that we're using antcall in the first place.) -timc, Cinco de
     Mayo 2010 -->
-    <target name="build-jars" depends="propset">
+    <target name="build-jars">
         <antcall target="clean_Envision"/>
         <antcall target="compile_Envision"/>
         <antcall target="jar_Envision"/>
@@ -51,7 +51,9 @@
                 </and>
             </or>
             <then>
+        -->
                 <antcall target="jar-EnvisionPlugin"/>
+        <!--
             </then>
             <else>
                 <echo message="Skipping target jar-EnvisionPlugin (only version 9.8 or later)"/>

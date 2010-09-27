@@ -29,7 +29,7 @@
     <!-- ================================================================= -->
     <!--  Make Agent Automation                                            -->
     <!-- ================================================================= -->
-    <target name="make-AgentAutomation" depends="propset" description="Makes AgentAutomation.dll">
+    <target name="make-AgentAutomation" description="Makes AgentAutomation.dll">
         <build-cpp solution.file="${dir.src}/apis/AgentAutomation.sln"/>
     </target>
 
@@ -48,10 +48,8 @@
     words, do it the same way EnvisionControls_CAB is done in build.xml. -->
     <!-- TODO macrodefs?  Maybe this should come after the previous TODO about
     separating by languages.  See buildSetup.xml for an example. -->
-    <target name="make-AgentSupport" depends="propset" description="Makes AgentSupport">
+    <target name="make-AgentSupport" description="Makes AgentSupport">
         <build-cpp solution.file="${dir.src}/clients/AgentSupport.sln"/>
-        <build-cpp configuration="ReleaseGerman" solution.file="${dir.src}/clients/AgentSupport.sln"/>
-        <build-cpp configuration="ReleaseSpanish" solution.file="${dir.src}/clients/AgentSupport.sln"/>
         <!--
         <ac:if>
             <or>
@@ -80,13 +78,8 @@
     <!-- ================================================================= -->
     <!--  Make AgentX.ocx                                                  -->
     <!-- ================================================================= -->
-    <!-- TODO VIPER -timc 9/20/2010 -->
-    <target name="make-AgentX_OCX" depends="propset" description="Makes AgentX.ocx">
+    <target name="make-AgentX_OCX" description="Makes AgentX.ocx">
         <build-cpp solution.file="${dir.src}/clients/quality/agentdesktop/AgentX.vcproj"/>
-        <build-cpp configuration="ReleaseGerman"
-            solution.file="${dir.src}/clients/quality/agentdesktop/AgentX.vcproj"/>
-        <build-cpp configuration="ReleaseSpanish"
-            solution.file="${dir.src}/clients/quality/agentdesktop/AgentX.vcproj"/>
         <!--
         <ac:if>
             <or>
@@ -144,13 +137,8 @@
     <!-- ================================================================= -->
     <!--  Make C2CReportingControls.ocx                                    -->
     <!-- ================================================================= -->
-    <!-- TODO VIPER -timc 9/20/2010 -->
-    <target name="make-C2CReportingControls_OCX" depends="propset" description="Makes C2CReportingControls.ocx">
+    <target name="make-C2CReportingControls_OCX" description="Makes C2CReportingControls.ocx">
         <build-cpp solution.file="${dir.src}/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
-        <build-cpp configuration="ReleaseGerman"
-            solution.file="${dir.src}/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
-        <build-cpp configuration="ReleaseSpanish"
-            solution.file="${dir.src}/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
         <!--
         <ac:if>
             <or>
@@ -291,14 +279,9 @@
     <!-- ================================================================= -->
     <!--  Make eLearning                                                   -->
     <!-- ================================================================= -->
-    <!-- TODO VIPER -timc 9/20/2010 -->
     <!-- TODO is there an eLearning solution? -timc, Cinco de Mayo -->
-    <target name="make-eLearning" depends="propset" description="Makes eLearning">
+    <target name="make-eLearning" description="Makes eLearning">
         <build-cpp configuration="eLearningRelease" solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
-        <build-cpp configuration="eLearningReleaseGerman"
-            solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
-        <build-cpp configuration="eLearningReleaseSpanish"
-            solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
         <!--
         <ac:if>
             <or>
@@ -333,7 +316,7 @@
     <!-- Make ETService                                                    -->
     <!-- ================================================================= -->
     <!-- TODO is there an EnvisionService solution? -timc, Cinco de Mayo -->
-    <target name="make-EnvisionService" depends="propset" description="Makes ETService.exe">
+    <target name="make-EnvisionService" description="Makes ETService.exe">
         <!-- NOTE: I'm not sure exactly what this is doing for us, but the
         ETService Release configuration occasionally fails with errors about
         multiply defined libraries.  Running this batch file fixes it.  But it
@@ -431,13 +414,8 @@
     separately, this one will standalone.  IOW, it will not be a prerequisite
     compile for anything else (as far as I know). -->
     <!-- TODO is there a QM solution? -timc, Cinco de Mayo -->
-    <!-- TODO VIPER -timc 9/20/2010 -->
-    <target name="make-QualityMonitoring" depends="propset" description="Makes QM">
+    <target name="make-QualityMonitoring" description="Makes QM">
         <build-cpp solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
-        <build-cpp configuration="ReleaseGerman"
-            solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
-        <build-cpp configuration="ReleaseSpanish"
-            solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
         <!--
         <ac:if>
             <or>
@@ -517,19 +495,12 @@
     for English; German and Spanish are not affected.  Finally, if it's 9.10.0
     or later, we switch back and use Release for English. -->
     <!-- TODO is there a SharedResources solution? -timc, Cinco de Mayo -->
-    <!-- TODO VIPER -timc 9/20/2010 -->
-    <target name="make-SharedResources" depends="propset" description="Makes SharedResources.dll">
-        <echo message="Release, ReleaseGerman, ReleaseSpanish"/>
-        <build-cpp solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
-        <build-cpp configuration="ReleaseGerman"
-            solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
-        <build-cpp configuration="ReleaseSpanish"
-            solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
+    <target name="make-SharedResources" description="Makes SharedResources.dll">
         <!--
         <ac:if>
         -->
             <!-- up to 9.6.x, no localization -->
-        <!--
+            <!--
             <or>
                 <and>
                     <ac:equals arg1="${MAJOR}" arg2="9"/>
@@ -547,9 +518,9 @@
                 <build-cpp solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
             </then>
             <ac:elseif>
-        -->
+            -->
                 <!-- 9.7.0 thru 9.9.x, localization with ReleaseEnglish -->
-        <!--
+            <!--
                 <and>
                     <or>
                         <and>
@@ -577,7 +548,7 @@
                 </then>
             </ac:elseif>
             <ac:else>
-        -->
+            -->
                 <!-- DRY (combine with 9.6 check?) -->
                 <!-- 9.10.x or later, localization with Release for English -->
         <!--
@@ -589,7 +560,7 @@
                     solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
             </ac:else>
         </ac:if>
-        -->
+            -->
     </target>
 
     <!-- ================================================================= -->
@@ -660,13 +631,8 @@
     <!-- Make WebControls.ocx                                              -->
     <!-- ================================================================= -->
     <!-- TODO is there a WebControls solution? -timc, Cinco de Mayo -->
-    <!-- TODO VIPER -timc 9/20/2010 -->
-    <target name="make-WebControls_OCX" depends="propset" description="Makes WebControls.ocx">
+    <target name="make-WebControls_OCX" description="Makes WebControls.ocx">
         <build-cpp solution.file="${dir.src}/clients/reporting/controls/WebControls.vcproj"/>
-        <build-cpp configuration="ReleaseGerman"
-            solution.file="${dir.src}/clients/reporting/controls/WebControls.vcproj"/>
-        <build-cpp configuration="ReleaseSpanish"
-            solution.file="${dir.src}/clients/reporting/controls/WebControls.vcproj"/>
         <!--
         <ac:if>
             <or>
@@ -772,7 +738,7 @@
     <!-- TODO is there an AgentAdherence solution? -timc, Cinco de Mayo -->
     <target name="sign-AgentAdherence_OCX" depends="make-AgentAdherence_OCX" description="Digitally signs AgentAdherence.ocx to verify its authenticity.">
         <!-- NB: don't forget the ${basedir}! -->
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
+        <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.workdir}/wfm/AgentAdherence.ocx"/>
         </exec>
     </target>
@@ -783,7 +749,7 @@
     <!-- TODO is there an AgentSchedule solution? -timc, Cinco de Mayo -->
     <target name="sign-AgentSchedule_OCX" depends="make-AgentSchedule_OCX" description="Digitally signs AgentSchedule.ocx to verify its authenticity.">
         <!-- NB: don't forget the ${basedir}! -->
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
+        <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.workdir}/wfm/AgentSchedule.ocx"/>
         </exec>
     </target>
@@ -792,10 +758,9 @@
     <!--  Sign AgentX.ocx                                                  -->
     <!-- ================================================================= -->
     <!-- TODO is there an AgentX solution? -timc, Cinco de Mayo -->
-    <!-- TODO VIPER -timc 9/20/2010 -->
-    <target name="sign-AgentX_OCX" depends="propset, make-AgentX_OCX" description="Digitally signs AgentX.ocx to verify its authenticity.">
+    <target name="sign-AgentX_OCX" depends="make-AgentX_OCX" description="Digitally signs AgentX.ocx to verify its authenticity.">
         <!-- English -->
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
+        <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.workdir}/quality/AgentX.ocx"/>
         </exec>
         <!--
@@ -817,11 +782,11 @@
         -->
                 <!-- NB: don't forget the ${basedir}! -->
                 <!-- German -->
-                <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
+                <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
                     <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/quality/agentdesktop/ReleaseGerman/AgentX.ocx"/>
                 </exec>
                 <!-- Spanish -->
-                <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
+                <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
                     <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/quality/agentdesktop/ReleaseSpanish/AgentX.ocx"/>
                 </exec>
         <!--
@@ -839,7 +804,7 @@
     <!-- TODO is there an AnalyticsResources solution? -timc, Cinco de Mayo -->
     <target name="sign-AnalyticsResources" depends="make-DeployAnalyticsTool" description="Digitally signs EnvisionAnalyticsResources.dll to verify its authenticity.">
         <!-- NB: don't forget the ${basedir}! -->
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
+        <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <!-- /f ${dir.build}/setup/Signature/myprivatecert.pfx -->
             <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/Centricity/Analytics/AnalyticsResources/obj/Release/EnvisionAnalyticsResources.dll"/>
         </exec>
@@ -850,7 +815,7 @@
     <!-- ================================================================= -->
     <target name="sign-AnalyticsUtilities" depends="make-AnalyticsUtilities" description="Digitally signs EnvisionAnalyticsUtilities.dll to verify its authenticity.">
         <!-- NB: don't forget the ${basedir}! -->
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
+        <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <!-- /f ${dir.build}/setup/Signature/myprivatecert.pfx -->
             <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/Centricity/Analytics/AnalyticsUtilities/obj/Release/EnvisionAnalyticsUtilities.dll"/>
         </exec>
@@ -860,11 +825,10 @@
     <!--  Sign C2CReportingControls.ocx                                    -->
     <!-- ================================================================= -->
     <!-- TODO is there a C2CReportingControls solution? -timc, Cinco de Mayo -->
-    <!-- TODO VIPER -timc 9/20/2010 -->
-    <target name="sign-C2CReportingControls_OCX" depends="propset, make-C2CReportingControls_OCX" description="Digitally signs C2CReportingControls.ocx to verify its authenticity.">
+    <target name="sign-C2CReportingControls_OCX" depends="make-C2CReportingControls_OCX" description="Digitally signs C2CReportingControls.ocx to verify its authenticity.">
         <!-- English -->
         <!-- NB: don't forget the ${basedir}! -->
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
+        <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/C2CReportingControls/Release/C2CReportingControls.ocx"/>
         </exec>
         <!--
@@ -886,12 +850,12 @@
         -->
                 <!-- German -->
                 <!-- NB: don't forget the ${basedir}! -->
-                <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
+                <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
                     <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/C2CReportingControls/ReleaseGerman/C2CReportingControls.ocx"/>
                 </exec>
                 <!-- Spanish -->
                 <!-- NB: don't forget the ${basedir}! -->
-                <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
+                <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
                     <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/C2CReportingControls/ReleaseSpanish/C2CReportingControls.ocx"/>
                 </exec>
         <!--
@@ -905,7 +869,7 @@
     <!-- ================================================================= -->
     <target name="sign-EnvisionCLR" depends="make-EnvisionCLR" description="Digitally signs EnvisionCLR.dll to verify its authenticity.">
         <!-- NB: don't forget the ${basedir}! -->
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
+        <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <!-- /f ${dir.build}/setup/Signature/myprivatecert.pfx -->
             <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/Centricity/Analytics/EnvisionCLR/obj/Release/EnvisionCLR.dll"/>
         </exec>
@@ -914,11 +878,10 @@
     <!-- ================================================================= -->
     <!-- Sign WebControls.ocx                                              -->
     <!-- ================================================================= -->
-    <!-- TODO VIPER -timc 9/20/2010 -->
-    <target name="sign-WebControls_OCX" depends="propset, make-WebControls_OCX" description="Digitally signs WebControls.ocx to verify its authenticity.">
+    <target name="sign-WebControls_OCX" depends="make-WebControls_OCX" description="Digitally signs WebControls.ocx to verify its authenticity.">
         <!-- English -->
         <!-- NB: don't forget the ${basedir}! -->
-        <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
+        <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.workdir}/agentdesktop/WebControls.ocx"/>
         </exec>
         <!--
@@ -940,12 +903,12 @@
         -->
                 <!-- German -->
                 <!-- NB: don't forget the ${basedir}! -->
-                <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
+                <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
                     <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/controls/ReleaseGerman/WebControls.ocx"/>
                 </exec>
                 <!-- Spanish -->
                 <!-- NB: don't forget the ${basedir}! -->
-                <exec dir="${dir.build}" executable="${basedir}/${signtool}" vmlauncher="${vmlauncher}" failonerror="true">
+                <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
                     <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/controls/ReleaseSpanish/WebControls.ocx"/>
                 </exec>
         <!--
