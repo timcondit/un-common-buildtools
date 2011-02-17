@@ -820,6 +820,13 @@
         <copy todir="${target3}">
             <fileset dir="${uncpath.cd3_sources}"/>
         </copy>
+    -->
+        <!-- Brian'e Envision Service Monitor -->
+    <!--
+        <property name="dir.svcmon"
+            value="${dir.build}/src/tools/EnvisionServiceMonitor/EnvisionServiceMonitor/bin/Release"/>
+        <copy file="${dir.svcmon}/EnvisionServiceMonitor.exe" todir="${target3}"/>
+        <copy file="${dir.svcmon}/EnvisionServiceMonitor.exe.config" todir="${target3}"/>
     </target>
 
     <!-- ================================================================= -->

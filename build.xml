@@ -423,17 +423,99 @@
     <echo message="certificate file: ${file.pfx}"/>
     <echo message="signtool password: ${signtool.password}"/>
 
+    <!-- ================================================================= -->
+    <!-- Classpath for projects that use ActiveMQ 5.1.0 and friends        -->
+    <!-- ================================================================= -->
+    <path id="classpath-v1">
+        <fileset dir="${dir.sdk}/java/activemq-5.1.0">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <!-- ================================================================= -->
+    <!-- Classpath for projects that use ActiveMQ 5.3.1 and friends        -->
+    <!-- ================================================================= -->
+    <path id="classpath-v2">
+        <fileset dir="${dir.sdk}/java/activemq-5.3.1">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${dir.sdk}/java/apache-tomcat-6.0.20/lib">
+            <include name="*.jar"/>
+        </fileset>
+
+        <!-- got to go -->
+        <!--
+        <fileset dir="${dir.sdk}/java/spring">
+            <include name="*.jar"/>
+        </fileset>
+        -->
+        <fileset dir="${dir.sdk}/java/geronimo">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${dir.sdk}/java/iText">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${dir.sdk}/java/jdbc">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${dir.sdk}/java/jencks">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${dir.sdk}/java/junit">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${dir.sdk}/java/junit-addons-1.4">
+            <include name="*.jar"/>
+        </fileset>
+
+        <pathelement location="${dir.sdk}/java/apache-tomcat-6.0.20/bin/bootstrap.jar"/>
+        <pathelement location="${dir.sdk}/java/commons-cli-1.0.jar"/>
+        <pathelement location="${dir.sdk}/java/commons-collections-3.2.1/commons-collections-3.2.1.jar"/>
+        <pathelement location="${dir.sdk}/java/commons-configuration-1.5/commons-configuration-1.5.jar"/>
+        <pathelement location="${dir.sdk}/java/commons-dbcp-1.2.2/commons-dbcp-1.2.2.jar"/>
+        <pathelement location="${dir.sdk}/java/commons-lang-2.4/commons-lang-2.4.jar"/>
+        <pathelement location="${dir.sdk}/java/commons-logging-1.1/commons-logging-1.1.jar"/>
+        <pathelement location="${dir.sdk}/java/commons-pool-1.5.4/commons-pool-1.5.4.jar"/>
+        <pathelement location="${dir.sdk}/java/Jama-1.0.1.jar"/>
+        <pathelement location="${dir.sdk}/java/jaxmejs-0.5/jaxmejs-0.5.jar"/>
+        <pathelement location="${dir.sdk}/java/jaxp.jar"/>
+        <pathelement location="${dir.sdk}/java/jcommon-0.9.5.jar"/>
+        <pathelement location="${dir.sdk}/java/jdbc/*.jar"/>
+        <pathelement location="${dir.sdk}/java/jdom.jar"/>
+        <pathelement location="${dir.sdk}/java/jencks/*.jar"/>
+        <pathelement location="${dir.sdk}/java/jfreechart-0.9.20.jar"/>
+        <pathelement location="${dir.sdk}/java/junit/*.jar"/>
+        <pathelement location="${dir.sdk}/java/junit-addons-1.4/*.jar"/>
+        <pathelement location="${dir.sdk}/java/jtds/jtds-1.2.3-dist/jtds-1.2.3.jar"/>
+        <pathelement location="${dir.sdk}/java/log4j/log4j-1.2.15.jar"/>
+        <pathelement location="${dir.sdk}/java/lpsolve55j.jar"/>
+
+        <pathelement location="${dir.sdk}/java/spring/spring-core-2.5.6-sources.jar"/>
+        <pathelement location="${dir.sdk}/java/spring/spring-beans-2.5.6-sources.jar"/>
+        <pathelement location="${dir.sdk}/java/spring/spring-aop-2.5.6.SEC01-sources.jar"/>
+        <pathelement location="${dir.sdk}/java/spring/xbean-spring-3.6-sources.jar"/>
+        <pathelement location="${dir.sdk}/java/spring/spring-tx-2.5.6-sources.jar"/>
+        <pathelement location="${dir.sdk}/java/spring/spring-oxm-tiger-1.5.8.jar"/>
+        <pathelement location="${dir.sdk}/java/spring/spring-osgi-core-1.2.1.jar"/>
+        <pathelement location="${dir.sdk}/java/spring/spring-context-2.5.6.SEC01-sources.jar"/>
+        <pathelement location="${dir.sdk}/java/spring/spring-aop-2.5.6.jar"/>
+        <pathelement location="${dir.sdk}/java/spring/spring-jms-2.5.6.SEC01-sources.jar"/>
+        <pathelement location="${dir.sdk}/java/spring/spring-context-2.5.6.jar"/>
+        <pathelement location="${dir.sdk}/java/spring/spring-beans-2.5.6.jar"/>
+        <pathelement location="${dir.sdk}/java/spring/spring-core-2.5.6.jar"/>
+        <pathelement location="${dir.sdk}/java/spring/spring-jms-2.5.6.jar"/>
+        <pathelement location="${dir.sdk}/java/spring/xbean-spring-3.6.jar"/>
+        <pathelement location="${dir.sdk}/java/spring/spring-tx-2.5.6.jar"/>
+        <pathelement location="${dir.sdk}/java/spring/spring-oxm-tiger-1.5.8-sources.jar"/>
+
+        <pathelement location="${dir.sdk}/java/xerces.jar"/>
+        <pathelement location="${dir.sdk}/java/xplookandfeel.jar"/>
+    </path>
 
     <!-- ================================================================= -->
     <!-- Common classpath                                                  -->
     <!-- ================================================================= -->
     <path id="project-classpath">
-        <fileset dir="${dir.sdk}/Java">
-            <include name="**/*.jar"/>
-            <!-- keep this include until the Wise Server installer is gone,
-            and these files are removed permanently -->
-            <exclude name="Jakarta-Tomcat/**/*.jar"/>
-        </fileset>
         <fileset dir="${dir.sdk}/cti_libs">
             <include name="**/*.jar"/>
         </fileset>
@@ -510,6 +592,7 @@
         <antcall target="build-jars"/>
         <antcall target="generate-dbschemas"/>
         <antcall target="make-CPP"/>
+        <antcall target="make-ServiceMonitor"/>
         <antcall target="sign-EnvisionControls_CAB"/>
         <antcall target="touch-build"/>
         <antcall target="setup-installers"/>
@@ -1191,6 +1274,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         <java classname="genstubskel.GenStubSkel" dir="${dir.build}"
             fork="true" args="GenStubSkel.xml">
             <classpath refid="project-classpath"/>
+            <classpath refid="classpath-v2"/>
         </java>
     </target>
 
@@ -2450,5 +2534,72 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="unzip-WebHelp"
         depends="unzip-AgentDesktop_WebHelp, unzip-BI_WebHelp,
         unzip-Centricity_WebHelp, unzip-ClassicReports_WebHelp"/>
+
+    <!-- ================================================================= -->
+    <!-- Run BVT test (build verification test test?) automation           -->
+    <!-- ================================================================= -->
+    <target name="run-test-automation">
+        <!-- <exec dir="${dir.bin}" executable="${vs100_mstest}" failonerror="false"> -->
+        <exec dir="${dir.bin}" executable="VMWareTests.exe" failonerror="false">
+            <arg line="-commonDB PE6850_Common -localDB PE6850_Local -aspNETDB PE6850_ASPNET -hostIP 10.1.6.10 -imageIP 10.1.6.106 -serverName WIN2008-64C -site_retries 15 -emailto keith.myers@envisioninc.com"/>
+        </exec>
+    </target>
+
+    <!-- ================================================================= -->
+    <!-- Compile the BVTs                                                  -->
+    <!-- ================================================================= -->
+    <!--
+    <target name="make-BVTs">
+        <property name="compiler.cpp" value="${vs100_devenv}"/>
+        <build-cpp solution.file="${dir.src}/tools/testapps/AgentCentricity/AgentCentricity.sln"/>
+        <build-cpp solution.file="${dir.src}/tools/testapps/CentricityBVT/autotest.sln"/>
+        <build-cpp solution.file="${dir.src}/tools/testapps/ReviewAdvocate/ReviewAdvocate.sln"/>
+    </target>
+    -->
+
+    <target name="make-BVTs">
+        <echo message="dir.projects.converted: ${dir.projects.converted}"/>
+        <!-- delete the contents first, directory second -->
+        <delete failonerror="False">
+            <fileset dir="${dir.projects.converted}\BVTs" erroronmissingdir="False"/>
+        </delete>
+        <delete failonerror="False" dir="${dir.projects.converted}\BVTs"/>
+        <antcall target="make-BVT-AgentCentricity"/>
+        <antcall target="make-BVT-CentricityBVT"/>
+        <antcall target="make-BVT-ReviewAdvocate"/>
+    </target>
+
+    <!-- NOTE have to set vs100_devenv here instead of compiler.cpp, since the
+    properties are immutable. -timc 2/9/2011 -->
+    <target name="make-BVT-AgentCentricity">
+        <exec dir="${dir.build}" executable="${vs100_devenv}" vmlauncher="false" failonerror="false">
+            <arg line="/build Release
+                ${dir.src}/tools/testapps/AgentCentricity/AgentCentricity.sln
+                /out ${dir.build}/BuildLog.txt"/>
+        </exec>
+        <copy todir="${dir.projects.converted}\BVTs">
+            <fileset file="${dir.src}/tools/testapps/AgentCentricity/AgentCentricity/bin/Release/AgentCentricity.dll"/>
+        </copy>
+    </target>
+    <target name="make-BVT-CentricityBVT">
+        <exec dir="${dir.build}" executable="${vs100_devenv}" vmlauncher="false" failonerror="false">
+            <arg line="/build Release
+                ${dir.src}/tools/testapps/CentricityBVT/autotest.sln
+                /out ${dir.build}/BuildLog.txt"/>
+        </exec>
+        <copy todir="${dir.projects.converted}\BVTs">
+            <fileset file="${dir.src}/tools/testapps/CentricityBVT/autotest/bin/Release/autotest.dll"/>
+        </copy>
+    </target>
+    <target name="make-BVT-ReviewAdvocate">
+        <exec dir="${dir.build}" executable="${vs100_devenv}" vmlauncher="false" failonerror="false">
+            <arg line="/build Release
+                ${dir.src}/tools/testapps/ReviewAdvocate/ReviewAdvocate.sln
+                /out ${dir.build}/BuildLog.txt"/>
+        </exec>
+        <copy todir="${dir.projects.converted}\BVTs">
+            <fileset file="${dir.src}/tools/testapps/ReviewAdvocate/ReviewAdvocate/bin/Release/ReviewAdvocate.dll"/>
+        </copy>
+    </target>
 </project>
 

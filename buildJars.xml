@@ -100,6 +100,8 @@
             optimize="on"
             verbose="true">
             <classpath refid="project-classpath"/>
+            <!-- add to the classpath: see build.xml -->
+            <classpath refid="classpath-v2"/>
         </javac>
     </target>
 
@@ -115,6 +117,8 @@
             fork="yes"
             memoryInitialSize="200m" memoryMaximumSize="1024m">
             <classpath refid="project-classpath"/>
+            <!-- add to the classpath: see build.xml -->
+            <classpath refid="classpath-v2"/>
         </javac>
 
         <!-- TODO do we need this? -->
@@ -160,6 +164,8 @@
                     <include name="tools"/>
                 </dirset>
             </classpath>
+            <!-- add to the classpath: see build.xml -->
+            <classpath refid="classpath-v2"/>
         </javac>
     </target>
 
@@ -177,6 +183,8 @@
             memoryInitialSize="100m"
             memoryMaximumSize="100m" >
             <classpath refid="project-classpath"/>
+            <!-- add to the classpath: see build.xml -->
+            <classpath refid="classpath-v2"/>
         </javac>
     </target>
 
@@ -366,6 +374,8 @@
             memoryInitialSize="100m"
             memoryMaximumSize="100m" >
             <classpath refid="project-classpath"/>
+            <!-- add to the classpath: see build.xml -->
+            <classpath refid="classpath-v2"/>
         </javac>
     </target>
 
