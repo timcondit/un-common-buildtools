@@ -8,10 +8,6 @@
     <!-- ================================================================= -->
     <!-- Make JARs                                                         -->
     <!-- ================================================================= -->
-    <!-- Ugliness: I added depends="propset" because calls to antcall seem to
-    run in their own namespace.  (That's a VERY good thing.  The ugliness is
-    the fact that we're using antcall in the first place.) -timc, Cinco de
-    Mayo 2010 -->
     <target name="build-jars">
         <antcall target="clean_Envision"/>
         <antcall target="compile_Envision"/>
@@ -33,33 +29,7 @@
         <!-- TODO add to propset -->
         <!-- TODO VIPER -timc 9/20/2010 -->
         <antcall target="jar-EnvisionPlugin"/>
-        <!--
-        <property name="EnvisionPluginAfter" value="9.7.0100"/>
-        <ac:if>
-            <or>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                    <ac:equals arg1="${RELEASE}" arg2="0100"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-            </or>
-            <then>
-        -->
-                <antcall target="jar-EnvisionPlugin"/>
-        <!--
-            </then>
-            <else>
-                <echo message="Skipping target jar-EnvisionPlugin (only version 9.8 or later)"/>
-            </else>
-        </ac:if>
-        -->
+        <antcall target="jar-EnvisionPlugin"/>
     </target>
 
     <!-- ================================================================= -->

@@ -39,441 +39,44 @@
         <!-- target3 -->
         <antcall target="release-CD3"/>
 
-        <!-- TODO if we're doing only 9.6 and later, this is redundant (but
-        harmless and informative) -->
-        <!-- 9.6.x -->
-        <!-- TODO VIPER -timc 9/20/2010 -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="6"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="6"/>
-                </and>
-            </or>
-            <then>
-        -->
-                <!-- target2, 9.6.0000.0 and later -->
-                <antcall target="release-Analytics"/>
-                <antcall target="release-Centricity"/>
-                <antcall target="release-CentricityWebApplications"/>
-                <antcall target="release-WMWrapperService"/>
-        <!--
-            </then>
-        </ac:if>
-        -->
+        <!-- target2, 9.6.0000.0 and later -->
+        <antcall target="release-Analytics"/>
+        <antcall target="release-Centricity"/>
+        <antcall target="release-CentricityWebApplications"/>
+        <antcall target="release-WMWrapperService"/>
 
-        <!-- CentricityWebApplications was moved to Centricity in 10.1 -->
-        <!-- 9.6.x thru 10.0.x -->
-        <!-- ... and then it was moved back out of Centricity before 10.1 was
-        released.  PRN23219 -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="6"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="6"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="10"/>
-                    <ac:equals arg1="${MINOR}" arg2="0"/>
-                </and>
-            </or>
-            <then>
-                <antcall target="release-CentricityWebApplications"/>
-            </then>
-        </ac:if>
-        -->
+        <!-- target2, 9.8.0000.0 and later -->
+        <antcall target="release-SpeechServerService"/>
+        <antcall target="release-SpeechProcessingClient"/>
+        <!-- target3, 9.8.0000.0 and later -->
+        <antcall target="release-EnvisionPlugin"/>
 
-        <!-- 9.8.x -->
-        <!-- TODO VIPER -timc 9/20/2010 -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="8"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="8"/>
-                </and>
-            </or>
-            <then>
-        -->
-                <!-- target2, 9.8.0000.0 and later -->
-                <antcall target="release-SpeechServerService"/>
-                <antcall target="release-SpeechProcessingClient"/>
-                <!-- target3, 9.8.0000.0 and later -->
-                <antcall target="release-EnvisionPlugin"/>
-        <!--
-            </then>
-        </ac:if>
-        -->
+        <antcall target="release-CentricityQM"/>
 
-        <!-- Grab your nuts, squirrels, and gather 'round, 'cuz this is how
-        you say "if greater than or equal to 10.0.0100" in Ant. -->
-        <!-- TODO VIPER -timc 9/20/2010 -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="10"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="10"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="0"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="10"/>
-                    <ac:equals arg1="${MINOR}" arg2="0"/>
-                    <ac:equals arg1="${RELEASE}" arg2="0100"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="10"/>
-                    <ac:equals arg1="${MINOR}" arg2="0"/>
-                    <ac:isgreaterthan arg1="${RELEASE}" arg2="0100"/>
-                </and>
-            </or>
-            <then>
-        -->
-                <antcall target="release-CentricityQM"/>
-        <!--
-            </then>
-        </ac:if>
-        -->
+        <!-- PRN23176 -->
+        <antcall target="release-Administrator"/>
 
-        <!-- target4, 10.1 and later -->
-        <!-- TODO VIPER -timc 9/20/2010 -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="10"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="10"/>
-                    <ac:equals arg1="${MINOR}" arg2="1"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="10"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="1"/>
-                </and>
-            </or>
-            <then>
-        -->
-                <!-- PRN23176 -->
-                <antcall target="release-Administrator"/>
+        <!-- PRN23192. Note: ADIT is deprecated in Viper -->
+        <antcall target="release-Tools"/>
 
-                <!-- PRN23192. Note: ADIT is deprecated in Viper -->
-                <antcall target="release-Tools"/>
+        <!-- PRN23270: Generate the old DBMigration installer for
+        on-demand use in Viper, but don't include in CD2 -->
+        <antcall target="make-DBMigration"/>
 
-                <!-- PRN23270: Generate the old DBMigration installer for
-                on-demand use in Viper, but don't include in CD2 -->
-                <antcall target="make-DBMigration"/>
+        <!-- PRN23217 -->
+        <antcall target="release-ChannelManager"/>
 
-                <!-- PRN23217 -->
-                <antcall target="release-ChannelManager"/>
+        <!-- PRN23312 -->
+        <antcall target="release-ServerSuite"/>
 
-                <!-- PRN23312 -->
-                <antcall target="release-ServerSuite"/>
-
-                <antcall target="release-CD4"/>
-        <!--
-            </then>
-            <else>
-        -->
-                <!-- utils -->
-        <!--
-                <antcall target="release-ADIT"/>
-                <antcall target="release-AGMS"/>
-                <antcall target="release-DADI"/>
-                <antcall target="release-DBMigration"/>
-                <antcall target="release-ECC"/>
-            </else>
-        </ac:if>
-        -->
+        <antcall target="release-CD4"/>
     </target>
 
     <!-- ================================================================= -->
     <!-- Set conditional properties                                        -->
     <!-- ================================================================= -->
+    <!-- these echo's shouldn't be inside a target -->
     <target name="propset" depends="define-ac">
-        <!-- Use tasks from ant-contrib to figure out what kind of build we're
-        doing.  It does decimal comparisons where appropriate, which is not
-        everywhere.  In particular, 9.10 and higher need special treatment.
-        Version numbers are not decimals, so we can't do decimal comparisons
-        with them, e.g., 9.6 is greater than 9.10, 9.11, 9.5999, etc. -->
-
-        <!-- This is a cascade, like switch statements without breaks.  It
-        works because Ant's properties are immutable once set.  For instance,
-        if the version is 9.9, the compiler is set to VS2008 when the 9.8.x if
-        statement is encountered and found to be true.  The 9.6.x if statement
-        is also encountered and is also true, but the property is already set,
-        and is not reset. -->
-
-        <!-- This target implicitly depends on not having big changes in
-        service packs.  If that changes, I'll subdivide it further.  -->
-
-        <!-- short-circuit sanity check -->
-        <!-- TODO VIPER -timc 9/20/2010 -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:islessthan arg1="${MINOR}" arg2="6"/>
-                </and>
-                <and>
-                    <ac:islessthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-            </or>
-            <then>
-                <fail message="common-buildtools are only for product version 9.6 and later"/>
-            </then>
-        </ac:if>
-        -->
-
-        <!-- Part 1 of 2: set properties based on build version -->
-        <!-- 10.1 (Viper) -->
-        <!--
-        <ac:if>
-            <or>
-                <ac:isgreaterthan arg1="${MAJOR}.${MINOR}" arg2="10.1"/>
-                <ac:equals arg1="${MAJOR}.${MINOR}" arg2="10.1"/>
-            </or>
-            <then>
-                <echo message="INFO setting 10.1 properties (if any)"/>
-                <property name="dir.sdk" value="${env.ETSDK}"/>
-        -->
-                <!--
-                <property name="version.range" value="10.1.or.higher"/>
-                -->
-        <!--
-            </then>
-        </ac:if>
-        -->
-
-        <!-- 10.0 -->
-        <!--
-        <ac:if>
-            <or>
-                <ac:equals arg1="${MAJOR}.${MINOR}" arg2="10.0"/>
-                <ac:islessthan arg1="${MAJOR}.${MINOR}" arg2="10.0"/>
-            </or>
-            <then>
-                <echo message="INFO setting 10.0 properties (if any)"/>
-            </then>
-        </ac:if>
-        -->
-
-        <!-- 9.10 -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="10"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="10"/>
-                </and>
-            </or>
-            <then>
-                <echo message="INFO setting 9.10 properties (if any)"/>
-            </then>
-        </ac:if>
-        -->
-
-        <!-- 9.9 -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="9"/>
-                </and>
-            </or>
-            <then>
-                <echo message="INFO setting 9.9 properties (if any)"/>
-            </then>
-        </ac:if>
-        -->
-
-        <!-- 9.8 -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="8"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="8"/>
-                </and>
-            </or>
-            <then>
-                <echo message="INFO setting 9.8 properties (if any)"/>
-                <property name="compiler.cpp" value="${vs90_devenv}"/>
-                <property name="compiler.message" value="${vs90_mc}"/>
-                <property name="vscommontools" value="${env.VS90COMNTOOLS}"/>
-            </then>
-        </ac:if>
-        -->
-
-        <!-- 9.7 -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-                <echo message="INFO setting 9.7 properties (if any)"/>
-                <property name="file.pfx" value="${cert.envision}"/>
-                <property name="signtool.password" value="${signtool.envisionpass}"/>
-            </then>
-        </ac:if>
-        -->
-
-        <!-- 9.6 -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="6"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="6"/>
-                </and>
-            </or>
-            <then>
-                <echo message="INFO setting 9.6 properties (if any)"/>
-                <property name="compiler.cpp" value="${vs80_devenv}"/>
-                <property name="compiler.message" value="${vs80_mc}"/>
-                <property name="vscommontools" value="${env.VS80COMNTOOLS}"/>
-                <property name="file.pfx" value="${cert.private}"/>
-        -->
-                <!-- <property name="signtool.password" value="${signtool.privatepass}"/> -->
-        <!--
-                <property name="signtool.password" value="${signtool.envisionpass}"/>
-        -->
-                <!-- <property name="javac.source" value="1.6"/> -->
-        <!--
-            </then>
-        </ac:if>
-        -->
-
-        <!-- Part 2 of 2: Check for resources that we need in order to move
-        on.  If property is not set, fail fast.  This still leaves open the
-        possibility that we've assigned the wrong value to the property.
-        Reference: http://ant.apache.org/manual/CoreTasks/conditions.html -->
-        <ac:if>
-            <not>
-                <and>
-                    <isset property="compiler.cpp"/>
-                    <available file="${compiler.cpp}"/>
-                </and>
-            </not>
-            <then>
-                <fail message="property compiler.cpp is unset or unavailable"/>
-            </then>
-        </ac:if>
-
-        <ac:if>
-            <not>
-                <and>
-                    <isset property="compiler.message"/>
-                    <available file="${compiler.message}"/>
-                </and>
-            </not>
-            <then>
-                <fail message="property compiler.message is unset or unavailable"/>
-            </then>
-        </ac:if>
-
-        <ac:if>
-            <not>
-                <and>
-                    <isset property="vscommontools"/>
-                    <available file="${vscommontools}"/>
-                </and>
-            </not>
-            <then>
-                <fail message="property vscommontools is unset or unavailable"/>
-            </then>
-        </ac:if>
-
-        <ac:if>
-            <not>
-                <and>
-                    <isset property="file.pfx"/>
-                    <!-- This is only available after we fetch the source.
-                    That makes it either a good test, or a bad one.  I'm not
-                    sure which. -->
-                    <available file="${file.pfx}"/>
-                </and>
-            </not>
-            <then>
-                <fail message="property file.pfx is unset or unavailable"/>
-            </then>
-        </ac:if>
-
-        <ac:if>
-            <not>
-                <and>
-                    <isset property="signtool.password"/>
-                    <!-- Cannot verify if this is available -->
-                </and>
-            </not>
-            <then>
-                <fail message="property signtool.password is unset or unavailable"/>
-            </then>
-        </ac:if>
-
         <!-- If we get here, display the current settings. -->
         <echo message="C++ compiler: ${compiler.cpp}"/>
         <echo message="message compiler: ${compiler.message}"/>
@@ -530,17 +133,6 @@
     <!-- Unzip Agent_Desktop_Webhelp.zip for the Server installer          -->
     <!-- ================================================================= -->
     <target name="unzip-AgentDesktop_WebHelp">
-        <!--
-        root: 9.6\Initial\base\Documentation
-        source: ${root}\WebHelp\AgentDesktop.zip
-        destination: ${root}\WebHelp\AgentDesktop
-        content: ${root}\WebHelp\AgentDesktop\9.6\Output\WebWorks Help 5.0\Envision Agent Desktop\
-        .
-        The ${content} directory is the dividing line between Ant and AI.
-        Once that directory and its contents are present, Ant is done and AI
-        needs to be able to find the _Envision Agent Desktop_ directory.
-        -->
-        <!-- Maybe later this will become three separate tasks. -->
         <unjar
             src="${dir.build}/Documentation/WebHelp/EN/Agent_Desktop_Webhelp.zip"
             dest="${dir.build}/Documentation/WebHelp/EN/Agent_Desktop_Webhelp"/>
@@ -566,9 +158,6 @@
     <!-- Unzip Centricity WebHelp for the Server installer                 -->
     <!-- ================================================================= -->
     <target name="unzip-Centricity_WebHelp" depends="propset">
-        <!-- Maybe later this will become three separate tasks. -->
-        <!-- Centricity documentation for Supervisors -->
-        <!-- TODO VIPER -timc 9/20/2010 -->
         <unjar
             src="${dir.build}/Documentation/WebHelp/EN/Centricity_Webhelp.zip"
             dest="${dir.build}/Documentation/WebHelp/EN/Centricity_Webhelp"/>
@@ -578,51 +167,16 @@
         <unjar
             src="${dir.build}/Documentation/WebHelp/ES/Centricity_Webhelp.zip"
             dest="${dir.build}/Documentation/WebHelp/ES/Centricity_Webhelp"/>
-        <!-- Centricity documentation for Agents: 9.8 and later only -->
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="8"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="8"/>
-                </and>
-            </or>
-            <then>
-                <unjar
-                    src="${dir.build}/Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp.zip"
-                    dest="${dir.build}/Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp"/>
-            </then>
-        </ac:if>
+        <unjar
+            src="${dir.build}/Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp.zip"
+            dest="${dir.build}/Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp"/>
 
-        <!-- localized documentation is currently in 9.10 SP2 only -->
-        <ac:if>
-            <or>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="10"/>
-                    <ac:equals arg1="${RELEASE}" arg2="0200"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="10"/>
-                    <ac:isgreaterthan arg1="${RELEASE}" arg2="0200"/>
-                </and>
-            </or>
-            <then>
-                <unjar
-                    src="${dir.build}/Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp.zip"
-                    dest="${dir.build}/Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp"/>
-                <unjar
-                    src="${dir.build}/Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp.zip"
-                    dest="${dir.build}/Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp"/>
-            </then>
-        </ac:if>
+        <unjar
+            src="${dir.build}/Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp.zip"
+            dest="${dir.build}/Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp"/>
+        <unjar
+            src="${dir.build}/Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp.zip"
+            dest="${dir.build}/Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp"/>
     </target>
 
     <!-- ================================================================= -->
@@ -671,76 +225,6 @@
     unzip-Server-jars_ZIP would otherwise depend on unzip-Envision_JRE.
     (make-Server depends on both of them.) -->
     <target name="unzip-Server-jars_ZIP" depends="propset">
-        <!-- aaaand the ugliness continues.  I've added a new zip file,
-        jar-files-EnvisionServer-9.10SP3, for (9.10SP3 and later), (10.0SP2
-        and later), and (10.1 and later).  The conditional for this is going
-        to be awful. -timc 5/21/2010 -->
-        <!-- Late note: you believe this shit? -timc 5/21/2010 -->
-        <!-- TODO VIPER -timc 9/20/2010 -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-        -->
-                    <!-- M > 10 -->
-        <!--
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="10"/>
-                </and>
-                <and>
-        -->
-                    <!-- M.m > 10.1 -->
-        <!--
-                    <ac:equals arg1="${MAJOR}" arg2="10"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="1"/>
-                </and>
-                <and>
-        -->
-                    <!-- M.m == 10.1 -->
-        <!--
-                    <ac:equals arg1="${MAJOR}" arg2="10"/>
-                    <ac:equals arg1="${MINOR}" arg2="1"/>
-                </and>
-                <and>
-        -->
-                    <!-- M.m.SP > 10.0.0200 -->
-        <!--
-                    <ac:equals arg1="${MAJOR}" arg2="10"/>
-                    <ac:equals arg1="${MINOR}" arg2="0"/>
-                    <ac:isgreaterthan arg1="${RELEASE}" arg2="0200"/>
-                </and>
-                <and>
-        -->
-                    <!-- M.m.SP == 10.0.0200 -->
-        <!--
-                    <ac:equals arg1="${MAJOR}" arg2="10"/>
-                    <ac:equals arg1="${MINOR}" arg2="0"/>
-                    <ac:equals arg1="${RELEASE}" arg2="0200"/>
-                </and>
-                <and>
-        -->
-                    <!-- M.m.SP > 9.10.0300 -->
-        <!--
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="10"/>
-                    <ac:isgreaterthan arg1="${RELEASE}" arg2="0300"/>
-                </and>
-                <and>
-        -->
-                    <!-- M.m.SP == 9.10.0300 -->
-        <!--
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="10"/>
-                    <ac:equals arg1="${RELEASE}" arg2="0300"/>
-                </and>
-            </or>
-            <then>
-                <property name="Server-jars_ZIP" value="jar-files-EnvisionServer-9.10SP3.zip"/>
-            </then>
-            <else>
-                <property name="Server-jars_ZIP" value="jar-files-EnvisionServer-9.10.zip"/>
-            </else>
-        </ac:if>
-        -->
         <property name="Server-jars_ZIP" value="jar-files-EnvisionServer-9.10SP3.zip"/>
         <unjar
             src="${dir.jre}/${Server-jars_ZIP}"
@@ -767,51 +251,16 @@
     <!-- ================================================================= -->
     <!-- TODO VIPER -timc 9/20/2010 -->
     <target name="unzip-NuanceProfile" depends="propset">
-        <unjar src="${dir.sdk}/Nuance/Envision.zip"
-            dest="${dir.workdir}/AudioMining"/>
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="12"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="12"/>
-                </and>
-            </or>
-            <then>
-        -->
-                <unjar src="${dir.sdk}/Nuance/EnvisionEnglishUK.zip"
-                    dest="${dir.workdir}/AudioMining"/>
-                <unjar src="${dir.sdk}/Nuance/EnvisionGerman.zip"
-                    dest="${dir.workdir}/AudioMining"/>
-                <exec dir="${dir.bin}" executable="7za.exe" vmlauncher="false" failonerror="false">
-                    <arg line="x ${dir.sdk}/Nuance/EnvisionSpanish.zip -o${dir.workdir}/AudioMining"/>
-                </exec>
-                <exec dir="${dir.bin}" executable="7za.exe" vmlauncher="false" failonerror="false">
-                    <arg line="x ${dir.sdk}/Nuance/EnvisionSpanishLA.zip -o${dir.workdir}/AudioMining"/>
-                </exec>
-        <!--
-            </then>
-        </ac:if>
-        -->
+        <unjar src="${dir.sdk}/Nuance/Envision.zip" dest="${dir.workdir}/AudioMining"/>
+        <unjar src="${dir.sdk}/Nuance/EnvisionEnglishUK.zip" dest="${dir.workdir}/AudioMining"/>
+        <unjar src="${dir.sdk}/Nuance/EnvisionGerman.zip" dest="${dir.workdir}/AudioMining"/>
+        <exec dir="${dir.bin}" executable="7za.exe" vmlauncher="false" failonerror="false">
+            <arg line="x ${dir.sdk}/Nuance/EnvisionSpanish.zip -o${dir.workdir}/AudioMining"/>
+        </exec>
+        <exec dir="${dir.bin}" executable="7za.exe" vmlauncher="false" failonerror="false">
+            <arg line="x ${dir.sdk}/Nuance/EnvisionSpanishLA.zip -o${dir.workdir}/AudioMining"/>
+        </exec>
     </target>
-
-    <!-- ================================================================= -->
-    <!-- Unzip the Iontas client files                                     -->
-    <!-- ================================================================= -->
-    <!--
-    <target name="unzip-IontasClient" depends="propset">
-        <unjar
-            src="${uncpath.iontas}/IontasClient4.1.zip"
-            dest="${dir.sdk}/Iontas"/>
-    </target>
-    -->
 
     <!-- ================================================================= -->
     <!-- Publish CD3                                                       -->
@@ -820,9 +269,7 @@
         <copy todir="${target3}">
             <fileset dir="${uncpath.cd3_sources}"/>
         </copy>
-    -->
-        <!-- Brian'e Envision Service Monitor -->
-    <!--
+        <!-- Brian's Envision Service Monitor -->
         <property name="dir.svcmon"
             value="${dir.build}/src/tools/EnvisionServiceMonitor/EnvisionServiceMonitor/bin/Release"/>
         <copy file="${dir.svcmon}/EnvisionServiceMonitor.exe" todir="${target3}"/>
@@ -837,17 +284,6 @@
             <fileset dir="${uncpath.cd4_sources}"/>
         </copy>
     </target>
-
-    <!-- ================================================================= -->
-    <!-- Release .NET 3.5 SP1 installer (prerequisite)                     -->
-    <!-- ================================================================= -->
-    <!--
-    <target name="release-DotNetInstaller" depends="prepare">
-        <copy todir="${target3}/DotNetFramework">
-            <fileset dir="${uncpath.dotnet}"/>
-        </copy>
-    </target>
-    -->
 
     <!-- ================================================================= -->
     <!-- Make and release ADIT                                             -->
@@ -913,24 +349,6 @@
             installer.path="${dir.installs}/Analytics"
             product.path="${target2}"/>
     </target>
-
-    <!-- ================================================================= -->
-    <!-- Make and release Centricity                                       -->
-    <!-- ================================================================= -->
-    <!--
-    <target name="make-Centricity" depends="prepare,unzip-Centricity_WebHelp">
-        <build-AI-installer
-            product.name="Centricity"
-            installer.path="${dir.installs}/Centricity"
-            project.file="${dir.installs}/Centricity/Centricity.aip"/>
-    </target>
-    <target name="release-Centricity" depends="make-Centricity">
-        <release-AI-installer
-            product.name="Centricity"
-            installer.path="${dir.installs}/Centricity"
-            product.path="${dir.retired}"/>
-    </target>
-    -->
 
     <!-- ================================================================= -->
     <!-- Make and release CentricityQM                                       -->
@@ -1137,36 +555,6 @@
     </target>
 
     <!-- ================================================================= -->
-    <!-- Make and release Server                                           -->
-    <!-- ================================================================= -->
-    <!-- NB: you'll get AI errors if you use -Ddir.build=C:\foo\bar\baz
-    (backslashes) instead of -Ddir.build=C:/foo/bar/baz
-    .
-    Late note: you'll also get AI errors if you use a mangled path like
-    -Ddir.build=C:\Source\9.7\SP1\base-9.7.0100.5-r6372 instead of
-    -Ddir.build=C:\Source\9.7\SP1\base
-    .
-    Late note 2: it looks like using -Ddir.build with either kind of path
-    causes it to error out. :( -->
-
-    <!-- NB: Server directory is called EnvisionServer in 9.6 -->
-    <!--
-    <target name="make-Server"
-        depends="prepare, unzip-WebHelp, unzip-Envision_JRE, unzip-Server-jars_ZIP">
-        <build-AI-installer
-            product.name="Server"
-            installer.path="${dir.installs}/Server"
-            project.file="${dir.installs}/Server/Server.aip"/>
-    </target>
-    <target name="release-Server" depends="make-Server">
-        <release-AI-installer
-            product.name="Server"
-            installer.path="${dir.installs}/Server"
-            product.path="${dir.retired}"/>
-    </target>
-    -->
-
-    <!-- ================================================================= -->
     <!-- Make and release ServerSuite                                      -->
     <!-- ================================================================= -->
     <target name="make-ServerSuite"
@@ -1231,38 +619,6 @@
         <copy file="${EnvisionPluginBasedir}/EnvisionPlugin.jar"
             tofile="${dir.nuasis-plugin}/EnvisionPlugin.jar"/>
     </target>
-
-    <!-- ================================================================= -->
-    <!-- Release AutoRun files                                             -->
-    <!-- ================================================================= -->
-    <!-- Note: this is just a copy operation.  These files do not need to be
-    compiled on a nightly basis. -->
-    <!-- timc: not used -->
-    <!--
-    <target name="release-AutoRun-CD1" depends="prepare">
-        <copy file="${dir.build}/setup/CD-Autorun/CD1/autorun.apm"
-            tofile="${target1}/autorun.apm"/>
-        <copy file="${dir.build}/setup/CD-Autorun/CD1/autorun.exe"
-            tofile="${target1}/autorun.exe"/>
-        <copy file="${dir.build}/setup/CD-Autorun/CD1/autorun.inf"
-            tofile="${target1}/autorun.inf"/>
-        <copy todir="${target1}/DATA">
-            <fileset dir="${dir.build}/setup/CD-Autorun/CD1/DATA"/>
-        </copy>
-    </target>
-
-    <target name="release-AutoRun-CD2" depends="prepare">
-        <copy file="${dir.build}/setup/CD-Autorun/CD2/autorun.apm"
-            tofile="${target2}/autorun.apm"/>
-        <copy file="${dir.build}/setup/CD-Autorun/CD2/autorun.exe"
-            tofile="${target2}/autorun.exe"/>
-        <copy file="${dir.build}/setup/CD-Autorun/CD2/autorun.inf"
-            tofile="${target2}/autorun.inf"/>
-        <copy todir="${target2}/DATA">
-            <fileset dir="${dir.build}/setup/CD-Autorun/CD2/DATA"/>
-        </copy>
-    </target>
-    -->
 
     <!-- ================================================================= -->
     <!-- Compile AdvancedInstaller project files (macro)                   -->

@@ -65,12 +65,11 @@
 
         <!-- Copy the summary and verbose results to the projects folder -->
         <copy
-        file="${dir.src}/tests/DotNetUnitTests/UT_BLL/bin/Release/results_summary.txt"
-        tofile="${dir.projects.converted}/unittests/${version.product}_summary.txt"/>
+            file="${dir.src}/tests/DotNetUnitTests/UT_BLL/bin/Release/results_summary.txt"
+            tofile="${dir.projects.converted}/unittests/${version.product}_summary.txt"/>
 
         <copy
-        file="${dir.src}/tests/DotNetUnitTests/UT_BLL/bin/Release/results_verbose.xml"
-        tofile="${dir.projects.converted}/unittests/${version.product}_verbose.xml"/>
+            file="${dir.src}/tests/DotNetUnitTests/UT_BLL/bin/Release/results_verbose.xml"
+            tofile="${dir.projects.converted}/unittests/${version.product}_verbose.xml"/>
     </target>
-
 </project>

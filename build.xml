@@ -143,277 +143,30 @@
         uri="antlib:net.sf.antcontrib"
         classpath="lib/ant-contrib-1.0b3.jar"/>
 
-    <!-- ================================================================= -->
-    <!-- Set conditional properties                                        -->
-    <!-- ================================================================= -->
-    <!-- Use tasks from ant-contrib to figure out what kind of build we're
-    doing.  It does decimal comparisons where appropriate, which is not
-    everywhere.  In particular, 9.10 and higher need special treatment.
-    Version numbers are not decimals, so we can't do decimal comparisons
-    with them, e.g., 9.6 is greater than 9.10, 9.11, 9.5999, etc. -->
 
-    <!-- This is a cascade, like switch statements without breaks.  It
-    works because Ant's properties are immutable once set.  For instance,
-    if the version is 9.9, the compiler is set to VS2008 when the 9.8.x if
-    statement is encountered and found to be true.  The 9.6.x if statement
-    is also encountered and is also true, but the property is already set,
-    and is not reset. -->
-
-    <!-- This target implicitly depends on not having big changes in
-    service packs.  If that changes, I'll subdivide it further.  -->
-
-    <!-- TODO put these things into a target - otherwise they get called over
-    and over and over ... -->
-
-    <!-- short-circuit sanity check -->
-    <!--
-    <ac:if>
-        <or>
-            <and>
-                <ac:equals arg1="${MAJOR}" arg2="9"/>
-                <ac:islessthan arg1="${MINOR}" arg2="6"/>
-            </and>
-            <and>
-                <ac:islessthan arg1="${MAJOR}" arg2="9"/>
-            </and>
-        </or>
-        <then>
-            <fail message="common-buildtools are only for product version 9.6 and later"/>
-        </then>
-    </ac:if>
-    -->
-
-    <!-- Part 1 of 2: set properties based on build version -->
-    <!-- 10.1 (Viper) -->
-    <!--
-    <ac:if>
-        <or>
-            <ac:isgreaterthan arg1="${MAJOR}.${MINOR}" arg2="10.1"/>
-            <ac:equals arg1="${MAJOR}.${MINOR}" arg2="10.1"/>
-        </or>
-        <then>
-    -->
+    <!-- started pulling stuff out right here -->
             <echo message="INFO setting 10.1 properties (if any)"/>
             <property name="dir.sdk" value="${env.ETSDK}"/>
-    <!--
-        </then>
-    </ac:if>
-    -->
 
-    <!-- 10.0 -->
-    <!--
-    <ac:if>
-        <or>
-            <ac:equals arg1="${MAJOR}.${MINOR}" arg2="10.0"/>
-            <ac:islessthan arg1="${MAJOR}.${MINOR}" arg2="10.0"/>
-        </or>
-        <then>
-            <echo message="INFO setting 10.0 properties (if any)"/>
-            <property name="dir.sdk" value="${dir.build}/SDK"/>
-        </then>
-    </ac:if>
-    -->
-
-    <!-- 9.10 -->
-    <!--
-    <ac:if>
-        <or>
-            <and>
-                <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-            </and>
-            <and>
-                <ac:equals arg1="${MAJOR}" arg2="9"/>
-                <ac:isgreaterthan arg1="${MINOR}" arg2="10"/>
-            </and>
-            <and>
-                <ac:equals arg1="${MAJOR}" arg2="9"/>
-                <ac:equals arg1="${MINOR}" arg2="10"/>
-            </and>
-        </or>
-        <then>
-            <echo message="INFO setting 9.10 properties (if any)"/>
-        </then>
-    </ac:if>
-    -->
-
-    <!-- 9.9 -->
-    <!--
-    <ac:if>
-        <or>
-            <and>
-                <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-            </and>
-            <and>
-                <ac:equals arg1="${MAJOR}" arg2="9"/>
-                <ac:isgreaterthan arg1="${MINOR}" arg2="9"/>
-            </and>
-            <and>
-                <ac:equals arg1="${MAJOR}" arg2="9"/>
-                <ac:equals arg1="${MINOR}" arg2="9"/>
-            </and>
-        </or>
-        <then>
-            <echo message="INFO setting 9.9 properties (if any)"/>
-        </then>
-    </ac:if>
-    -->
-
-    <!-- 9.8 -->
-    <!--
-    <ac:if>
-        <or>
-            <and>
-                <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-            </and>
-            <and>
-                <ac:equals arg1="${MAJOR}" arg2="9"/>
-                <ac:isgreaterthan arg1="${MINOR}" arg2="8"/>
-            </and>
-            <and>
-                <ac:equals arg1="${MAJOR}" arg2="9"/>
-                <ac:equals arg1="${MINOR}" arg2="8"/>
-            </and>
-        </or>
-        <then>
-    -->
             <echo message="INFO setting 9.8 properties (if any)"/>
             <property name="compiler.cpp" value="${vs90_devenv}"/>
             <property name="compiler.message" value="${vs90_mc}"/>
             <property name="vscommontools" value="${env.VS90COMNTOOLS}"/>
-    <!--
-        </then>
-    </ac:if>
-    -->
 
-    <!-- 9.7 -->
-    <!--
-    <ac:if>
-        <or>
-            <and>
-                <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-            </and>
-            <and>
-                <ac:equals arg1="${MAJOR}" arg2="9"/>
-                <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-            </and>
-            <and>
-                <ac:equals arg1="${MAJOR}" arg2="9"/>
-                <ac:equals arg1="${MINOR}" arg2="7"/>
-            </and>
-        </or>
-        <then>
-    -->
             <echo message="INFO setting 9.7 properties (if any)"/>
             <property name="file.pfx" value="${cert.envision}"/>
             <property name="signtool.password" value="${signtool.envisionpass}"/>
-    <!--
-        </then>
-    </ac:if>
-    -->
+    <!-- stopped here -->
 
-    <!-- 9.6 -->
-    <!--
-    <ac:if>
-        <or>
-            <and>
-                <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-            </and>
-            <and>
-                <ac:equals arg1="${MAJOR}" arg2="9"/>
-                <ac:isgreaterthan arg1="${MINOR}" arg2="6"/>
-            </and>
-            <and>
-                <ac:equals arg1="${MAJOR}" arg2="9"/>
-                <ac:equals arg1="${MINOR}" arg2="6"/>
-            </and>
-        </or>
-        <then>
-            <echo message="INFO setting 9.6 properties (if any)"/>
-            <property name="compiler.cpp" value="${vs80_devenv}"/>
-            <property name="compiler.message" value="${vs80_mc}"/>
-            <property name="vscommontools" value="${env.VS80COMNTOOLS}"/>
-            <property name="file.pfx" value="${cert.private}"/>
-    -->
-            <!-- <property name="signtool.password" value="${signtool.privatepass}"/> -->
-    <!--
-            <property name="signtool.password" value="${signtool.envisionpass}"/>
-    -->
-            <!-- <property name="javac.source" value="1.6"/> -->
-    <!--
-        </then>
-    </ac:if>
-    -->
 
     <!-- Part 2 of 2: Check for resources that we need in order to move
     on.  If property is not set, fail fast.  This still leaves open the
     possibility that we've assigned the wrong value to the property.
     Reference: http://ant.apache.org/manual/CoreTasks/conditions.html -->
-    <ac:if>
-        <not>
-            <and>
-                <isset property="compiler.cpp"/>
-                <available file="${compiler.cpp}"/>
-            </and>
-        </not>
-        <then>
-            <fail message="property compiler.cpp is unset or unavailable"/>
-        </then>
-    </ac:if>
 
-    <ac:if>
-        <not>
-            <and>
-                <isset property="compiler.message"/>
-                <available file="${compiler.message}"/>
-            </and>
-        </not>
-        <then>
-            <fail message="property compiler.message is unset or unavailable"/>
-        </then>
-    </ac:if>
-
-    <ac:if>
-        <not>
-            <and>
-                <isset property="vscommontools"/>
-                <available file="${vscommontools}"/>
-            </and>
-        </not>
-        <then>
-            <fail message="property vscommontools is unset or unavailable"/>
-        </then>
-    </ac:if>
-
-    <!--
-    <ac:if>
-        <not>
-            <and>
-                <isset property="file.pfx"/>
-    -->
-                <!-- This is only available after we fetch the source.
-                That makes it either a good test, or a bad one.  I'm not
-                sure which. -->
-    <!--
-                <available file="${file.pfx}"/>
-            </and>
-        </not>
-        <then>
-            <fail message="property file.pfx is unset or unavailable"/>
-        </then>
-    </ac:if>
-    -->
-
-    <ac:if>
-        <not>
-            <and>
-                <isset property="signtool.password"/>
-                <!-- Cannot verify if this is available -->
-            </and>
-        </not>
-        <then>
-            <fail message="property signtool.password is unset or unavailable"/>
-        </then>
-    </ac:if>
+    <!-- TODO this (part 2, etc.) is all removed.  The new batch script will
+    have to check for these things at the OS level.  The Ant script may verify
+    them at buildtime as well. -->
 
     <!-- If we get here, display the current settings. -->
     <echo message="[ET]SDK: ${dir.sdk}"/>
@@ -422,6 +175,7 @@
     <echo message="VS common tools: ${vscommontools}"/>
     <echo message="certificate file: ${file.pfx}"/>
     <echo message="signtool password: ${signtool.password}"/>
+
 
     <!-- ================================================================= -->
     <!-- Classpath for projects that use ActiveMQ 5.1.0 and friends        -->
@@ -442,13 +196,6 @@
         <fileset dir="${dir.sdk}/java/apache-tomcat-6.0.20/lib">
             <include name="*.jar"/>
         </fileset>
-
-        <!-- got to go -->
-        <!--
-        <fileset dir="${dir.sdk}/java/spring">
-            <include name="*.jar"/>
-        </fileset>
-        -->
         <fileset dir="${dir.sdk}/java/geronimo">
             <include name="*.jar"/>
         </fileset>
@@ -536,48 +283,6 @@
     </pathconvert>
 
 
-    <!-- ================================================================= -->
-    <!-- official-build target                                             -->
-    <!-- ================================================================= -->
-    <!-- TODO maybe this should be a target with a long list of dependencies.
-    The problem with that idea is that if something breaks, we've got to start
-    over from the beginning, since it's indivisible.  Me no like.  But it
-    might be good to aggregate it into bigger chunks.  I don't know what that
-    would look like yet. -->
-    <!-- TODO I don't know when I added the comment directly above, but with
-    the discovery that antcall does not propagate the environment, it becomes
-    an even better idea. -timc, Cinco de Mayo 2010 -->
-    <!-- TODO file.pfx is not available until after we fetch the source, so
-    depends="propset" isn't going to work as written.  I need a more flexible
-    approach to setting and getting properties. -timc 5/6/2010 -->
-
-    <!-- let's try without create-release-dir -->
-    <!-- change-version, create-release-dir, build-jars, -->
-    <!--
-    <target name="official-build"
-        depends="begin,
-        nuke-workdir,
-        fetch-source,
-        change-version,
-        create-release-dir,
-        build-jars,
-        compile-genstubskel-jar,
-        genstubskel-suite,
-        copy-jar-resources,
-        build-jars,
-        generate-dbschemas,
-        make-CPP,
-        sign-EnvisionControls_CAB,
-        touch-build,
-        setup-installers,
-        commit-all,
-        publish-unit-test-results,
-        email-build-complete,
-        tag-build,
-        move-workdir-postbuild,
-        end"/>
-    -->
-
     <!-- TODO aggregate these -timc 9/20/2010 -->
     <target name="official-build">
         <antcall target="begin"/>
@@ -607,29 +312,6 @@
     <!-- ================================================================= -->
     <!-- Rebuild Project                                                   -->
     <!-- ================================================================= -->
-    <!-- timc: Keep this one for Ed. -->
-    <!-- <antcall target="svn-up" if="update-on-rebuild"/> -->
-    <!--
-    <antcall target="svn-up">
-        <condition>
-            <istrue>property="update-on-rebuild"</istrue>
-        </condition>
-    </antcall>
-    -->
-    <!--
-    <target name="rebuild"
-        depends="del-stubskel,
-        create-release-dir,
-        build-jars,
-        compile-genstubskel-jar,
-        genstubskel-suite,
-        copy-jar-resources,
-        build-jars,
-        generate-dbschemas,
-        make-CPP,
-        sign-EnvisionControls_CAB"/>
-    -->
-
     <target name="rebuild">
         <antcall target="del-stubskel"/>
         <antcall target="create-release-dir"/>
@@ -657,23 +339,11 @@
             <format property="time.start" pattern="yyyy-MM-dd',' HH:mm:ss" locale="en_US"/>
         </tstamp>
         <echo>[${env.COMPUTERNAME}] Build started: ${time.start}</echo>
-        <!-- Stop virus protection to speed up the build -->
-        <!-- The old Symantec virus checker is gone.  This can likewise go
-        away (but that's not what I'm doing right now, so come back to it
-        later).  -timc, Cinco de Mayo 2010 -->
-        <!--
-        <exec executable="cmd.exe" vmlauncher="${vmlauncher}" failonerror="false">
-            <arg line="/c stopsym.bat"/>
-        </exec>
-        -->
     </target>
 
     <!-- ================================================================= -->
     <!-- Build C++ project                                                 -->
     <!-- ================================================================= -->
-    <!-- Note: WRT propset, build-CPP is all old skool, and not a problem.  It
-    looks like we can call the targets natively here, and just set conditions
-    as necessary in the individual targets. -->
     <!-- TODO Each target should depend on init.  init should check that the
     properties in propset are set, and only call that target if they are not.
     -->
@@ -739,21 +409,7 @@
         <antcall target="make-Server_CS"/>
         <antcall target="make-APICommon_CS"/>
         <antcall target="make-Finder_CS"/>
-        <!-- make-TaggerWrapperService_CS is in 9.6.x only -->
-        <!--
-        <ac:if>
-            <and>
-                <or>
-                    <ac:isgreaterthan arg1="${MAJOR}.${MINOR}" arg2="9.6"/>
-                    <ac:equals arg1="${MAJOR}.${MINOR}" arg2="9.6"/>
-                </or>
-                <ac:islessthan arg1="${MAJOR}.${MINOR}" arg2="9.7"/>
-            </and>
-            <then>
-                <antcall target="make-TaggerWrapperService_CS"/>
-            </then>
-        </ac:if>
-        -->
+
         <antcall target="make-CallTagger_CS"/>
         <antcall target="make-FinderClient_CS"/>
         <antcall target="make-TaggingClient_CS"/>
@@ -770,54 +426,12 @@
         <antcall target="publish-AVPlayer"/>
         <antcall target="publish-RecordingDownloadTool"/>
         <antcall target="sign-EnvisionCLR"/>
-        <!-- 9.7.x (localization is handled in the targets) -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-        -->
+
                 <antcall target="make-DeployAnalyticsTool"/>
                 <antcall target="sign-AnalyticsResources"/>
                 <antcall target="sign-AnalyticsUtilities"/>
-        <!--
-            </then>
-        </ac:if>
-        -->
-        <!-- 9.8.x -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="8"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="8"/>
-                </and>
-            </or>
-            <then>
-        -->
+
                 <antcall target="make-Speech"/>
-        <!--
-            </then>
-        </ac:if>
-        -->
     </target>
 
     <!-- ================================================================= -->
@@ -1157,16 +771,6 @@
     </target>
 
     <!-- ================================================================= -->
-    <!-- pimpin'                                                           -->
-    <!-- ================================================================= -->
-    <!-- TODO get rid of this, or at least find a new target -->
-    <!--
-    <target name="do-test">
-        <ant antfile="buildC#CPP.xml" dir="." target="make-SharedResources"/>
-    </target>
-    -->
-
-    <!-- ================================================================= -->
     <!-- e-mail build results                                              -->
     <!-- ================================================================= -->
     <!-- The format of the echo message below looks a little odd, but it has
@@ -1210,15 +814,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         indicate trouble.  (But isn't it too late by this point?) -->
         <!-- See the 'after' method of runbuild.py for details about this. -->
         <echo file="${dir.build}/../${version.product}_SUCCESS"/>
-        <!-- restart virus protection -->
-        <!-- The old Symantec virus checker is gone.  This can likewise go
-        away (but that's not what I'm doing right now, so come back to it
-        later).  -timc, Cinco de Mayo 2010 -->
-        <!--
-        <exec executable="cmd.exe" vmlauncher="${vmlauncher}" failonerror="false">
-            <arg line="/c startsym.bat"/>
-        </exec>
-        -->
         <!-- See Java's SimpleDateFormat for formatting details -->
         <tstamp>
             <format property="time.end" pattern="yyyy-MM-dd',' HH:mm:ss" locale="en_US"/>
@@ -1247,23 +842,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         <exec dir="${dir.workdir}" executable="cmd.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="/c GenDBSchemas.bat"/>
         </exec>
-
-        <!-- TODO Fix this.  It's a rewrite of .\workdir\GenDBSchemas.bat -->
-        <!--
-        <path id="dbschema.classpath">
-            <pathelement path="${dir.src}"/>
-            <pathelement path="${dir.src}/tools"/>
-            <pathelement location="${dir.build}/sdk/java/jdom.jar"/>
-            <pathelement location="${dir.build}/sdk/java/commons-cli-1.0.jar"/>
-        </path>
-
-        <java classname="genDBSchema.GenDBSchemaFromFiles" dir="${dir.build}"
-            fork="true" classpathref="dbschema.classpath">
-            <arg value="-inputDir src\server\db\central"/>
-            <arg value="-outputSchemaPath config\server\envision_schema_central.xml"/>
-            <arg value="-schemaName CentralDB"/>
-        </java>
-        -->
     </target>
 
     <!-- TODO should this go to buildJars.xml? -timc 5/7/2010 -->
@@ -1406,30 +984,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- <target name="make-EnvisionControls_CAB" depends="propset"> -->
     <target name="make-EnvisionControls_CAB">
         <antcall target="make-EnvisionControls_CAB_EN"/>
-        <!-- localized in 9.7.x or later -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-        -->
-                <antcall target="make-EnvisionControls_CAB_DE"/>
-                <antcall target="make-EnvisionControls_CAB_ES"/>
-        <!--
-            </then>
-        </ac:if>
-        -->
+        <antcall target="make-EnvisionControls_CAB_DE"/>
+        <antcall target="make-EnvisionControls_CAB_ES"/>
     </target>
 
     <!-- English -->
@@ -1459,44 +1015,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             tofile="${dir.toCab_EN}/C2CReportingControls.ocx"/>
         <copy file="${dir.workdir}/agentdesktop/WebControls.ocx"
             tofile="${dir.toCab_EN}/WebControls.ocx"/>
-        <!-- NB: ReleaseEnglish only works for ... -->
-        <!-- Note the "logic": first we figure out if it's 9.6 or earlier.  Those
-        are not localized, so they get English only.  Then we check if it's
-        between 9.7.0 up to but not including 9.10.0.  Those use ReleaseEnglish
-        for English; German and Spanish are not affected.  Finally, if it's
-        9.10.0 or later, we switch back and use Release for English. -->
-        <!--
-        <ac:if>
-        -->
-            <!-- 9.7.0 thru 9.9.x, localization with ReleaseEnglish -->
-            <!-- TODO break this out into MAJOR and MINOR and make it work for
-            10.0 like everywhere else. -timc 12/09/2009 -->
-            <!--
-            <and>
-                <or>
-                    <ac:equals arg1="${MAJOR}.${MINOR}.${RELEASE}" arg2="9.7.0000"/>
-                    <ac:isgreaterthan arg1="${MAJOR}.${MINOR}.${RELEASE}" arg2="9.7.0000"/>
-                </or>
-                <or>
-            -->
-                    <!-- Can't use 9.10.0000, seems to be a string compare issue -->
-            <!--
-                    <ac:equals arg1="${MAJOR}.${MINOR}.${RELEASE}" arg2="9.9.9999"/>
-                    <ac:islessthan arg1="${MAJOR}.${MINOR}.${RELEASE}" arg2="9.9.9999"/>
-                </or>
-            </and>
-            <then>
-                <copy file="${dir.src}/clients/quality/sharedresources/ReleaseEnglish/SharedResources.dll"
-                    tofile="${dir.toCab_EN}/SharedResources.dll"/>
-            </then>
-            <else>
-            -->
-                <copy file="${dir.workdir}/quality/SharedResources.dll"
-                    tofile="${dir.toCab_EN}/SharedResources.dll"/>
-            <!--
-            </else>
-        </ac:if>
-            -->
+        <copy file="${dir.workdir}/quality/SharedResources.dll"
+            tofile="${dir.toCab_EN}/SharedResources.dll"/>
 
         <!-- NB: CabArc.exe must be in the path or this will fail -->
         <!-- PRN23215 - remove WFM ActiveX controls -->
@@ -2050,32 +1570,9 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- <target name="sign-EnvisionControls_CAB" depends="propset"> -->
     <target name="sign-EnvisionControls_CAB">
         <antcall target="sign-EnvisionControls_CAB_EN"/>
-        <!-- localized in 9.7.x or later -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-        -->
-                <antcall target="sign-EnvisionControls_CAB_DE"/>
-                <antcall target="sign-EnvisionControls_CAB_ES"/>
-        <!--
-            </then>
-        </ac:if>
-        -->
+        <antcall target="sign-EnvisionControls_CAB_DE"/>
+        <antcall target="sign-EnvisionControls_CAB_ES"/>
     </target>
-
 
     <!-- English -->
     <!--
@@ -2153,22 +1650,10 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         <tstamp>
             <format property="datestamp" pattern="yyMMdd" locale="en_US"/>
         </tstamp>
-        <!-- It's past time for EVERY build to be tagged.  To do that I may
-        need to mkdir some parent directories. -->
-        <!-- http://subclipse.tigris.org/svnant/svn.html#mkdir -->
-        <!-- TODO use branch PRN number here instead of '00000'? -->
-        <!--
-        <svn username="buildmgr" password="buildmgr">
-            <mkdir message="00000: Creating tags dir for build ${version.product}"
-                url="${url.tags}"/>
-        </svn>
-        -->
         <property name="url.tag"
             value="${url.tags}/${datestamp}-${version.product}-r${repository.revision}"/>
         <echo message="tag-build: ${url.tag}"/>
         <trycatch>
-            <!-- If this works okay, I'll add the ${MAJOR}.${MINOR} piece in
-            front of it later. -timc 5/14/2010 -->
             <try>
                 <svn username="buildmgr" password="buildmgr">
                     <mkdir
@@ -2220,17 +1705,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- Unzip Agent_Desktop_Webhelp.zip for the Server installer          -->
     <!-- ================================================================= -->
     <target name="unzip-AgentDesktop_WebHelp">
-        <!--
-        root: 9.6\Initial\base\Documentation
-        source: ${root}\WebHelp\AgentDesktop.zip
-        destination: ${root}\WebHelp\AgentDesktop
-        content: ${root}\WebHelp\AgentDesktop\9.6\Output\WebWorks Help 5.0\Envision Agent Desktop\
-        .
-        The ${content} directory is the dividing line between Ant and AI.
-        Once that directory and its contents are present, Ant is done and AI
-        needs to be able to find the _Envision Agent Desktop_ directory.
-        -->
-        <!-- Maybe later this will become three separate tasks. -->
         <unjar
             src="${dir.build}/Documentation/WebHelp/EN/Agent_Desktop_Webhelp.zip"
             dest="${dir.build}/Documentation/WebHelp/EN/Agent_Desktop_Webhelp"/>
@@ -2270,6 +1744,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             src="${dir.build}/Documentation/WebHelp/ES/Centricity_Webhelp.zip"
             dest="${dir.build}/Documentation/WebHelp/ES/Centricity_Webhelp"/>
         <!-- Centricity documentation for Agents: 9.8 and later only -->
+        <!--
         <ac:if>
             <or>
                 <and>
@@ -2285,13 +1760,17 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
                 </and>
             </or>
             <then>
+                -->
                 <unjar
                     src="${dir.build}/Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp.zip"
                     dest="${dir.build}/Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp"/>
+                <!--
             </then>
         </ac:if>
+        -->
 
         <!-- localized documentation is currently in 9.10 SP2 only -->
+        <!--
         <ac:if>
             <or>
                 <and>
@@ -2306,21 +1785,23 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
                 </and>
             </or>
             <then>
+                -->
                 <unjar
                     src="${dir.build}/Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp.zip"
                     dest="${dir.build}/Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp"/>
                 <unjar
                     src="${dir.build}/Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp.zip"
                     dest="${dir.build}/Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp"/>
+                <!--
             </then>
         </ac:if>
+        -->
     </target>
 
     <!-- ================================================================= -->
     <!-- Unzip Classic reporting WebHelp for the Server installer          -->
     <!-- ================================================================= -->
     <target name="unzip-ClassicReports_WebHelp">
-        <!-- Maybe later this will become three separate tasks. -->
         <unjar
             src="${dir.build}/Documentation/WebHelp/EN/Classic_reports_Webhelp.zip"
             dest="${dir.build}/Documentation/WebHelp/EN/Classic_reports_Webhelp"/>
@@ -2355,17 +1836,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     </target>
 
     <!-- ================================================================= -->
-    <!-- Unzip the Iontas client files                                     -->
-    <!-- ================================================================= -->
-    <!--
-    <target name="unzip-IontasClient" depends="propset">
-        <unjar
-            src="${uncpath.iontas}/IontasClient4.1.zip"
-            dest="${dir.sdk}/Iontas"/>
-    </target>
-    -->
-
-    <!-- ================================================================= -->
     <!-- Unzip the default Nuance profile for the Speech Server            -->
     <!-- ================================================================= -->
     <!-- TODO VIPER -timc 9/20/2010 -->
@@ -2373,37 +1843,16 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="unzip-NuanceProfile">
         <unjar src="${dir.sdk}/Nuance/Envision.zip"
             dest="${dir.workdir}/AudioMining"/>
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="12"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="12"/>
-                </and>
-            </or>
-            <then>
-        -->
-                <unjar src="${dir.sdk}/Nuance/EnvisionEnglishUK.zip"
-                    dest="${dir.workdir}/AudioMining"/>
-                <unjar src="${dir.sdk}/Nuance/EnvisionGerman.zip"
-                    dest="${dir.workdir}/AudioMining"/>
-                <exec executable="7za.exe" vmlauncher="${vmlauncher}" failonerror="false">
-                    <arg line="x ${dir.sdk}/Nuance/EnvisionSpanish.zip -o${dir.workdir}/AudioMining"/>
-                </exec>
-                <exec executable="7za.exe" vmlauncher="${vmlauncher}" failonerror="false">
-                    <arg line="x ${dir.sdk}/Nuance/EnvisionSpanishLA.zip -o${dir.workdir}/AudioMining"/>
-                </exec>
-        <!--
-            </then>
-        </ac:if>
-        -->
+        <unjar src="${dir.sdk}/Nuance/EnvisionEnglishUK.zip"
+            dest="${dir.workdir}/AudioMining"/>
+        <unjar src="${dir.sdk}/Nuance/EnvisionGerman.zip"
+            dest="${dir.workdir}/AudioMining"/>
+        <exec executable="7za.exe" vmlauncher="${vmlauncher}" failonerror="false">
+            <arg line="x ${dir.sdk}/Nuance/EnvisionSpanish.zip -o${dir.workdir}/AudioMining"/>
+        </exec>
+        <exec executable="7za.exe" vmlauncher="${vmlauncher}" failonerror="false">
+            <arg line="x ${dir.sdk}/Nuance/EnvisionSpanishLA.zip -o${dir.workdir}/AudioMining"/>
+        </exec>
     </target>
 
     <!-- ================================================================= -->
@@ -2433,100 +1882,11 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     unzip-Server-jars_ZIP would otherwise depend on unzip-Envision_JRE.
     (make-Server depends on both of them.) -->
     <target name="unzip-Server-jars_ZIP">
-        <!-- aaaand the ugliness continues.  I've added a new zip file,
-        jar-files-EnvisionServer-9.10SP3, for (9.10SP3 and later), (10.0SP2
-        and later), and (10.1 and later).  The conditional for this is going
-        to be awful. -timc 5/21/2010 -->
-        <!-- Late note: you believe this shit? -timc 5/21/2010 -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-        -->
-                    <!-- M > 10 -->
-        <!--
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="10"/>
-                </and>
-                <and>
-        -->
-                    <!-- M.m > 10.1 -->
-        <!--
-                    <ac:equals arg1="${MAJOR}" arg2="10"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="1"/>
-                </and>
-                <and>
-        -->
-                    <!-- M.m == 10.1 -->
-        <!--
-                    <ac:equals arg1="${MAJOR}" arg2="10"/>
-                    <ac:equals arg1="${MINOR}" arg2="1"/>
-                </and>
-                <and>
-        -->
-                    <!-- M.m.SP > 10.0.0200 -->
-        <!--
-                    <ac:equals arg1="${MAJOR}" arg2="10"/>
-                    <ac:equals arg1="${MINOR}" arg2="0"/>
-                    <ac:isgreaterthan arg1="${RELEASE}" arg2="0200"/>
-                </and>
-                <and>
-        -->
-                    <!-- M.m.SP == 10.0.0200 -->
-        <!--
-                    <ac:equals arg1="${MAJOR}" arg2="10"/>
-                    <ac:equals arg1="${MINOR}" arg2="0"/>
-                    <ac:equals arg1="${RELEASE}" arg2="0200"/>
-                </and>
-                <and>
-        -->
-                    <!-- M.m.SP > 9.10.0300 -->
-        <!--
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="10"/>
-                    <ac:isgreaterthan arg1="${RELEASE}" arg2="0300"/>
-                </and>
-                <and>
-        -->
-                    <!-- M.m.SP == 9.10.0300 -->
-        <!--
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="10"/>
-                    <ac:equals arg1="${RELEASE}" arg2="0300"/>
-                </and>
-            </or>
-            <then>
-        -->
-                <property name="Server-jars_ZIP" value="jar-files-EnvisionServer-9.10SP3.zip"/>
-        <!--
-            </then>
-            <else>
-                <property name="Server-jars_ZIP" value="jar-files-EnvisionServer-9.10.zip"/>
-            </else>
-        </ac:if>
-        -->
+        <property name="Server-jars_ZIP" value="jar-files-EnvisionServer-9.10SP3.zip"/>
         <unjar
             src="${dir.jre}/${Server-jars_ZIP}"
             dest="${dir.sdk}/java"/>
     </target>
-
-    <!-- ================================================================= -->
-    <!-- Unzip the Server JARs into the working copy                       -->
-    <!-- ================================================================= -->
-    <!-- I decided to keep the JAR files out of the JRE at the level of the
-    working copy.  They will be added in by the installer, but this keeps
-    things from getting messy.  And it removes an artificial dependency, since
-    unzip-Server-jars_ZIP would otherwise depend on unzip-Envision_JRE.
-    (make-Server depends on both of them.) -->
-    <!-- TODO this needs to be updated.  At least ActiveMQ is out of date,
-    possibly others as well. -timc, Cinco de Mayo 2010 -->
-    <!--
-    <target name="unzip-Server-jars_ZIP" depends="propset">
-        <property name="Server-jars_ZIP" value="jar-files-EnvisionServer-9.10.zip"/>
-        <unjar
-            src="${dir.jre}/${Server-jars_ZIP}"
-            dest="${dir.sdk}/java"/>
-    </target>
-    -->
 
     <!-- ================================================================= -->
     <!-- Unzip WebHelp for the Server installer                            -->

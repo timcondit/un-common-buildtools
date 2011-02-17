@@ -50,29 +50,10 @@
     separating by languages.  See buildSetup.xml for an example. -->
     <target name="make-AgentSupport" description="Makes AgentSupport">
         <build-cpp solution.file="${dir.src}/clients/AgentSupport.sln"/>
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-                <build-cpp configuration="ReleaseGerman"
-                    solution.file="${dir.src}/clients/AgentSupport.sln"/>
-                <build-cpp configuration="ReleaseSpanish"
-                    solution.file="${dir.src}/clients/AgentSupport.sln"/>
-            </then>
-        </ac:if>
-        -->
+        <build-cpp configuration="ReleaseGerman"
+            solution.file="${dir.src}/clients/AgentSupport.sln"/>
+        <build-cpp configuration="ReleaseSpanish"
+            solution.file="${dir.src}/clients/AgentSupport.sln"/>
     </target>
 
     <!-- ================================================================= -->
@@ -80,29 +61,10 @@
     <!-- ================================================================= -->
     <target name="make-AgentX_OCX" description="Makes AgentX.ocx">
         <build-cpp solution.file="${dir.src}/clients/quality/agentdesktop/AgentX.vcproj"/>
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-                <build-cpp configuration="ReleaseGerman"
-                    solution.file="${dir.src}/clients/quality/agentdesktop/AgentX.vcproj"/>
-                <build-cpp configuration="ReleaseSpanish"
-                    solution.file="${dir.src}/clients/quality/agentdesktop/AgentX.vcproj"/>
-            </then>
-        </ac:if>
-        -->
+        <build-cpp configuration="ReleaseGerman"
+            solution.file="${dir.src}/clients/quality/agentdesktop/AgentX.vcproj"/>
+        <build-cpp configuration="ReleaseSpanish"
+            solution.file="${dir.src}/clients/quality/agentdesktop/AgentX.vcproj"/>
     </target>
 
     <!-- ================================================================= -->
@@ -139,29 +101,10 @@
     <!-- ================================================================= -->
     <target name="make-C2CReportingControls_OCX" description="Makes C2CReportingControls.ocx">
         <build-cpp solution.file="${dir.src}/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-                <build-cpp configuration="ReleaseGerman"
-                    solution.file="${dir.src}/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
-                <build-cpp configuration="ReleaseSpanish"
-                    solution.file="${dir.src}/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
-            </then>
-        </ac:if>
-        -->
+        <build-cpp configuration="ReleaseGerman"
+            solution.file="${dir.src}/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
+        <build-cpp configuration="ReleaseSpanish"
+            solution.file="${dir.src}/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
     </target>
 
     <!-- ================================================================= -->
@@ -207,6 +150,7 @@
     <!-- Make CSTA Loader                                                   -->
     <!-- ================================================================= -->
     <!-- TODO is there a cstaLoader solution? -timc, Cinco de Mayo 2010 -->
+    <!-- where is 6_4_3 ? -timc 2/16/2011 -->
     <target name="make-cstaLoader" description="Makes cstaLoader">
         <build-cpp solution.file="${dir.src}/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
         <build-cpp configuration="Release_1_2"
@@ -282,27 +226,8 @@
     <!-- TODO is there an eLearning solution? -timc, Cinco de Mayo -->
     <target name="make-eLearning" description="Makes eLearning">
         <build-cpp configuration="eLearningRelease" solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-                <build-cpp configuration="eLearningReleaseGerman" solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
-                <build-cpp configuration="eLearningReleaseSpanish" solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
-            </then>
-        </ac:if>
-        -->
+        <build-cpp configuration="eLearningReleaseGerman" solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
+        <build-cpp configuration="eLearningReleaseSpanish" solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
     </target>
 
     <!-- ================================================================= -->
@@ -416,29 +341,10 @@
     <!-- TODO is there a QM solution? -timc, Cinco de Mayo -->
     <target name="make-QualityMonitoring" description="Makes QM">
         <build-cpp solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-                <build-cpp configuration="ReleaseGerman"
-                    solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
-                <build-cpp configuration="ReleaseSpanish"
-                    solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
-            </then>
-        </ac:if>
-        -->
+        <build-cpp configuration="ReleaseGerman"
+            solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
+        <build-cpp configuration="ReleaseSpanish"
+            solution.file="${dir.src}/clients/quality/qm/qm.vcproj"/>
     </target>
 
     <!-- ================================================================= -->
@@ -489,78 +395,15 @@
     <!-- ================================================================= -->
     <!--  Make SharedResources DLL                                         -->
     <!-- ================================================================= -->
-    <!-- Note the "logic": first we figure out if it's 9.6 or earlier.  Those
-    are not localized, so they get English only.  Then we check if it's
-    between 9.7.0 up to but not including 9.10.0.  Those use ReleaseEnglish
-    for English; German and Spanish are not affected.  Finally, if it's 9.10.0
-    or later, we switch back and use Release for English. -->
     <!-- TODO is there a SharedResources solution? -timc, Cinco de Mayo -->
     <target name="make-SharedResources" description="Makes SharedResources.dll">
-        <!--
-        <ac:if>
-        -->
-            <!-- up to 9.6.x, no localization -->
-            <!--
-            <or>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="6"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:islessthan arg1="${MINOR}" arg2="6"/>
-                </and>
-                <and>
-                    <ac:islessthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-            </or>
-            <then>
-                <build-cpp solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
-            </then>
-            <ac:elseif>
-            -->
-                <!-- 9.7.0 thru 9.9.x, localization with ReleaseEnglish -->
-            <!--
-                <and>
-                    <or>
-                        <and>
-                            <ac:equals arg1="${MAJOR}" arg2="9"/>
-                            <ac:equals arg1="${MINOR}" arg2="7"/>
-                        </and>
-                        <and>
-                            <ac:equals arg1="${MAJOR}" arg2="9"/>
-                            <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                        </and>
-                    </or>
-                    <and>
-                        <ac:equals arg1="${MAJOR}" arg2="9"/>
-                        <ac:islessthan arg1="${MINOR}" arg2="10"/>
-                    </and>
-                </and>
-                <then>
-                    <echo message="ReleaseEnglish, ReleaseGerman, ReleaseSpanish"/>
-                    <build-cpp configuration="ReleaseEnglish"
-                        solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
-                    <build-cpp configuration="ReleaseGerman"
-                        solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
-                    <build-cpp configuration="ReleaseSpanish"
-                        solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
-                </then>
-            </ac:elseif>
-            <ac:else>
-            -->
-                <!-- DRY (combine with 9.6 check?) -->
-                <!-- 9.10.x or later, localization with Release for English -->
-        <!--
-                <echo message="Release, ReleaseGerman, ReleaseSpanish"/>
-                <build-cpp solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
-                <build-cpp configuration="ReleaseGerman"
-                    solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
-                <build-cpp configuration="ReleaseSpanish"
-                    solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
-            </ac:else>
-        </ac:if>
-            -->
+        <!-- 9.10.x or later, localization with Release for English -->
+        <echo message="Release, ReleaseGerman, ReleaseSpanish"/>
+        <build-cpp solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
+        <build-cpp configuration="ReleaseGerman"
+            solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
+        <build-cpp configuration="ReleaseSpanish"
+            solution.file="${dir.src}/clients/quality/sharedresources/SharedResources.vcproj"/>
     </target>
 
     <!-- ================================================================= -->
@@ -633,29 +476,10 @@
     <!-- TODO is there a WebControls solution? -timc, Cinco de Mayo -->
     <target name="make-WebControls_OCX" description="Makes WebControls.ocx">
         <build-cpp solution.file="${dir.src}/clients/reporting/controls/WebControls.vcproj"/>
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-                <build-cpp configuration="ReleaseGerman"
-                    solution.file="${dir.src}/clients/reporting/controls/WebControls.vcproj"/>
-                <build-cpp configuration="ReleaseSpanish"
-                    solution.file="${dir.src}/clients/reporting/controls/WebControls.vcproj"/>
-            </then>
-        </ac:if>
-        -->
+        <build-cpp configuration="ReleaseGerman"
+            solution.file="${dir.src}/clients/reporting/controls/WebControls.vcproj"/>
+        <build-cpp configuration="ReleaseSpanish"
+            solution.file="${dir.src}/clients/reporting/controls/WebControls.vcproj"/>
     </target>
 
     <!-- ================================================================= -->
@@ -763,36 +587,15 @@
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.workdir}/quality/AgentX.ocx"/>
         </exec>
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-        -->
-                <!-- NB: don't forget the ${basedir}! -->
-                <!-- German -->
-                <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
-                    <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/quality/agentdesktop/ReleaseGerman/AgentX.ocx"/>
-                </exec>
-                <!-- Spanish -->
-                <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
-                    <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/quality/agentdesktop/ReleaseSpanish/AgentX.ocx"/>
-                </exec>
-        <!--
-            </then>
-        </ac:if>
-        -->
+        <!-- NB: don't forget the ${basedir}! -->
+        <!-- German -->
+        <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/quality/agentdesktop/ReleaseGerman/AgentX.ocx"/>
+        </exec>
+        <!-- Spanish -->
+        <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/quality/agentdesktop/ReleaseSpanish/AgentX.ocx"/>
+        </exec>
     </target>
 
     <!-- ================================================================= -->
@@ -831,37 +634,16 @@
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/C2CReportingControls/Release/C2CReportingControls.ocx"/>
         </exec>
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-        -->
-                <!-- German -->
-                <!-- NB: don't forget the ${basedir}! -->
-                <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
-                    <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/C2CReportingControls/ReleaseGerman/C2CReportingControls.ocx"/>
-                </exec>
-                <!-- Spanish -->
-                <!-- NB: don't forget the ${basedir}! -->
-                <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
-                    <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/C2CReportingControls/ReleaseSpanish/C2CReportingControls.ocx"/>
-                </exec>
-        <!--
-            </then>
-        </ac:if>
-        -->
+        <!-- German -->
+        <!-- NB: don't forget the ${basedir}! -->
+        <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/C2CReportingControls/ReleaseGerman/C2CReportingControls.ocx"/>
+        </exec>
+        <!-- Spanish -->
+        <!-- NB: don't forget the ${basedir}! -->
+        <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/C2CReportingControls/ReleaseSpanish/C2CReportingControls.ocx"/>
+        </exec>
     </target>
 
     <!-- ================================================================= -->
@@ -884,37 +666,16 @@
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.workdir}/agentdesktop/WebControls.ocx"/>
         </exec>
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="7"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="7"/>
-                </and>
-            </or>
-            <then>
-        -->
-                <!-- German -->
-                <!-- NB: don't forget the ${basedir}! -->
-                <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
-                    <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/controls/ReleaseGerman/WebControls.ocx"/>
-                </exec>
-                <!-- Spanish -->
-                <!-- NB: don't forget the ${basedir}! -->
-                <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
-                    <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/controls/ReleaseSpanish/WebControls.ocx"/>
-                </exec>
-        <!--
-            </then>
-        </ac:if>
-        -->
+        <!-- German -->
+        <!-- NB: don't forget the ${basedir}! -->
+        <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/controls/ReleaseGerman/WebControls.ocx"/>
+        </exec>
+        <!-- Spanish -->
+        <!-- NB: don't forget the ${basedir}! -->
+        <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.src}/clients/reporting/controls/ReleaseSpanish/WebControls.ocx"/>
+        </exec>
     </target>
 </project>
 

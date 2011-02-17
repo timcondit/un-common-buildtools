@@ -43,8 +43,8 @@
         make-TSAPI_debug,
         make-DialogicChannel60_debug,
         make-AgentAutomation_debug,
-		make-AgentAdherence_OCX_debug,
-		make-AgentSchedule_OCX_debug
+        make-AgentAdherence_OCX_debug,
+        make-AgentSchedule_OCX_debug
         "/>
 
     <!-- ================================================================= -->
@@ -342,5 +342,5 @@
                 /out ${dir.build}/BuildLog.txt"/>
         </exec>
     </target>
-
 </project>
+
