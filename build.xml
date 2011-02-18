@@ -2,10 +2,9 @@
 <!-- ===================================================================== -->
 <!-- Envision build file                                                   -->
 <!-- ===================================================================== -->
-<!-- <project name="EPS" default="official-build" basedir="." xmlns:ac="antlib:net.sf.antcontrib"> -->
 <project name="EPS" default="official-build">
 
-    <!-- NB: run build.xml from the build subdirectory -->
+    <!-- NB: run build.xml from the build subdirectory for now -->
 
     <!-- ================================================================= -->
     <!-- <Set up the environment (non-targets)>                            -->
@@ -47,47 +46,12 @@
     <property environment="env"/>
 
     <!-- ================================================================= -->
-    <!-- Source the contents of build.properties                           -->
-    <!-- ================================================================= -->
-    <!-- Note: There should be no reference to this property anywhere in the
-    rest of the script.  It is read at this point, the property values are
-    set, and that's the end of it. -->
-    <!-- TODO consider loadproperties task instead. -timc 5/28/2009 -->
-    <!-- <property file="build.properties"/> -->
-
-    <!-- ================================================================= -->
     <!-- import the other build scripts                                    -->
     <!-- ================================================================= -->
     <import file="buildJars.xml"/>
     <import file="buildC#CPP.xml"/>
-    <!--
     <import file="buildSetup.xml"/>
     <import file="unitTests.xml"/>
-    -->
-
-    <!-- ================================================================= -->
-    <!-- taskdef ant-contrib                                               -->
-    <!-- ================================================================= -->
-    <!-- Be sure and spell the name of the jar file right (esp. watch the
-    version). -->
-    <!--
-    <taskdef resource="net/sf/antcontrib/antcontrib.properties">
-        <classpath>
-            <pathelement location="lib/ant-contrib-1.0b3.jar"/>
-        </classpath>
-    </taskdef>
-    -->
-
-    <!-- ================================================================= -->
-    <!-- Create the svn task                                               -->
-    <!-- ================================================================= -->
-    <!--
-    <taskdef name="svn" classname="org.tigris.subversion.svnant.SvnTask">
-        <classpath>
-            <fileset dir="${dir.lib}" includes="**/svn*.jar"/>
-        </classpath>
-    </taskdef>
-    -->
 
     <!-- ================================================================= -->
     <!-- Compile C++ project files (macro)                                 -->
@@ -153,35 +117,6 @@
         </sequential>
     </macrodef>
 
-    <!-- ================================================================= -->
-    <!-- </Set up the environment (non-targets)>                           -->
-    <!-- ================================================================= -->
-
-    <!-- ================================================================= -->
-    <!-- <metatargets>                                                     -->
-    <!-- ================================================================= -->
-
-    <!-- ================================================================= -->
-    <!-- TODO does this replace the antcontrib taskdef ??                  -->
-    <!-- ================================================================= -->
-    <!-- TODO collect these things into a common location.  I'm probably going
-    to have to consolidate the build scripts into a single file (or two). -->
-    <!-- http://marc.info/?l=ant-user&m=117052469400299&w=2 -->
-    <!--
-    <typedef resource="net/sf/antcontrib/antlib.xml"
-        uri="antlib:net.sf.antcontrib"
-        classpath="lib/ant-contrib-1.0b3.jar"/>
-    <typedef name="isgreaterthan"
-        classname="net.sf.antcontrib.logic.condition.IsGreaterThan"
-        uri="antlib:net.sf.antcontrib"
-        classpath="lib/ant-contrib-1.0b3.jar"/>
-    <typedef name="islessthan"
-        classname="net.sf.antcontrib.logic.condition.IsLessThan"
-        uri="antlib:net.sf.antcontrib"
-        classpath="lib/ant-contrib-1.0b3.jar"/>
-    -->
-
-
     <!-- started pulling stuff out right here -->
             <echo message="INFO setting 10.1 properties (if any)"/>
             <property name="dir.sdk" value="${env.ETSDK}"/>
@@ -195,27 +130,6 @@
             <property name="file.pfx" value="${cert.envision}"/>
             <property name="signtool.password" value="${signtool.envisionpass}"/>
     <!-- stopped here -->
-
-
-    <!-- Part 2 of 2: Check for resources that we need in order to move
-    on.  If property is not set, fail fast.  This still leaves open the
-    possibility that we've assigned the wrong value to the property.
-    Reference: http://ant.apache.org/manual/CoreTasks/conditions.html -->
-
-    <!-- TODO this (part 2, etc.) is all removed.  The new batch script will
-    have to check for these things at the OS level.  The Ant script may verify
-    them at buildtime as well. -->
-
-    <!-- If we get here, display the current settings. -->
-    <!--
-    <echo message="[ET]SDK: ${dir.sdk}"/>
-    <echo message="C++ compiler: ${compiler.cpp}"/>
-    <echo message="message compiler: ${compiler.message}"/>
-    <echo message="VS common tools: ${vscommontools}"/>
-    <echo message="certificate file: ${file.pfx}"/>
-    <echo message="signtool password: ${signtool.password}"/>
-    -->
-
 
     <!-- ================================================================= -->
     <!-- Classpath for projects that use ActiveMQ 5.1.0 and friends        -->
@@ -307,28 +221,31 @@
             <include name="**/*.jar"/>
         </fileset>
         <pathelement location="${dir.sdk}/Genesys/TLibrary7.1/genji.jar"/>
-        <!-- TODO what's this?  If anything it should be Release/Envision.jar
-        and Release/license.jar -->
-        <pathelement location="${dir.src}/Envision.jar"/>
-        <pathelement location="${dir.src}/license.jar"/>
-        <pathelement location="${dir.src}/tools/genstubskel"/>
+        <pathelement location="../Release/Envision.jar"/>
+        <pathelement location="../Release/license.jar"/>
+        <pathelement location="../src/tools/genstubskel"/>
     </path>
 
     <!-- \\Bigfoot\Engineering\Projects -->
+    <!-- not used anymore? -timc 2/17/2011 -->
+    <!--
     <pathconvert targetos="windows" property="dir.projects.converted">
         <path path="${dir.projects}"/>
     </pathconvert>
+    -->
 
     <!-- \\Bigfoot\Engineering\ProductBuilds -->
     <pathconvert targetos="windows" property="dir.products.converted">
         <path path="${dir.products}"/>
     </pathconvert>
 
-
     <!-- TODO aggregate these -timc 9/20/2010 -->
     <target name="official-build">
         <antcall target="begin"/>
-        <!-- <antcall target="nuke-workdir"/> -->
+
+        <!-- no nuke-workdir for Bamboo
+        <antcall target="nuke-workdir"/> -->
+
         <!-- <antcall target="fetch-source"/> -->
         <antcall target="change-version"/>
         <antcall target="create-release-dir"/>
@@ -347,7 +264,10 @@
         <antcall target="publish-unit-test-results"/>
         <antcall target="email-build-complete"/>
         <antcall target="tag-build"/>
-        <antcall target="move-workdir-postbuild"/>
+
+        <!-- no move-workdir for Bamboo
+        <antcall target="move-workdir-postbuild"/> -->
+
         <!-- <antcall target="end"/> -->
     </target>
 
@@ -366,11 +286,6 @@
         <antcall target="make-CPP"/>
         <antcall target="sign-EnvisionControls_CAB"/>
     </target>
-
-    <!-- ================================================================= -->
-    <!-- </metatargets>                                                     -->
-    <!-- ================================================================= -->
-
 
     <!-- ================================================================= -->
     <!-- Begin build tasks                                                 -->
@@ -433,21 +348,6 @@
     <!-- ================================================================= -->
     <!-- TODO VIPER -timc 9/20/2010 -->
     <target name="build-CSharp">
-
-        <!--
-        An alternative approach that doesn't use antcall (untested)
-        <build-cpp solution.file="${dir.src}/server/server.sln"/>
-        <build-cpp solution.file="${dir.src}/apis/bi/com/et/bi/api/common/APICommon.csproj"/>
-        <build-cpp solution.file="${dir.src}/apis/bi/com/et/bi/api/finder/finder.csproj"/>
-
-        # do this one only for 9.6
-        <build-cpp solution.file="${dir.src}/apis/bi/com/et/bi/api/tagger/wrapperservice/TaggerWrapperService.csproj"/>
-
-        <build-cpp solution.file="${dir.src}/apis/bi/com/et/bi/api/tagger/ETCallTagger.csproj"/>
-        etc.
-        ...
-        -->
-
         <antcall target="make-Server_CS"/>
         <antcall target="make-APICommon_CS"/>
         <antcall target="make-Finder_CS"/>
@@ -793,10 +693,6 @@
     <!-- TODO at least *try* to build the effing thing without it -timc Cinco
     de Mayo 2010 -->
     <target name="create-release-dir" description="Creates Release directories">
-        <!-- timc: This call to delete should no longer be needed, since we're
-        using a clean working directory each time.  That's the idea, anyway.
-        The reality is that we may sometimes run a build from an existing
-        workdir.  So it's probably better to leave it in. -->
         <delete quiet="true" failonerror="false" includeEmptyDirs="true" dir="${dir.build}/Release"/>
         <mkdir dir="${dir.build}/Release"/>
         <mkdir dir="${dir.build}/Release/Admin"/>
@@ -867,11 +763,13 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- Fetch source from SVN repository (svn co)                         -->
     <!-- ================================================================= -->
     <!-- TODO add ability to specify revision? -->
+    <!--
     <target name="fetch-source" description="Get source from Subversion">
         <svn>
             <checkout url="${url.src}" destPath="${dir.build}"/>
         </svn>
     </target>
+    -->
 
     <!-- ================================================================= -->
     <!-- Generate database schemas                                         -->
@@ -901,6 +799,9 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- ================================================================= -->
     <!-- Get the SVN revision for the entire working copy                  -->
     <!-- ================================================================= -->
+    <!-- move-workdir-postbuild breaks without this, but for running inside
+    CI, that shouldn't matter -->
+    <!--
     <target name="get-head-revision"
         description="Get the HEAD revision for the working copy">
         <svn>
@@ -908,6 +809,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         </svn>
         <echo>repository.revision=${repository.revision}</echo>
     </target>
+    -->
 
     <!-- TODO I'll need to do more work to use this as the default target.  It
     breaks the build runner. -->
@@ -933,7 +835,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- ================================================================= -->
     <!-- Make AgentSupport installer                                       -->
     <!-- ================================================================= -->
-    <!-- NB: AgentSupport directory is called Agent in 9.6 -->
     <target name="make-AgentSupport-installer" depends="prepare">
         <build-AI-installer
             product.name="AgentSupport"
@@ -1019,11 +920,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- ================================================================= -->
     <!--  Make Envision CAB files (EN, DE, ES)                             -->
     <!-- ================================================================= -->
-    <!-- TODO clean this up -->
-    <!-- TODO defmacro? -timc 1/2/2009 -->
-    <!-- TODO depends? -timc 4/17/2009 -->
-    <!-- TODO VIPER -timc 9/20/2010 -->
-    <!-- <target name="make-EnvisionControls_CAB" depends="propset"> -->
     <target name="make-EnvisionControls_CAB">
         <antcall target="make-EnvisionControls_CAB_EN"/>
         <antcall target="make-EnvisionControls_CAB_DE"/>
@@ -1035,14 +931,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         description="Makes EnvisionControls.cab (English) using CabArc">
         <property name="dir.toCab_EN" value="${dir.build}/setup/Signature/EN/toCab"/>
 
-        <!-- these files are common to all CABs -->
-        <!-- PRN23215 - remove WFM ActiveX controls -->
-        <!--
-        <copy file="${dir.workdir}/WFM/AgentAdherence.ocx"
-            tofile="${dir.toCab_EN}/AgentAdherence.ocx"/>
-        <copy file="${dir.workdir}/WFM/AgentSchedule.ocx"
-            tofile="${dir.toCab_EN}/AgentSchedule.ocx"/>
-        -->
         <copy file="${dir.build}/setup/Signature/EnvisionControls.inf"
             tofile="${dir.toCab_EN}/EnvisionControls.inf"/>
         <copy file="${dir.sdk}/ISource/_ISource.dll"
@@ -1060,9 +948,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         <copy file="${dir.workdir}/quality/SharedResources.dll"
             tofile="${dir.toCab_EN}/SharedResources.dll"/>
 
-        <!-- NB: CabArc.exe must be in the path or this will fail -->
-        <!-- PRN23215 - remove WFM ActiveX controls -->
-        <!-- includes="AgentAdherence.ocx, AgentSchedule.ocx, -->
         <cab cabfile="${dir.build}/setup/Signature/EN/EnvisionControls.cab"
             basedir="${dir.toCab_EN}"
             options="-s 6144"
@@ -1076,14 +961,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         description="Makes EnvisionControls.cab (German) using CabArc">
         <property name="dir.toCab_DE" value="${dir.build}/setup/Signature/DE/toCab"/>
 
-        <!-- these files are common to all CABs -->
-        <!-- PRN23215 - remove WFM ActiveX controls -->
-        <!--
-        <copy file="${dir.workdir}/WFM/AgentAdherence.ocx"
-            tofile="${dir.toCab_DE}/AgentAdherence.ocx"/>
-        <copy file="${dir.workdir}/WFM/AgentSchedule.ocx"
-            tofile="${dir.toCab_DE}/AgentSchedule.ocx"/>
-        -->
         <copy file="${dir.build}/setup/Signature/EnvisionControls.inf"
             tofile="${dir.toCab_DE}/EnvisionControls.inf"/>
         <copy file="${dir.sdk}/ISource/_ISource.dll"
@@ -1101,9 +978,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         <copy file="${dir.src}/clients/quality/sharedresources/ReleaseGerman/SharedResources.dll"
             tofile="${dir.toCab_DE}/SharedResources.dll"/>
 
-        <!-- NB: CabArc.exe must be in the path or this will fail -->
-        <!-- PRN23215 - remove WFM ActiveX controls -->
-        <!-- includes="AgentAdherence.ocx, AgentSchedule.ocx, -->
         <cab cabfile="${dir.build}/setup/Signature/DE/EnvisionControls.cab"
             basedir="${dir.toCab_DE}"
             options="-s 6144"
@@ -1117,14 +991,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         description="Makes EnvisionControls.cab (Spanish) using CabArc">
         <property name="dir.toCab_ES" value="${dir.build}/setup/Signature/ES/toCab"/>
 
-        <!-- these files are common to all CABs -->
-        <!-- PRN23215 - remove WFM ActiveX controls -->
-        <!--
-        <copy file="${dir.workdir}/WFM/AgentAdherence.ocx"
-            tofile="${dir.toCab_ES}/AgentAdherence.ocx"/>
-        <copy file="${dir.workdir}/WFM/AgentSchedule.ocx"
-            tofile="${dir.toCab_ES}/AgentSchedule.ocx"/>
-        -->
         <copy file="${dir.build}/setup/Signature/EnvisionControls.inf"
             tofile="${dir.toCab_ES}/EnvisionControls.inf"/>
         <copy file="${dir.sdk}/ISource/_ISource.dll"
@@ -1142,9 +1008,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         <copy file="${dir.src}/clients/quality/sharedresources/ReleaseSpanish/SharedResources.dll"
             tofile="${dir.toCab_ES}/SharedResources.dll"/>
 
-        <!-- NB: CabArc.exe must be in the path or this will fail -->
-        <!-- PRN23215 - remove WFM ActiveX controls -->
-        <!-- includes="AgentAdherence.ocx, AgentSchedule.ocx, -->
         <cab cabfile="${dir.build}/setup/Signature/ES/EnvisionControls.cab"
             basedir="${dir.toCab_ES}"
             options="-s 6144"
@@ -1167,17 +1030,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- ================================================================= -->
     <!-- Make Server installer                                             -->
     <!-- ================================================================= -->
-    <!-- NB: you'll get AI errors if you use -Ddir.build=C:\foo\bar\baz
-    (backslashes) instead of -Ddir.build=C:/foo/bar/baz
-    .
-    Late note: you'll also get AI errors if you use a mangled path like
-    -Ddir.build=C:\Source\9.7\SP1\base-9.7.0100.5-r6372 instead of
-    -Ddir.build=C:\Source\9.7\SP1\base
-    .
-    Late note 2: it looks like using -Ddir.build with either kind of path
-    causes it to error out. :( -->
-
-    <!-- NB: Server directory is called EnvisionServer in 9.6 -->
     <target name="make-Server-installer"
         depends="prepare, unzip-WebHelp, unzip-Envision_JRE, unzip-Server-jars_ZIP">
         <build-AI-installer
@@ -1251,6 +1103,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     -->
     <!-- TODO rewrite this and get rid of dir.build.present - set propset for
     ideas -timc 11/21/2009 -->
+    <!--
     <target name="move-workdir-postbuild" depends="get-head-revision"
         description="Move working directory after build completes">
         <property name="dir.postbuild"
@@ -1260,11 +1113,13 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             <equals arg1="${dir.build.present}" arg2="true"/>
             <then>
                 <echo message="moving ${dir.build} to ${dir.postbuild}"/>
+    -->
                 <!-- TODO WHY am I copying the build dir this way???  I seem
                 to recall it may have something to do with a race condition,
                 where doing the move with an Ant task runs into trouble.  Or
                 it may be that the Ant move task just doesn't work reliably on
                 Windows.  -timc 12/10/2009 -->
+    <!--
                 <exec dir="${basedir}" executable="cmd.exe" vmlauncher="${vmlauncher}" failonerror="true">
                     <arg line="/c move ${dir.build} ${dir.postbuild}"/>
                 </exec>
@@ -1274,18 +1129,24 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             </else>
         </if>
     </target>
+    -->
 
     <!-- ================================================================= -->
     <!-- Clean up the working directory, if any                            -->
     <!-- ================================================================= -->
+    <!-- let Bamboo handle the working directory -timc 2/17/2011 -->
+    <!--
     <target name="nuke-workdir"
         description="CAUTION: Deletes the current build working directory">
         <delete includeemptydirs="true" dir="${dir.build}" failonerror="true"/>
     </target>
+    -->
 
     <!-- ================================================================= -->
     <!-- Prepare the release share for the installers                      -->
     <!-- ================================================================= -->
+    <!-- This is an official-build target.  It should not be used for
+    rebuilds. -timc 2/17/2011 -->
     <target name="prepare" description="Prepare the release share for the installers">
         <mkdir dir="${dir.products}/${version.product}"/>
         <!-- assign these properties sooner so they can be used by the
@@ -1307,13 +1168,10 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         description="Publish the results of the C# unit tests">
 
         <!-- Copy the summary and verbose results to the projects folder -->
-        <copy
-        file="${dir.src}/tests/DotNetUnitTests/UT_BLL/bin/Release/results_summary.txt"
-        tofile="${dir.projects.converted}/unittests/${version.product}_summary.txt"/>
-
-        <copy
-        file="${dir.src}/tests/DotNetUnitTests/UT_BLL/bin/Release/results_verbose.xml"
-        tofile="${dir.projects.converted}/unittests/${version.product}_verbose.xml"/>
+        <copy file="${dir.src}/tests/DotNetUnitTests/UT_BLL/bin/Release/results_summary.txt"
+            tofile="${dir.projects.converted}/unittests/${version.product}_summary.txt"/>
+        <copy file="${dir.src}/tests/DotNetUnitTests/UT_BLL/bin/Release/results_verbose.xml"
+            tofile="${dir.projects.converted}/unittests/${version.product}_verbose.xml"/>
     </target>
 
     <!-- ================================================================= -->
@@ -1392,7 +1250,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         <copy todir="${target4}">
             <fileset dir="${uncpath.cd4_sources}"/>
         </copy>
-        <!-- Brian'e Envision Service Monitor -->
+        <!-- Brian's Envision Service Monitor -->
         <property name="dir.svcmon"
             value="${dir.build}/src/tools/EnvisionServiceMonitor/EnvisionServiceMonitor/bin/Release"/>
         <copy file="${dir.svcmon}/EnvisionServiceMonitor.exe" todir="${target3}/tools"/>
@@ -1524,12 +1382,15 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- Release Server installer                                          -->
     <!-- ================================================================= -->
     <!-- TODO append target name with "-installer" -->
+    <!-- probably don't need this anymore -timc 2/17/2011 -->
+    <!--
     <target name="release-Server" depends="make-Server-installer">
         <release-AI-installer
             product.name="Server"
             installer.path="${dir.installs}/Server"
             product.path="${dir.retired}"/>
     </target>
+    -->
 
     <!-- ================================================================= -->
     <!-- Release SpeechProcessingClient installer                          -->
@@ -1630,9 +1491,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     </target>
 
     <!-- English -->
-    <!--
-    <target name="sign-EnvisionControls_CAB_EN" depends="propset, make-EnvisionControls_CAB_EN"
-    -->
     <target name="sign-EnvisionControls_CAB_EN" depends="make-EnvisionControls_CAB_EN"
         description="Signs EnvisionControls.cab (English) using signtool">
         <exec executable="signtool.exe"
@@ -1645,9 +1503,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         </exec>
     </target>
     <!-- German -->
-    <!--
-    <target name="sign-EnvisionControls_CAB_DE" depends="propset, make-EnvisionControls_CAB_DE"
-    -->
     <target name="sign-EnvisionControls_CAB_DE" depends="make-EnvisionControls_CAB_DE"
         description="Signs EnvisionControls.cab (German) using signtool">
         <exec executable="signtool.exe"
@@ -1660,9 +1515,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         </exec>
     </target>
     <!-- Spanish -->
-    <!--
-    <target name="sign-EnvisionControls_CAB_ES" depends="propset, make-EnvisionControls_CAB_ES"
-    -->
     <target name="sign-EnvisionControls_CAB_ES" depends="make-EnvisionControls_CAB_ES"
         description="Signs EnvisionControls.cab (Spanish) using signtool">
         <exec executable="signtool.exe"
@@ -1678,11 +1530,13 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- ================================================================= -->
     <!-- Update source from SVN repository (svn up)                        -->
     <!-- ================================================================= -->
+    <!--
     <target name="svn-up" description="Update source from Subversion">
         <svn>
             <update dir="${dir.build}"/>
         </svn>
     </target>
+    -->
 
     <!-- ================================================================= -->
     <!-- Tag the latest build                                              -->
@@ -1735,6 +1589,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- test ant-contrib                                                  -->
     <!-- ================================================================= -->
     <!-- TEMP DEBUG target -->
+    <!--
     <target name="test-if">
         <if>
             <equals arg1="${update-on-rebuild}" arg2="true"/>
@@ -1746,6 +1601,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             </else>
         </if>
     </target>
+    -->
 
     <!-- ================================================================= -->
     <!-- Touch source files                                                -->
@@ -1788,68 +1644,21 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="unzip-Centricity_WebHelp">
         <!-- Maybe later this will become three separate tasks. -->
         <!-- Centricity documentation for Supervisors -->
-        <unjar
-            src="${dir.build}/Documentation/WebHelp/EN/Centricity_Webhelp.zip"
+        <unjar src="${dir.build}/Documentation/WebHelp/EN/Centricity_Webhelp.zip"
             dest="${dir.build}/Documentation/WebHelp/EN/Centricity_Webhelp"/>
-        <unjar
-            src="${dir.build}/Documentation/WebHelp/DE/Centricity_Webhelp.zip"
+        <unjar src="${dir.build}/Documentation/WebHelp/DE/Centricity_Webhelp.zip"
             dest="${dir.build}/Documentation/WebHelp/DE/Centricity_Webhelp"/>
-        <unjar
-            src="${dir.build}/Documentation/WebHelp/ES/Centricity_Webhelp.zip"
+        <unjar src="${dir.build}/Documentation/WebHelp/ES/Centricity_Webhelp.zip"
             dest="${dir.build}/Documentation/WebHelp/ES/Centricity_Webhelp"/>
-        <!-- Centricity documentation for Agents: 9.8 and later only -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:isgreaterthan arg1="${MAJOR}" arg2="9"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="8"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:isgreaterthan arg1="${MINOR}" arg2="8"/>
-                </and>
-            </or>
-            <then>
-                -->
-                <unjar
-                    src="${dir.build}/Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp.zip"
-                    dest="${dir.build}/Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp"/>
-                <!--
-            </then>
-        </ac:if>
-        -->
-
-        <!-- localized documentation is currently in 9.10 SP2 only -->
-        <!--
-        <ac:if>
-            <or>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="10"/>
-                    <ac:equals arg1="${RELEASE}" arg2="0200"/>
-                </and>
-                <and>
-                    <ac:equals arg1="${MAJOR}" arg2="9"/>
-                    <ac:equals arg1="${MINOR}" arg2="10"/>
-                    <ac:isgreaterthan arg1="${RELEASE}" arg2="0200"/>
-                </and>
-            </or>
-            <then>
-                -->
-                <unjar
-                    src="${dir.build}/Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp.zip"
-                    dest="${dir.build}/Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp"/>
-                <unjar
-                    src="${dir.build}/Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp.zip"
-                    dest="${dir.build}/Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp"/>
-                <!--
-            </then>
-        </ac:if>
-        -->
+        <unjar
+            src="${dir.build}/Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp.zip"
+            dest="${dir.build}/Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp"/>
+        <unjar
+            src="${dir.build}/Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp.zip"
+            dest="${dir.build}/Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp"/>
+        <unjar
+            src="${dir.build}/Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp.zip"
+            dest="${dir.build}/Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp"/>
     </target>
 
     <!-- ================================================================= -->
