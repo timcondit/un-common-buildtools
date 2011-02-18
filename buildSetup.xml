@@ -3,7 +3,15 @@
 <!-- ===================================================================== -->
 <!-- Envision build file                                                   -->
 <!-- ===================================================================== -->
-<project name="buildSetup" default="installers" basedir="." xmlns:ac="antlib:net.sf.antcontrib">
+<!-- <project name="buildSetup" default="installers" basedir="."
+    xmlns:ac="antlib:net.sf.antcontrib"> -->
+<project name="buildSetup" default="do_nothing">
+
+    <!-- ================================================================= -->
+    <!-- Be conservative and do nothing here.  All builds should originate -->
+    <!-- with build.xml                                                    -->
+    <!-- ================================================================= -->
+    <target name="do_nothing"/>
 
     <!-- ================================================================= -->
     <!-- Make environment variables accessible in build.properties         -->
@@ -78,11 +86,13 @@
     <!-- these echo's shouldn't be inside a target -->
     <target name="propset" depends="define-ac">
         <!-- If we get here, display the current settings. -->
+        <!--
         <echo message="C++ compiler: ${compiler.cpp}"/>
         <echo message="message compiler: ${compiler.message}"/>
         <echo message="VS common tools: ${vscommontools}"/>
         <echo message="certificate file: ${file.pfx}"/>
         <echo message="signtool password: ${signtool.password}"/>
+        -->
     </target>
 
     <!-- ================================================================= -->

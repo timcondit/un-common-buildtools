@@ -3,7 +3,13 @@
 <!-- ===================================================================== -->
 <!-- Project for building and running unit tests                           -->
 <!-- ===================================================================== -->
-<project name="RunUnitTests" default="" basedir=".">
+<project name="RunUnitTests" default="do_nothing">
+
+    <!-- ================================================================= -->
+    <!-- Be conservative and do nothing here.  All builds should originate -->
+    <!-- with build.xml                                                    -->
+    <!-- ================================================================= -->
+    <target name="do_nothing"/>
 
     <!-- ================================================================= -->
     <!-- Source the contents of build.properties                           -->

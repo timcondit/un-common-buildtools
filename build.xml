@@ -2,11 +2,43 @@
 <!-- ===================================================================== -->
 <!-- Envision build file                                                   -->
 <!-- ===================================================================== -->
-<project name="EPS" default="official-build" basedir="." xmlns:ac="antlib:net.sf.antcontrib">
+<!-- <project name="EPS" default="official-build" basedir="." xmlns:ac="antlib:net.sf.antcontrib"> -->
+<project name="EPS" default="official-build">
+
+    <!-- NB: run build.xml from the build subdirectory -->
 
     <!-- ================================================================= -->
     <!-- <Set up the environment (non-targets)>                            -->
     <!-- ================================================================= -->
+    <!-- add properties at the top of the build file -->
+    <property name="dir.build" value=".."/>
+    <!-- build.compiler - WTF? -->
+    <property name="build.compiler" value="javac1.6"/>
+    <property name="javac.debug" value="true"/>
+    <property name="javac.deprecation" value="false"/>
+    <property name="javac.source" value="1.6"/>
+    <property name="vs90_devenv" value="C:/Program Files/Microsoft Visual Studio 9.0/Common7/IDE/devenv.com"/>
+    <property name="vs100_devenv" value="C:/Program Files/Microsoft Visual Studio 10.0/Common7/IDE/devenv.com"/>
+    <!-- TODO this is used in buildC#CPP.xml.  Make sure mc.exe is on the PATH
+    -->
+    <!-- <property name="compiler.message" value="C:/bin/mc.exe"/> -->
+    <!-- TODO don't forget ANT_OPTS environment variable for Java heap space -->
+    <!-- ANT_OPTS=-Xmx1024m -->
+
+    <!-- TODO Why do these need to be prefaced with .. (up-dir)?  The Ant docs
+    say that without a basedir in the project declaration, "if neither the
+    attribute nor the property have been set, the parent directory of the
+    buildfile will be used." -->
+    <property name="dir.src" value="../src"/>
+    <property name="dir.workdir" value="../workdir"/>
+    <property name="cert.envision" value="../setup/Signature/EnvisionCertificate.pfx"/>
+    <property name="signtool.envisionpass" value="Envision07"/>
+    <property name="signtool.timestampurl"
+        value="http://timestamp.verisign.com/scripts/timstamp.dll"/>
+    <!-- TODO get rid of this one -->
+    <property name="vmlauncher" value="false"/>
+    <property name="compiler.msbuild"
+        value="C:/Windows/Microsoft.NET/Framework/v3.5/MSBuild.exe"/>
 
     <!-- ================================================================= -->
     <!-- Make environment variables accessible in build.properties         -->
@@ -21,7 +53,7 @@
     rest of the script.  It is read at this point, the property values are
     set, and that's the end of it. -->
     <!-- TODO consider loadproperties task instead. -timc 5/28/2009 -->
-    <property file="build.properties"/>
+    <!-- <property file="build.properties"/> -->
 
     <!-- ================================================================= -->
     <!-- import the other build scripts                                    -->
@@ -38,20 +70,24 @@
     <!-- ================================================================= -->
     <!-- Be sure and spell the name of the jar file right (esp. watch the
     version). -->
+    <!--
     <taskdef resource="net/sf/antcontrib/antcontrib.properties">
         <classpath>
             <pathelement location="lib/ant-contrib-1.0b3.jar"/>
         </classpath>
     </taskdef>
+    -->
 
     <!-- ================================================================= -->
     <!-- Create the svn task                                               -->
     <!-- ================================================================= -->
+    <!--
     <taskdef name="svn" classname="org.tigris.subversion.svnant.SvnTask">
         <classpath>
             <fileset dir="${dir.lib}" includes="**/svn*.jar"/>
         </classpath>
     </taskdef>
+    -->
 
     <!-- ================================================================= -->
     <!-- Compile C++ project files (macro)                                 -->
@@ -131,6 +167,7 @@
     <!-- TODO collect these things into a common location.  I'm probably going
     to have to consolidate the build scripts into a single file (or two). -->
     <!-- http://marc.info/?l=ant-user&m=117052469400299&w=2 -->
+    <!--
     <typedef resource="net/sf/antcontrib/antlib.xml"
         uri="antlib:net.sf.antcontrib"
         classpath="lib/ant-contrib-1.0b3.jar"/>
@@ -142,6 +179,7 @@
         classname="net.sf.antcontrib.logic.condition.IsLessThan"
         uri="antlib:net.sf.antcontrib"
         classpath="lib/ant-contrib-1.0b3.jar"/>
+    -->
 
 
     <!-- started pulling stuff out right here -->
@@ -169,12 +207,14 @@
     them at buildtime as well. -->
 
     <!-- If we get here, display the current settings. -->
+    <!--
     <echo message="[ET]SDK: ${dir.sdk}"/>
     <echo message="C++ compiler: ${compiler.cpp}"/>
     <echo message="message compiler: ${compiler.message}"/>
     <echo message="VS common tools: ${vscommontools}"/>
     <echo message="certificate file: ${file.pfx}"/>
     <echo message="signtool password: ${signtool.password}"/>
+    -->
 
 
     <!-- ================================================================= -->
@@ -267,6 +307,8 @@
             <include name="**/*.jar"/>
         </fileset>
         <pathelement location="${dir.sdk}/Genesys/TLibrary7.1/genji.jar"/>
+        <!-- TODO what's this?  If anything it should be Release/Envision.jar
+        and Release/license.jar -->
         <pathelement location="${dir.src}/Envision.jar"/>
         <pathelement location="${dir.src}/license.jar"/>
         <pathelement location="${dir.src}/tools/genstubskel"/>
@@ -427,11 +469,11 @@
         <antcall target="publish-RecordingDownloadTool"/>
         <antcall target="sign-EnvisionCLR"/>
 
-                <antcall target="make-DeployAnalyticsTool"/>
-                <antcall target="sign-AnalyticsResources"/>
-                <antcall target="sign-AnalyticsUtilities"/>
+        <antcall target="make-DeployAnalyticsTool"/>
+        <antcall target="sign-AnalyticsResources"/>
+        <antcall target="sign-AnalyticsUtilities"/>
 
-                <antcall target="make-Speech"/>
+        <antcall target="make-Speech"/>
     </target>
 
     <!-- ================================================================= -->
@@ -756,9 +798,9 @@
         The reality is that we may sometimes run a build from an existing
         workdir.  So it's probably better to leave it in. -->
         <delete quiet="true" failonerror="false" includeEmptyDirs="true" dir="${dir.build}/Release"/>
-        <mkdir dir="${dir.release}"/>
-        <mkdir dir="${dir.release}/Admin"/>
-        <mkdir dir="${dir.release}/Common"/>
+        <mkdir dir="${dir.build}/Release"/>
+        <mkdir dir="${dir.build}/Release/Admin"/>
+        <mkdir dir="${dir.build}/Release/Common"/>
     </target>
 
     <!-- ================================================================= -->
@@ -1145,6 +1187,15 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     </target>
 
     <!-- ================================================================= -->
+    <!-- Make ServiceMonitor                                               -->
+    <!-- ================================================================= -->
+    <target name="make-ServiceMonitor" description="Compiles ServiceMonitor using MSBuild">
+        <exec dir="${dir.build}" executable="${compiler.msbuild}" vmlauncher="${vmlauncher}" failonerror="true">
+            <arg line="/target:Build src/tools/EnvisionServiceMonitor/EnvisionServiceMonitor.sln /property:Configuration=Release /l:FileLogger,Microsoft.Build.Engine;logfile=${dir.build}/BuildLog.txt;append=true"/>
+        </exec>
+    </target>
+
+    <!-- ================================================================= -->
     <!-- Make SpeechProcessingClient installer                             -->
     <!-- ================================================================= -->
     <target name="make-SpeechProcessingClient-installer" depends="prepare,unzip-NuanceProfile">
@@ -1341,6 +1392,11 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         <copy todir="${target4}">
             <fileset dir="${uncpath.cd4_sources}"/>
         </copy>
+        <!-- Brian'e Envision Service Monitor -->
+        <property name="dir.svcmon"
+            value="${dir.build}/src/tools/EnvisionServiceMonitor/EnvisionServiceMonitor/bin/Release"/>
+        <copy file="${dir.svcmon}/EnvisionServiceMonitor.exe" todir="${target3}/tools"/>
+        <copy file="${dir.svcmon}/EnvisionServiceMonitor.exe.config" todir="${target3}/tools"/>
     </target>
 
     <!-- ================================================================= -->
@@ -1555,7 +1611,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- Run the installer software and release the installers       -->
     <!-- =========================================================== -->
     <!-- TODO call release-installers directly -timc, Cinco de Mayo 2010 -->
-    <!-- <target name="setup-installers" depends="propset" -->
     <target name="setup-installers"
         description="Create and deploy the installers">
         <!-- <ant antfile="buildSetup.xml" dir="."
@@ -1730,7 +1785,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- Unzip Centricity WebHelp for the Server installer                 -->
     <!-- ================================================================= -->
     <!-- TODO VIPER -timc 9/20/2010 -->
-    <!-- <target name="unzip-Centricity_WebHelp" depends="propset"> -->
     <target name="unzip-Centricity_WebHelp">
         <!-- Maybe later this will become three separate tasks. -->
         <!-- Centricity documentation for Supervisors -->
@@ -1839,7 +1893,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- Unzip the default Nuance profile for the Speech Server            -->
     <!-- ================================================================= -->
     <!-- TODO VIPER -timc 9/20/2010 -->
-    <!-- <target name="unzip-NuanceProfile" depends="propset"> -->
     <target name="unzip-NuanceProfile">
         <unjar src="${dir.sdk}/Nuance/Envision.zip"
             dest="${dir.workdir}/AudioMining"/>
@@ -1865,7 +1918,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     (make-PerformanceSuite depends on both of them.) -->
     <!-- TODO this needs to be updated.  At least ActiveMQ is out of date,
     possibly others as well. -timc, Cinco de Mayo 2010 -->
-    <!-- <target name="unzip-PerformanceSuite-jars_ZIP" depends="propset"> -->
     <target name="unzip-PerformanceSuite-jars_ZIP">
         <property name="EPS-jars_ZIP" value="jar-files-EnvisionPerformanceSuite-9.10.zip"/>
         <unjar

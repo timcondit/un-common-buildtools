@@ -3,7 +3,13 @@
 <!-- ===================================================================== -->
 <!-- C2C build file  make_c#calltagger  make_c#apicommon  make_autotagger  -->
 <!-- ===================================================================== -->
-<project name="BuildC++" default="" basedir=".">
+<project name="BuildC++" default="do_nothing">
+
+    <!-- ================================================================= -->
+    <!-- Be conservative and do nothing here.  All builds should originate -->
+    <!-- with build.xml                                                    -->
+    <!-- ================================================================= -->
+    <target name="do_nothing"/>
 
     <!-- ================================================================= -->
     <!-- Source the contents of build.properties                           -->
