@@ -47,10 +47,10 @@
     of the _Envision targets) twice. -->
     <target name="clean_Envision" description="Deletes compiled classes and jars">
         <delete verbose="true" failonerror="false" includeEmptyDirs="true">
-            <fileset dir="../src" includes="**/*.class"/>
+            <fileset dir="src" includes="**/*.class"/>
         </delete>
-        <delete verbose="true" failonerror="false" file="../Release/Envision.jar"/>
-        <delete verbose="true" failonerror="false" file="../src/Envision.jar"/>
+        <delete verbose="true" failonerror="false" file="Release/Envision.jar"/>
+        <delete verbose="true" failonerror="false" file="src/Envision.jar"/>
     </target>
 
     <!-- ================================================================= -->
@@ -58,9 +58,9 @@
     <!-- ================================================================= -->
     <target name="clean_license" description="Deletes existing compiled classes and jars">
         <delete verbose="true" failonerror="false" includeEmptyDirs="true">
-            <fileset dir="../src/server/com/et/license/" includes="**/*.class"/>
+            <fileset dir="src/server/com/et/license/" includes="**/*.class"/>
         </delete>
-        <delete verbose="true" failonerror="false" file="../src/server/com/et/license/license.jar"/>
+        <delete verbose="true" failonerror="false" file="src/server/com/et/license/license.jar"/>
     </target>
 
     <!-- =================================================================== -->
@@ -70,8 +70,8 @@
     <target name="compile-genstubskel-jar" depends="propset" description="Compiles genstubskel">
     -->
     <target name="compile-genstubskel-jar" description="Compiles genstubskel">
-        <javac srcdir="../src/tools/genstubskel"
-            destdir="../src/tools/genstubskel"
+        <javac srcdir="src/tools/genstubskel"
+            destdir="src/tools/genstubskel"
             debug="${javac.debug}"
             deprecation="${javac.deprecation}"
             source="${javac.source}"
@@ -89,7 +89,7 @@
     <target name="compile_Envision" description="Compiles Envision">
         <!-- TODO fork, memoryInitialSize & memoryMaximumSize need to go to
         build.properties (or, better, to runbuild.py -timc 2/5/2010 -->
-        <javac srcdir="../src" destdir="../src"
+        <javac srcdir="src" destdir="src"
             debug="${javac.debug}"
             deprecation="${javac.deprecation}"
             fork="yes"
@@ -101,11 +101,11 @@
 
         <!-- TODO do we need this? -->
         <delete verbose="true" failonerror="true"
-            file="../src/com/et/license/LicenseManager.class"/>
+            file="src/com/et/license/LicenseManager.class"/>
         <delete verbose="true" failonerror="true"
-            file="../src/server/com/et/license/LicenseManager.class"/>
+            file="src/server/com/et/license/LicenseManager.class"/>
         <delete verbose="true" failonerror="true"
-            file="../src/server/com/et/license/jar/LicenseManager.class"/>
+            file="src/server/com/et/license/jar/LicenseManager.class"/>
     </target>
 
     <!-- ================================================================= -->
@@ -114,12 +114,12 @@
     <target name="compile_java_dev" description="Compiles java for Devs">
         <echo message="Delete existing class files..."/>
         <delete verbose="true" failonerror="false">
-            <fileset dir="../src" includes="**/*.class"/>
+            <fileset dir="src" includes="**/*.class"/>
         </delete>
         <echo message="Build source..."/>
         <!-- TODO fork, memoryInitialSize & memoryMaximumSize need to go to
         build.properties (or, better, to runbuild.py -timc 2/5/2010 -->
-        <javac srcdir="../src"
+        <javac srcdir="src"
             debug="${javac.debug}"
             deprecation="false"
             nowarn="on"
@@ -127,7 +127,7 @@
             memoryInitialSize="256m" memoryMaximumSize="378m">
             <classpath refid="project-classpath"/>
             <classpath>
-                <dirset dir="../src">
+                <dirset dir="src">
                     <include name="clients/admin"/>
                     <include name="contactsources/nuasis"/>
                     <include name="contactsources/nuasisPlugIn"/>
@@ -153,8 +153,8 @@
     <target name="compile_license" description="Compiles license">
         <!-- TODO fork, memoryInitialSize & memoryMaximumSize need to go to
         build.properties (or, better, to runbuild.py -timc 2/5/2010 -->
-        <javac srcdir="../src/server/com/et/license/"
-            destdir="../src/server/"
+        <javac srcdir="src/server/com/et/license/"
+            destdir="src/server/"
             debug="${javac.debug}"
             deprecation="${javac.deprecation}"
             fork="yes"
@@ -171,8 +171,8 @@
     <!-- ================================================================= -->
     <!-- timc: called from build.xml -->
     <target name="copy-jar-resources" description="Copy Envision jar resources">
-        <copy todir="../src/com/et">
-            <fileset dir="../src/Server/com/et"
+        <copy todir="src/com/et">
+            <fileset dir="src/Server/com/et"
                 includes="
                 **/*.xml
                 **/*.gif
@@ -185,23 +185,8 @@
                 excludes="**/*UTF16.properties"/>
         </copy>
 
-        <copy todir="../src/com/et">
-            <fileset dir="../src/clients/admin/com/et"
-                includes="
-                **/*.xml
-                **/*.gif
-                **/*.jpg
-                **/*.png
-                **/*.html
-                **/*.js
-                **/*.ico
-                **/*.properties"
-                excludes="**/*UTF16.properties"/>
-        </copy>
-
-        <!-- timc: Nothing with these extensions are present, AFAIK -->
-        <copy todir="../src/com/et">
-            <fileset dir="../src/Generated/com/et"
+        <copy todir="src/com/et">
+            <fileset dir="src/clients/admin/com/et"
                 includes="
                 **/*.xml
                 **/*.gif
@@ -215,8 +200,8 @@
         </copy>
 
         <!-- timc: Nothing with these extensions are present, AFAIK -->
-        <copy todir="../src/com/et">
-            <fileset dir="../src/apis/bi/com/et"
+        <copy todir="src/com/et">
+            <fileset dir="src/Generated/com/et"
                 includes="
                 **/*.xml
                 **/*.gif
@@ -230,8 +215,8 @@
         </copy>
 
         <!-- timc: Nothing with these extensions are present, AFAIK -->
-        <copy todir="../src/com/et">
-            <fileset dir="../src/contactsources/avayapds/com/et"
+        <copy todir="src/com/et">
+            <fileset dir="src/apis/bi/com/et"
                 includes="
                 **/*.xml
                 **/*.gif
@@ -245,8 +230,8 @@
         </copy>
 
         <!-- timc: Nothing with these extensions are present, AFAIK -->
-        <copy todir="../src/com/et">
-            <fileset dir="../src/contactsources/cmiaspect/com/et"
+        <copy todir="src/com/et">
+            <fileset dir="src/contactsources/avayapds/com/et"
                 includes="
                 **/*.xml
                 **/*.gif
@@ -260,8 +245,23 @@
         </copy>
 
         <!-- timc: Nothing with these extensions are present, AFAIK -->
-        <copy todir="../src/com/et">
-            <fileset dir="../src/contactsources/concerto/com/et"
+        <copy todir="src/com/et">
+            <fileset dir="src/contactsources/cmiaspect/com/et"
+                includes="
+                **/*.xml
+                **/*.gif
+                **/*.jpg
+                **/*.png
+                **/*.html
+                **/*.js
+                **/*.ico
+                **/*.properties"
+                excludes="**/*UTF16.properties"/>
+        </copy>
+
+        <!-- timc: Nothing with these extensions are present, AFAIK -->
+        <copy todir="src/com/et">
+            <fileset dir="src/contactsources/concerto/com/et"
                 includes="
                 **/*.xml
                 **/*.gif
@@ -300,8 +300,8 @@
     <!-- jar_Envision                                                      -->
     <!-- ================================================================= -->
     <target name="jar_Envision" description="Jar Envision">
-        <jar destfile="../src/Envision.jar"
-            basedir="../src"
+        <jar destfile="src/Envision.jar"
+            basedir="src"
             duplicate="preserve"
             includes="
             com/**/*.class
@@ -319,10 +319,10 @@
     <!-- jar_license                                                       -->
     <!-- ================================================================= -->
     <target name="jar_license" description="Jar license">
-        <copy file="../src/server/com/et/license/LicenseManager.class"
-            tofile="../src/com/et/license/LicenseManager.class"/>
-        <jar destfile="../src/server/com/et/license/license.jar"
-            basedir="../src"
+        <copy file="src/server/com/et/license/LicenseManager.class"
+            tofile="src/com/et/license/LicenseManager.class"/>
+        <jar destfile="src/server/com/et/license/license.jar"
+            basedir="src"
             duplicate="preserve"
             includes="com/**/*.class"/>
     </target>
@@ -334,11 +334,11 @@
     messages back and forth with the Server -->
     <target name="make-EnvisionPlugin" description="Compiles EnvisionPlugin">
         <property name="EnvisionPluginBasedir"
-            value="${dir.workdir}/ContactSourceRunner/EnvisionPlugin/"/>
+            value="workdir/ContactSourceRunner/EnvisionPlugin/"/>
         <mkdir dir="${EnvisionPluginBasedir}"/>
         <!-- TODO fork, memoryInitialSize & memoryMaximumSize need to go to
         build.properties (or, better, to runbuild.py -timc 2/5/2010 -->
-        <javac srcdir="../src/contactSources/nuasisPlugin/"
+        <javac srcdir="src/contactSources/nuasisPlugin/"
             destdir="${EnvisionPluginBasedir}"
             debug="${javac.debug}"
             deprecation="${javac.deprecation}"
@@ -355,10 +355,10 @@
     <!-- release_license                                                   -->
     <!-- ================================================================= -->
     <target name="release_license" description="Copies jar to release dir">
-        <delete verbose="true" failonerror="false" file="../Release/license.jar"/>
-        <copy file="../src/server/com/et/license/license.jar" tofile="../Release/license.jar"/>
+        <delete verbose="true" failonerror="false" file="Release/license.jar"/>
+        <copy file="src/server/com/et/license/license.jar" tofile="Release/license.jar"/>
         <delete>
-            <fileset dir="../src/server/com/et/license" includes="**/*.class"/>
+            <fileset dir="src/server/com/et/license" includes="**/*.class"/>
         </delete>
     </target>
 
@@ -366,10 +366,10 @@
     <!-- release_Envision                                                  -->
     <!-- ================================================================= -->
     <target name="release_Envision" description="copies jar to release dir">
-        <delete verbose="true" failonerror="false" file="../Release/Envision.jar"/>
-        <copy file="../src/Envision.jar" tofile="../Release/Envision.jar"/>
+        <delete verbose="true" failonerror="false" file="Release/Envision.jar"/>
+        <copy file="src/Envision.jar" tofile="Release/Envision.jar"/>
         <delete verbose="true">
-            <fileset dir="../src/com" />
+            <fileset dir="src/com" />
         </delete>
     </target>
 
@@ -385,7 +385,7 @@
     property name here in case it's not already set (that blows). -->
     <target name="release-EnvisionPlugin" depends="prepare">
         <property name="EnvisionPluginBasedir"
-            value="${dir.workdir}/ContactSourceRunner/EnvisionPlugin/"/>
+            value="workdir/ContactSourceRunner/EnvisionPlugin/"/>
         <copy file="${EnvisionPluginBasedir}/EnvisionPlugin.jar"
             tofile="${dir.nuasis-plugin}/EnvisionPlugin.jar"/>
     </target>

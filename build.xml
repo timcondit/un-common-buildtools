@@ -10,7 +10,9 @@
     <!-- <Set up the environment (non-targets)>                            -->
     <!-- ================================================================= -->
     <!-- add properties at the top of the build file -->
+    <!--
     <property name="dir.build" value=".."/>
+    -->
     <!-- build.compiler - WTF? -->
     <property name="build.compiler" value="javac1.6"/>
     <property name="javac.debug" value="true"/>
@@ -28,9 +30,12 @@
     say that without a basedir in the project declaration, "if neither the
     attribute nor the property have been set, the parent directory of the
     buildfile will be used." -->
+    <!--
     <property name="dir.src" value="../src"/>
     <property name="dir.workdir" value="../workdir"/>
-    <property name="cert.envision" value="../setup/Signature/EnvisionCertificate.pfx"/>
+    -->
+
+    <property name="cert.envision" value="setup/Signature/EnvisionCertificate.pfx"/>
     <property name="signtool.envisionpass" value="Envision07"/>
     <property name="signtool.timestampurl"
         value="http://timestamp.verisign.com/scripts/timstamp.dll"/>
@@ -62,7 +67,7 @@
         <attribute name="output.path" default="BuildLog.txt"/>
         <sequential>
             <echo message="Compiling @{configuration} from @{solution.file}"/>
-            <exec dir="${dir.build}" executable="${compiler.cpp}" failonerror="true">
+            <exec executable="${compiler.cpp}" failonerror="true">
                 <arg line="/build @{configuration} @{solution.file} /out @{output.path}"/>
             </exec>
         </sequential>
@@ -118,15 +123,15 @@
     </macrodef>
 
     <!-- started pulling stuff out right here -->
-            <echo message="INFO setting 10.1 properties (if any)"/>
+    <!-- <echo message="INFO setting 10.1 properties (if any)"/> -->
             <property name="dir.sdk" value="${env.ETSDK}"/>
 
-            <echo message="INFO setting 9.8 properties (if any)"/>
+    <!-- <echo message="INFO setting 9.8 properties (if any)"/> -->
             <property name="compiler.cpp" value="${vs90_devenv}"/>
             <property name="compiler.message" value="${vs90_mc}"/>
             <property name="vscommontools" value="${env.VS90COMNTOOLS}"/>
 
-            <echo message="INFO setting 9.7 properties (if any)"/>
+    <!-- <echo message="INFO setting 9.7 properties (if any)"/> -->
             <property name="file.pfx" value="${cert.envision}"/>
             <property name="signtool.password" value="${signtool.envisionpass}"/>
     <!-- stopped here -->
@@ -221,9 +226,9 @@
             <include name="**/*.jar"/>
         </fileset>
         <pathelement location="${dir.sdk}/Genesys/TLibrary7.1/genji.jar"/>
-        <pathelement location="../Release/Envision.jar"/>
-        <pathelement location="../Release/license.jar"/>
-        <pathelement location="../src/tools/genstubskel"/>
+        <pathelement location="Release/Envision.jar"/>
+        <pathelement location="Release/license.jar"/>
+        <pathelement location="src/tools/genstubskel"/>
     </path>
 
     <!-- \\Bigfoot\Engineering\ProductBuilds -->
@@ -375,7 +380,7 @@
     <!-- Build C# unit test projects                                       -->
     <!-- ================================================================= -->
     <target name="build-CSUnitTests" description="Build the C# unit test projects">
-        <build-cpp solution.file="${dir.src}/tests/DotNetUnitTests/DotNetUnitTests.sln"/>
+        <build-cpp solution.file="src/tests/DotNetUnitTests/DotNetUnitTests.sln"/>
     </target>
 
     <!-- ================================================================= -->
@@ -408,7 +413,7 @@
     <!-- this is Centricity web application #1 -->
     <target name="chver-AVPlayer">
         <property name="AVPlayer_csproj"
-            value="${dir.src}/clients/AVPlayer/AVPlayer.csproj"/>
+            value="src/clients/AVPlayer/AVPlayer.csproj"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c80
                 -s:x3cApplicationVersion:x3e${version.previous}:x3c:x2fApplicationVersion:x3e
@@ -426,7 +431,7 @@
     <!-- #define _PRODUCT_VER_LOGIN_STR "9.0.0300.4\0" -->
     <!-- #define _PRODUCT_ABOUT "Version 9.0.0300.4\0" -->
     <target name="chver-CPP">
-        <property name="version_info_h" value="${dir.src}/include/version_info.h"/>
+        <property name="version_info_h" value="src/include/version_info.h"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c40
                 -s:x20_PRODUCT_VERSION:x20${p_MAJOR}:x2C${p_MINOR}:x2C${p_RELEASE}:x2C${p_BUILD}
@@ -463,7 +468,7 @@
     <!-- public const string BUILD = "4"; -->
     <target name="chver-CSharp">
         <property name="version_info_cs"
-            value="${dir.src}/server/com/et/versioninfo/VersionInfo.cs"/>
+            value="src/server/com/et/versioninfo/VersionInfo.cs"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20MAJOR:x20=:x20:x22${p_MAJOR}:x22;
@@ -494,7 +499,7 @@
 
         <!-- prn18732 (in 9.0.4) hopefully temporary workaround -->
         <property name="daisy_version_cs_SERVER"
-            value="${dir.src}/server/com/et/wfm/daisy/DaisyVersion.cs"/>
+            value="src/server/com/et/wfm/daisy/DaisyVersion.cs"/>
         <!-- clients/wfm/WFMClient/com/et/daisy/DaisyVersion.cs -->
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
@@ -523,7 +528,7 @@
 
         <!-- prn18732 (in 9.0.4) hopefully temporary workaround -->
         <property name="daisy_version_cs_CLIENT"
-            value="${dir.src}/clients/wfm/WFMClient/com/et/daisy/DaisyVersion.cs"/>
+            value="src/clients/wfm/WFMClient/com/et/daisy/DaisyVersion.cs"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20MAJOR:x20=:x20${p_MAJOR};
@@ -556,7 +561,7 @@
     <target name="chver-EnvisionControls_INF">
         <!-- FileVersion=9,0,0,504 -->
         <property name="EnvisionControls_INF"
-            value="../setup/Signature/EnvisionControls.inf"/>
+            value="setup/Signature/EnvisionControls.inf"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c80
                 -sFileVersion:x3d${p_MAJOR},${p_MINOR},${p_RELEASE},${p_BUILD}
@@ -575,7 +580,7 @@
     <!-- public static final String RELEASE = "0300"; -->
     <!-- public static final int BUILD = 4; -->
     <target name="chver-Java">
-        <property name="ProductVersion_java" value="${dir.src}/server/com/et/startup/ProductVersion.java"/>
+        <property name="ProductVersion_java" value="src/server/com/et/startup/ProductVersion.java"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30
                 -s:x20MAJOR:x20=:x20${p_MAJOR};
@@ -608,7 +613,7 @@
     <!-- this is Centricity web application #2 -->
     <target name="chver-RecordingDownloadTool">
         <property name="RecordingDownloadTool_csproj"
-            value="${dir.src}/clients/RecordingDownloadTool/RecordingDownloadTool.csproj"/>
+            value="src/clients/RecordingDownloadTool/RecordingDownloadTool.csproj"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c80
                 -s:x3cApplicationVersion:x3e${version.previous}:x3c:x2fApplicationVersion:x3e
@@ -628,7 +633,7 @@
         <svn username="buildmgr" password="buildmgr">
             <commit message="00000: Version header and installer file commit for build ${version.product}">
                 <fileset
-                    dir="${dir.build}"
+                    dir="."
                     includes="
                     src/**/*.csproj
                     src/**/*.cs
@@ -674,8 +679,7 @@
         <svn username="buildmgr" password="buildmgr">
             <commit message="00000: Version file checkin for build ${version.product}">
                 <!-- fileset needs to include the extensions of all version files -->
-                <fileset
-                    dir="${dir.build}"
+                <fileset dir="."
                     includes="**/*.csproj,**/*.cs,**/*.h,**/*.java,**/*.inf"/>
             </commit>
         </svn>
@@ -688,10 +692,10 @@
     <!-- TODO at least *try* to build the effing thing without it -timc Cinco
     de Mayo 2010 -->
     <target name="create-release-dir" description="Creates Release directories">
-        <delete quiet="true" failonerror="false" includeEmptyDirs="true" dir="../Release"/>
-        <mkdir dir="../Release"/>
-        <mkdir dir="../Release/Admin"/>
-        <mkdir dir="../Release/Common"/>
+        <delete quiet="true" failonerror="false" includeEmptyDirs="true" dir="Release"/>
+        <mkdir dir="Release"/>
+        <mkdir dir="Release/Admin"/>
+        <mkdir dir="Release/Common"/>
     </target>
 
     <!-- ================================================================= -->
@@ -699,7 +703,7 @@
     <!-- ================================================================= -->
     <target name="del-stubskel">
         <delete verbose="true">
-            <fileset dir="${dir.build}" includes="**/*_Skel.* **/*_Stub.* **/*_Dist.*"/>
+            <fileset dir="." includes="**/*_Skel.* **/*_Stub.* **/*_Dist.*"/>
         </delete>
     </target>
 
@@ -746,7 +750,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         <!-- TODO Check if the semaphore file already exists.  This could
         indicate trouble.  (But isn't it too late by this point?) -->
         <!-- See the 'after' method of runbuild.py for details about this. -->
-        <echo file="../../${version.product}_SUCCESS"/>
+        <echo file="../${version.product}_SUCCESS"/>
         <!-- See Java's SimpleDateFormat for formatting details -->
         <tstamp>
             <format property="time.end" pattern="yyyy-MM-dd',' HH:mm:ss" locale="en_US"/>
@@ -761,8 +765,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="generate-dbschemas"
         description="Generates Envision database schemas">
 
-        <echo>workdir=${dir.workdir}</echo>
-        <exec dir="${dir.workdir}" executable="cmd.exe" vmlauncher="${vmlauncher}" failonerror="true">
+        <!-- <echo>workdir=${dir.workdir}</echo> -->
+        <exec dir="workdir" executable="cmd.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="/c GenDBSchemas.bat"/>
         </exec>
     </target>
@@ -772,7 +776,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- GenStubSkel Suite                                                 -->
     <!-- ================================================================= -->
     <target name="genstubskel-suite" description="genstubskel suite">
-        <java classname="genstubskel.GenStubSkel" dir="${dir.build}"
+        <java classname="genstubskel.GenStubSkel" dir="."
             fork="true" args="GenStubSkel.xml">
             <classpath refid="project-classpath"/>
             <classpath refid="classpath-v2"/>
@@ -897,9 +901,9 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- English -->
     <target name="make-EnvisionControls_CAB_EN"
         description="Makes EnvisionControls.cab (English) using CabArc">
-        <property name="dir.toCab_EN" value="../setup/Signature/EN/toCab"/>
+        <property name="dir.toCab_EN" value="setup/Signature/EN/toCab"/>
 
-        <copy file="../setup/Signature/EnvisionControls.inf"
+        <copy file="setup/Signature/EnvisionControls.inf"
             tofile="${dir.toCab_EN}/EnvisionControls.inf"/>
         <copy file="${dir.sdk}/ISource/_ISource.dll"
             tofile="${dir.toCab_EN}/_ISource.dll"/>
@@ -907,16 +911,16 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             tofile="${dir.toCab_EN}/mfc80.dll"/>
 
         <!-- specific to this CAB -->
-        <copy file="${dir.workdir}/Quality/AgentX.ocx"
+        <copy file="workdir/Quality/AgentX.ocx"
             tofile="${dir.toCab_EN}/AgentX.ocx"/>
-        <copy file="${dir.src}/clients/reporting/C2CReportingControls/Release/C2CReportingControls.ocx"
+        <copy file="src/clients/reporting/C2CReportingControls/Release/C2CReportingControls.ocx"
             tofile="${dir.toCab_EN}/C2CReportingControls.ocx"/>
-        <copy file="${dir.workdir}/agentdesktop/WebControls.ocx"
+        <copy file="workdir/agentdesktop/WebControls.ocx"
             tofile="${dir.toCab_EN}/WebControls.ocx"/>
-        <copy file="${dir.workdir}/quality/SharedResources.dll"
+        <copy file="workdir/quality/SharedResources.dll"
             tofile="${dir.toCab_EN}/SharedResources.dll"/>
 
-        <cab cabfile="../setup/Signature/EN/EnvisionControls.cab"
+        <cab cabfile="setup/Signature/EN/EnvisionControls.cab"
             basedir="${dir.toCab_EN}"
             options="-s 6144"
             includes="AgentX.ocx, C2CReportingControls.ocx, WebControls.ocx,
@@ -927,9 +931,9 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- German -->
     <target name="make-EnvisionControls_CAB_DE"
         description="Makes EnvisionControls.cab (German) using CabArc">
-        <property name="dir.toCab_DE" value="../setup/Signature/DE/toCab"/>
+        <property name="dir.toCab_DE" value="setup/Signature/DE/toCab"/>
 
-        <copy file="../setup/Signature/EnvisionControls.inf"
+        <copy file="setup/Signature/EnvisionControls.inf"
             tofile="${dir.toCab_DE}/EnvisionControls.inf"/>
         <copy file="${dir.sdk}/ISource/_ISource.dll"
             tofile="${dir.toCab_DE}/_ISource.dll"/>
@@ -937,16 +941,16 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             tofile="${dir.toCab_DE}/mfc80.dll"/>
 
         <!-- specific to this CAB -->
-        <copy file="${dir.src}/clients/Quality/agentdesktop/ReleaseGerman/AgentX.ocx"
+        <copy file="src/clients/Quality/agentdesktop/ReleaseGerman/AgentX.ocx"
             tofile="${dir.toCab_DE}/AgentX.ocx"/>
-        <copy file="${dir.src}/clients/reporting/C2CReportingControls/ReleaseGerman/C2CReportingControls.ocx"
+        <copy file="src/clients/reporting/C2CReportingControls/ReleaseGerman/C2CReportingControls.ocx"
             tofile="${dir.toCab_DE}/C2CReportingControls.ocx"/>
-        <copy file="${dir.src}/clients/reporting/controls/ReleaseGerman/WebControls.ocx"
+        <copy file="src/clients/reporting/controls/ReleaseGerman/WebControls.ocx"
             tofile="${dir.toCab_DE}/WebControls.ocx"/>
-        <copy file="${dir.src}/clients/quality/sharedresources/ReleaseGerman/SharedResources.dll"
+        <copy file="src/clients/quality/sharedresources/ReleaseGerman/SharedResources.dll"
             tofile="${dir.toCab_DE}/SharedResources.dll"/>
 
-        <cab cabfile="$../setup/Signature/DE/EnvisionControls.cab"
+        <cab cabfile="setup/Signature/DE/EnvisionControls.cab"
             basedir="${dir.toCab_DE}"
             options="-s 6144"
             includes="AgentX.ocx, C2CReportingControls.ocx, WebControls.ocx,
@@ -957,9 +961,9 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- Spanish -->
     <target name="make-EnvisionControls_CAB_ES"
         description="Makes EnvisionControls.cab (Spanish) using CabArc">
-        <property name="dir.toCab_ES" value="../setup/Signature/ES/toCab"/>
+        <property name="dir.toCab_ES" value="setup/Signature/ES/toCab"/>
 
-        <copy file="../setup/Signature/EnvisionControls.inf"
+        <copy file="setup/Signature/EnvisionControls.inf"
             tofile="${dir.toCab_ES}/EnvisionControls.inf"/>
         <copy file="${dir.sdk}/ISource/_ISource.dll"
             tofile="${dir.toCab_ES}/_ISource.dll"/>
@@ -967,16 +971,16 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             tofile="${dir.toCab_ES}/mfc80.dll"/>
 
         <!-- specific to this CAB -->
-        <copy file="${dir.src}/clients/Quality/agentdesktop/ReleaseSpanish/AgentX.ocx"
+        <copy file="src/clients/Quality/agentdesktop/ReleaseSpanish/AgentX.ocx"
             tofile="${dir.toCab_ES}/AgentX.ocx"/>
-        <copy file="${dir.src}/clients/reporting/C2CReportingControls/ReleaseSpanish/C2CReportingControls.ocx"
+        <copy file="src/clients/reporting/C2CReportingControls/ReleaseSpanish/C2CReportingControls.ocx"
             tofile="${dir.toCab_ES}/C2CReportingControls.ocx"/>
-        <copy file="${dir.src}/clients/reporting/controls/ReleaseSpanish/WebControls.ocx"
+        <copy file="src/clients/reporting/controls/ReleaseSpanish/WebControls.ocx"
             tofile="${dir.toCab_ES}/WebControls.ocx"/>
-        <copy file="${dir.src}/clients/quality/sharedresources/ReleaseSpanish/SharedResources.dll"
+        <copy file="src/clients/quality/sharedresources/ReleaseSpanish/SharedResources.dll"
             tofile="${dir.toCab_ES}/SharedResources.dll"/>
 
-        <cab cabfile="../setup/Signature/ES/EnvisionControls.cab"
+        <cab cabfile="setup/Signature/ES/EnvisionControls.cab"
             basedir="${dir.toCab_ES}"
             options="-s 6144"
             includes="AgentX.ocx, C2CReportingControls.ocx, WebControls.ocx,
@@ -1010,7 +1014,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- Make ServiceMonitor                                               -->
     <!-- ================================================================= -->
     <target name="make-ServiceMonitor" description="Compiles ServiceMonitor using MSBuild">
-        <exec dir="${dir.build}" executable="${compiler.msbuild}" vmlauncher="${vmlauncher}" failonerror="true">
+        <exec executable="${compiler.msbuild}" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="/target:Build src/tools/EnvisionServiceMonitor/EnvisionServiceMonitor.sln /property:Configuration=Release /l:FileLogger,Microsoft.Build.Engine;logfile=BuildLog.txt;append=true"/>
         </exec>
     </target>
@@ -1071,9 +1075,9 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         description="Publish the results of the C# unit tests">
 
         <!-- Copy the summary and verbose results to the projects folder -->
-        <copy file="${dir.src}/tests/DotNetUnitTests/UT_BLL/bin/Release/results_summary.txt"
+        <copy file="src/tests/DotNetUnitTests/UT_BLL/bin/Release/results_summary.txt"
             tofile="${dir.projects.converted}/unittests/${version.product}_summary.txt"/>
-        <copy file="${dir.src}/tests/DotNetUnitTests/UT_BLL/bin/Release/results_verbose.xml"
+        <copy file="src/tests/DotNetUnitTests/UT_BLL/bin/Release/results_verbose.xml"
             tofile="${dir.projects.converted}/unittests/${version.product}_verbose.xml"/>
     </target>
 
@@ -1153,9 +1157,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         <copy todir="${target4}">
             <fileset dir="${uncpath.cd4_sources}"/>
         </copy>
-        <!-- Brian's Envision Service Monitor -->
         <property name="dir.svcmon"
-            value="../src/tools/EnvisionServiceMonitor/EnvisionServiceMonitor/bin/Release"/>
+            value="src/tools/EnvisionServiceMonitor/EnvisionServiceMonitor/bin/Release"/>
         <copy file="${dir.svcmon}/EnvisionServiceMonitor.exe" todir="${target3}/tools"/>
         <copy file="${dir.svcmon}/EnvisionServiceMonitor.exe.config" todir="${target3}/tools"/>
     </target>
@@ -1211,28 +1214,28 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="release-Documentation-CD1" depends="prepare">
         <!-- full documentation to target1 -->
         <copy todir="${target1}/Documentation">
-            <fileset dir="../Documentation/QuickReference">
+            <fileset dir="Documentation/QuickReference">
                 <!-- TODO Can I get rid of this?  It's pointless. -->
                 <include name="QRS - CentricityAgentDesktop.pdf"/>
             </fileset>
         </copy>
         <copy todir="${target1}/Documentation/UserGuides">
-            <fileset dir="../Documentation/UserGuides">
+            <fileset dir="Documentation/UserGuides">
                 <exclude name="Install_Upgrade.pdf"/>
             </fileset>
         </copy>
         <!-- ReleaseNotes.pdf with a name change -->
-        <copy file="../Documentation/ReleaseNotes/ReleaseNotes.pdf"
+        <copy file="Documentation/ReleaseNotes/ReleaseNotes.pdf"
             tofile="${target1}/Documentation/ReleaseNotes.pdf"/>
-        <copy file="../Documentation/AdbeRdr70_enu.exe"
+        <copy file="Documentation/AdbeRdr70_enu.exe"
             tofile="${target1}/Documentation/AdbeRdr70_enu.exe"/>
     </target>
     <!-- TODO this may need to be changed to work with 9.6 to present -->
     <target name="release-Documentation-CD2" depends="prepare">
         <!-- release notes only to target2 -->
-        <copy file="../Documentation/ReleaseNotes/ReleaseNotes.pdf"
+        <copy file="Documentation/ReleaseNotes/ReleaseNotes.pdf"
             tofile="${target2}/Documentation/ReleaseNotes.pdf"/>
-        <copy file="../Documentation/AdbeRdr70_enu.exe"
+        <copy file="Documentation/AdbeRdr70_enu.exe"
             tofile="${target2}/Documentation/AdbeRdr70_enu.exe"/>
     </target>
 
@@ -1265,7 +1268,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     property name here in case it's not already set (that blows). -->
     <target name="release-EnvisionPlugin" depends="prepare">
         <property name="EnvisionPluginBasedir"
-            value="${dir.workdir}/ContactSourceRunner/EnvisionPlugin/"/>
+            value="workdir/ContactSourceRunner/EnvisionPlugin/"/>
         <copy file="${EnvisionPluginBasedir}/EnvisionPlugin.jar"
             tofile="${dir.nuasis-plugin}/EnvisionPlugin.jar"/>
     </target>
@@ -1321,7 +1324,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         description="Run the C# unit tests">
 
         <!-- Replace the connection string to point to the unit test database -->
-        <loadfile srcfile="${dir.src}/tests/DotNetUnitTests/UT_Release.config" property="unittest.updatedconfig">
+        <loadfile srcfile="src/tests/DotNetUnitTests/UT_Release.config" property="unittest.updatedconfig">
             <filterchain>
                 <replacetokens begintoken="D" endtoken=";">
                     <token key="ata Source=localhost" value="Data Source=${unittest.sqlserver};"/>
@@ -1331,17 +1334,17 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
                 </replacetokens>
             </filterchain>
         </loadfile>
-        <echo file="${dir.src}/tests/DotNetUnitTests/UT_Release.config" message="${unittest.updatedconfig}"/>
+        <echo file="src/tests/DotNetUnitTests/UT_Release.config" message="${unittest.updatedconfig}"/>
 
         <!-- Delete whatever previous results that may exist -->
-        <delete file="${dir.src}/tests/DotNetUnitTests/UT_BLL/bin/Release/results_summary.txt"/>
-        <delete file="${dir.src}/tests/DotNetUnitTests/UT_BLL/bin/Release/results_verbose.xml"/>
+        <delete file="src/tests/DotNetUnitTests/UT_BLL/bin/Release/results_summary.txt"/>
+        <delete file="src/tests/DotNetUnitTests/UT_BLL/bin/Release/results_verbose.xml"/>
 
         <!-- Run the unit tests -->
-        <exec dir="${dir.build}" executable="${unittest.nunit.bin}/nunit-console.exe" vmlauncher="${vmlauncher}" failonerror="false">
-            <arg line="${dir.src}/tests/DotNetUnitTests/UT_Release.nunit
-                /xml:${dir.src}\tests\DotNetUnitTests\UT_BLL\bin\Release\results_verbose.xml"/>
-            <redirector output="${dir.src}\tests\DotNetUnitTests\UT_BLL\bin\Release\results_summary.txt" alwayslog="true"/>
+        <exec executable="${unittest.nunit.bin}/nunit-console.exe" vmlauncher="${vmlauncher}" failonerror="false">
+            <arg line="src/tests/DotNetUnitTests/UT_Release.nunit
+                /xml:src\tests\DotNetUnitTests\UT_BLL\bin\Release\results_verbose.xml"/>
+            <redirector output="src\tests\DotNetUnitTests\UT_BLL\bin\Release\results_summary.txt" alwayslog="true"/>
         </exec>
     </target>
 
@@ -1388,7 +1391,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
                 /f ${file.pfx}
                 /p ${signtool.password}
                 /t ${signtool.timestampurl}
-                ../setup/Signature/EN/EnvisionControls.cab"/>
+                setup/Signature/EN/EnvisionControls.cab"/>
         </exec>
     </target>
     <!-- German -->
@@ -1400,7 +1403,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
                 /f ${file.pfx}
                 /p ${signtool.password}
                 /t ${signtool.timestampurl}
-                ../setup/Signature/DE/EnvisionControls.cab"/>
+                setup/Signature/DE/EnvisionControls.cab"/>
         </exec>
     </target>
     <!-- Spanish -->
@@ -1412,20 +1415,9 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
                 /f ${file.pfx}
                 /p ${signtool.password}
                 /t ${signtool.timestampurl}
-                ../setup/Signature/ES/EnvisionControls.cab"/>
+                setup/Signature/ES/EnvisionControls.cab"/>
         </exec>
     </target>
-
-    <!-- ================================================================= -->
-    <!-- Update source from SVN repository (svn up)                        -->
-    <!-- ================================================================= -->
-    <!--
-    <target name="svn-up" description="Update source from Subversion">
-        <svn>
-            <update dir="${dir.build}"/>
-        </svn>
-    </target>
-    -->
 
     <!-- ================================================================= -->
     <!-- Tag the latest build                                              -->
@@ -1479,7 +1471,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- ================================================================= -->
     <target name="touch-build">
         <touch>
-            <fileset dir="${dir.build}"/>
+            <fileset dir="."/>
         </touch>
     </target>
 
@@ -1487,12 +1479,12 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- Unzip Agent_Desktop_Webhelp.zip for the Server installer          -->
     <!-- ================================================================= -->
     <target name="unzip-AgentDesktop_WebHelp">
-        <unjar src="../Documentation/WebHelp/EN/Agent_Desktop_Webhelp.zip"
-            dest="../Documentation/WebHelp/EN/Agent_Desktop_Webhelp"/>
-        <unjar src="../Documentation/WebHelp/DE/Agent_Desktop_Webhelp.zip"
-            dest="../Documentation/WebHelp/DE/Agent_Desktop_Webhelp"/>
-        <unjar src="../Documentation/WebHelp/ES/Agent_Desktop_Webhelp.zip"
-            dest="../Documentation/WebHelp/ES/Agent_Desktop_Webhelp"/>
+        <unjar src="Documentation/WebHelp/EN/Agent_Desktop_Webhelp.zip"
+            dest="Documentation/WebHelp/EN/Agent_Desktop_Webhelp"/>
+        <unjar src="Documentation/WebHelp/DE/Agent_Desktop_Webhelp.zip"
+            dest="Documentation/WebHelp/DE/Agent_Desktop_Webhelp"/>
+        <unjar src="Documentation/WebHelp/ES/Agent_Desktop_Webhelp.zip"
+            dest="Documentation/WebHelp/ES/Agent_Desktop_Webhelp"/>
     </target>
 
     <!-- ================================================================= -->
@@ -1500,8 +1492,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- ================================================================= -->
     <!-- BI is not localized -->
     <target name="unzip-BI_WebHelp">
-        <unjar src="../Documentation/WebHelp/EN/BI_Webhelp.zip"
-            dest="../Documentation/WebHelp/EN/BI_Webhelp"/>
+        <unjar src="Documentation/WebHelp/EN/BI_Webhelp.zip"
+            dest="Documentation/WebHelp/EN/BI_Webhelp"/>
     </target>
 
     <!-- ================================================================= -->
@@ -1511,30 +1503,30 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="unzip-Centricity_WebHelp">
         <!-- Maybe later this will become three separate tasks. -->
         <!-- Centricity documentation for Supervisors -->
-        <unjar src="../Documentation/WebHelp/EN/Centricity_Webhelp.zip"
-            dest="../Documentation/WebHelp/EN/Centricity_Webhelp"/>
-        <unjar src="../Documentation/WebHelp/DE/Centricity_Webhelp.zip"
-            dest="../Documentation/WebHelp/DE/Centricity_Webhelp"/>
-        <unjar src="../Documentation/WebHelp/ES/Centricity_Webhelp.zip"
-            dest="../Documentation/WebHelp/ES/Centricity_Webhelp"/>
-        <unjar src="../Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp.zip"
-            dest="../Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp"/>
-        <unjar src="../Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp.zip"
-            dest="../Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp"/>
-        <unjar src="../Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp.zip"
-            dest="../Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp"/>
+        <unjar src="Documentation/WebHelp/EN/Centricity_Webhelp.zip"
+            dest="Documentation/WebHelp/EN/Centricity_Webhelp"/>
+        <unjar src="Documentation/WebHelp/DE/Centricity_Webhelp.zip"
+            dest="Documentation/WebHelp/DE/Centricity_Webhelp"/>
+        <unjar src="Documentation/WebHelp/ES/Centricity_Webhelp.zip"
+            dest="Documentation/WebHelp/ES/Centricity_Webhelp"/>
+        <unjar src="Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp.zip"
+            dest="Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp"/>
+        <unjar src="Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp.zip"
+            dest="Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp"/>
+        <unjar src="Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp.zip"
+            dest="Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp"/>
     </target>
 
     <!-- ================================================================= -->
     <!-- Unzip Classic reporting WebHelp for the Server installer          -->
     <!-- ================================================================= -->
     <target name="unzip-ClassicReports_WebHelp">
-        <unjar src="../Documentation/WebHelp/EN/Classic_reports_Webhelp.zip"
-            dest="../Documentation/WebHelp/EN/Classic_reports_Webhelp"/>
-        <unjar src="../Documentation/WebHelp/DE/Classic_reports_Webhelp.zip"
-            dest="../Documentation/WebHelp/DE/Classic_reports_Webhelp"/>
-        <unjar src="../Documentation/WebHelp/ES/Classic_reports_Webhelp.zip"
-            dest="../Documentation/WebHelp/ES/Classic_reports_Webhelp"/>
+        <unjar src="Documentation/WebHelp/EN/Classic_reports_Webhelp.zip"
+            dest="Documentation/WebHelp/EN/Classic_reports_Webhelp"/>
+        <unjar src="Documentation/WebHelp/DE/Classic_reports_Webhelp.zip"
+            dest="Documentation/WebHelp/DE/Classic_reports_Webhelp"/>
+        <unjar src="Documentation/WebHelp/ES/Classic_reports_Webhelp.zip"
+            dest="Documentation/WebHelp/ES/Classic_reports_Webhelp"/>
     </target>
 
     <!-- ================================================================= -->
@@ -1564,16 +1556,16 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- TODO VIPER -timc 9/20/2010 -->
     <target name="unzip-NuanceProfile">
         <unjar src="${dir.sdk}/Nuance/Envision.zip"
-            dest="${dir.workdir}/AudioMining"/>
+            dest="workdir/AudioMining"/>
         <unjar src="${dir.sdk}/Nuance/EnvisionEnglishUK.zip"
-            dest="${dir.workdir}/AudioMining"/>
+            dest="workdir/AudioMining"/>
         <unjar src="${dir.sdk}/Nuance/EnvisionGerman.zip"
-            dest="${dir.workdir}/AudioMining"/>
+            dest="workdir/AudioMining"/>
         <exec executable="7za.exe" vmlauncher="${vmlauncher}" failonerror="false">
-            <arg line="x ${dir.sdk}/Nuance/EnvisionSpanish.zip -o${dir.workdir}/AudioMining"/>
+            <arg line="x ${dir.sdk}/Nuance/EnvisionSpanish.zip -oworkdir/AudioMining"/>
         </exec>
         <exec executable="7za.exe" vmlauncher="${vmlauncher}" failonerror="false">
-            <arg line="x ${dir.sdk}/Nuance/EnvisionSpanishLA.zip -o${dir.workdir}/AudioMining"/>
+            <arg line="x ${dir.sdk}/Nuance/EnvisionSpanishLA.zip -oworkdir/AudioMining"/>
         </exec>
     </target>
 
@@ -1629,9 +1621,9 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!--
     <target name="make-BVTs">
         <property name="compiler.cpp" value="${vs100_devenv}"/>
-        <build-cpp solution.file="${dir.src}/tools/testapps/AgentCentricity/AgentCentricity.sln"/>
-        <build-cpp solution.file="${dir.src}/tools/testapps/CentricityBVT/autotest.sln"/>
-        <build-cpp solution.file="${dir.src}/tools/testapps/ReviewAdvocate/ReviewAdvocate.sln"/>
+        <build-cpp solution.file="src/tools/testapps/AgentCentricity/AgentCentricity.sln"/>
+        <build-cpp solution.file="src/tools/testapps/CentricityBVT/autotest.sln"/>
+        <build-cpp solution.file="src/tools/testapps/ReviewAdvocate/ReviewAdvocate.sln"/>
     </target>
     -->
 
@@ -1650,33 +1642,33 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- NOTE have to set vs100_devenv here instead of compiler.cpp, since the
     properties are immutable. -timc 2/9/2011 -->
     <target name="make-BVT-AgentCentricity">
-        <exec dir="${dir.build}" executable="${vs100_devenv}" vmlauncher="false" failonerror="false">
+        <exec executable="${vs100_devenv}" vmlauncher="false" failonerror="false">
             <arg line="/build Release
-                ${dir.src}/tools/testapps/AgentCentricity/AgentCentricity.sln
+                src/tools/testapps/AgentCentricity/AgentCentricity.sln
                 /out BuildLog.txt"/>
         </exec>
         <copy todir="${dir.projects.converted}\BVTs">
-            <fileset file="${dir.src}/tools/testapps/AgentCentricity/AgentCentricity/bin/Release/AgentCentricity.dll"/>
+            <fileset file="src/tools/testapps/AgentCentricity/AgentCentricity/bin/Release/AgentCentricity.dll"/>
         </copy>
     </target>
     <target name="make-BVT-CentricityBVT">
-        <exec dir="${dir.build}" executable="${vs100_devenv}" vmlauncher="false" failonerror="false">
+        <exec executable="${vs100_devenv}" vmlauncher="false" failonerror="false">
             <arg line="/build Release
-                ${dir.src}/tools/testapps/CentricityBVT/autotest.sln
+                src/tools/testapps/CentricityBVT/autotest.sln
                 /out BuildLog.txt"/>
         </exec>
         <copy todir="${dir.projects.converted}\BVTs">
-            <fileset file="${dir.src}/tools/testapps/CentricityBVT/autotest/bin/Release/autotest.dll"/>
+            <fileset file="src/tools/testapps/CentricityBVT/autotest/bin/Release/autotest.dll"/>
         </copy>
     </target>
     <target name="make-BVT-ReviewAdvocate">
-        <exec dir="${dir.build}" executable="${vs100_devenv}" vmlauncher="false" failonerror="false">
+        <exec executable="${vs100_devenv}" vmlauncher="false" failonerror="false">
             <arg line="/build Release
-                ${dir.src}/tools/testapps/ReviewAdvocate/ReviewAdvocate.sln
+                src/tools/testapps/ReviewAdvocate/ReviewAdvocate.sln
                 /out BuildLog.txt"/>
         </exec>
         <copy todir="${dir.projects.converted}\BVTs">
-            <fileset file="${dir.src}/tools/testapps/ReviewAdvocate/ReviewAdvocate/bin/Release/ReviewAdvocate.dll"/>
+            <fileset file="src/tools/testapps/ReviewAdvocate/ReviewAdvocate/bin/Release/ReviewAdvocate.dll"/>
         </copy>
     </target>
 </project>

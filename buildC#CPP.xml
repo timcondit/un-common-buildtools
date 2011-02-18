@@ -422,7 +422,7 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!-- TODO is there a SmartAgentErrs solution? -timc, Cinco de Mayo -->
     <!-- TODO Make sure mc.exe is on the PATH -->
     <target name="make-SmartAgentErrs" description="Makes SmartAgentErrs.dll">
-        <exec dir="../src/clients/quality/agentsupport/smartagenterrs"
+        <exec dir="src/clients/quality/agentsupport/smartagenterrs"
             executable="mc.exe" vmlauncher="${vmlauncher}" failonerror="true">
 <!-- executable="C:/bin/mc.exe" vmlauncher="${vmlauncher}" failonerror="true"> -->
             <arg line="-v -c -s -h ..\ -r .\ -x .\ -U smartagenterrs.mc"/>
@@ -527,8 +527,8 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!-- ================================================================= -->
     <!-- timc: Do we need this any longer? -->
     <target name="publish-AVPlayer" description="Publishes Centricity AVPlayer (Click Once) using MSBuild">
-        <exec dir="${dir.build}" executable="${compiler.msbuild}" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="/target:publish src/clients/AVPlayer/AVPlayer.csproj /property:Configuration=Release;PublishDir=${dir.workdir}/AVPlayer/ /l:FileLogger,Microsoft.Build.Engine;logfile=BuildLog.txt;append=true"/>
+        <exec executable="${compiler.msbuild}" vmlauncher="${vmlauncher}" failonerror="true">
+            <arg line="/target:publish src/clients/AVPlayer/AVPlayer.csproj /property:Configuration=Release;PublishDir=workdir/AVPlayer/ /l:FileLogger,Microsoft.Build.Engine;logfile=BuildLog.txt;append=true"/>
         </exec>
     </target>
 
@@ -537,8 +537,8 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!-- ================================================================= -->
     <!-- timc: Do we need this any longer? -->
     <target name="publish-RecordingDownloadTool" description="Publishes Centricity RecordingDownloadTool (Click Once) using MSBuild">
-        <exec dir="${dir.build}" executable="${compiler.msbuild}" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="/target:publish src/clients/RecordingDownloadTool/RecordingDownloadTool.csproj /property:Configuration=Release;PublishDir=${dir.workdir}/RecordingDownloadTool/ /l:FileLogger,Microsoft.Build.Engine;logfile=BuildLog.txt;append=true"/>
+        <exec executable="${compiler.msbuild}" vmlauncher="${vmlauncher}" failonerror="true">
+            <arg line="/target:publish src/clients/RecordingDownloadTool/RecordingDownloadTool.csproj /property:Configuration=Release;PublishDir=workdir/RecordingDownloadTool/ /l:FileLogger,Microsoft.Build.Engine;logfile=BuildLog.txt;append=true"/>
         </exec>
     </target>
 
@@ -547,10 +547,10 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!-- ================================================================= -->
     <target name="register-NCT-binaries">
         <!-- Don't fail on error.  The binaries may already be registered. -->
-        <apply executable="regsvr32" relative="true" dir="../src/winservices/WMWrapperService/Redist">
+        <apply executable="regsvr32" relative="true" dir="src/winservices/WMWrapperService/Redist">
             <!-- trailing space may be important here -->
             <arg line="/s "/>
-            <fileset dir="../src/winservices/WMWrapperService/Redist" includes="**/NCT*.dll"/>
+            <fileset dir="src/winservices/WMWrapperService/Redist" includes="**/NCT*.dll"/>
         </apply>
     </target>
     <!--
@@ -577,7 +577,7 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <target name="sign-AgentAdherence_OCX" depends="make-AgentAdherence_OCX" description="Digitally signs AgentAdherence.ocx to verify its authenticity.">
         <!-- NB: don't forget the ${basedir}! -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.workdir}/wfm/AgentAdherence.ocx"/>
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} workdir/wfm/AgentAdherence.ocx"/>
         </exec>
     </target>
 
@@ -588,7 +588,7 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <target name="sign-AgentSchedule_OCX" depends="make-AgentSchedule_OCX" description="Digitally signs AgentSchedule.ocx to verify its authenticity.">
         <!-- NB: don't forget the ${basedir}! -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.workdir}/wfm/AgentSchedule.ocx"/>
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} workdir/wfm/AgentSchedule.ocx"/>
         </exec>
     </target>
 
@@ -599,17 +599,17 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <target name="sign-AgentX_OCX" depends="make-AgentX_OCX" description="Digitally signs AgentX.ocx to verify its authenticity.">
         <!-- English -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.workdir}/quality/AgentX.ocx"/>
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} workdir/quality/AgentX.ocx"/>
         </exec>
         <!-- NB: don't forget the ${basedir}! -->
         <!-- TODO Make sure signtool.exe is on the PATH -->
         <!-- German -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ../src/clients/quality/agentdesktop/ReleaseGerman/AgentX.ocx"/>
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} src/clients/quality/agentdesktop/ReleaseGerman/AgentX.ocx"/>
         </exec>
         <!-- Spanish -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ../src/clients/quality/agentdesktop/ReleaseSpanish/AgentX.ocx"/>
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} src/clients/quality/agentdesktop/ReleaseSpanish/AgentX.ocx"/>
         </exec>
     </target>
 
@@ -624,7 +624,7 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
         <!-- NB: don't forget the ${basedir}! -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <!-- /f ${dir.build}/setup/Signature/myprivatecert.pfx -->
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ../src/clients/Centricity/Analytics/AnalyticsResources/obj/Release/EnvisionAnalyticsResources.dll"/>
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} src/clients/Centricity/Analytics/AnalyticsResources/obj/Release/EnvisionAnalyticsResources.dll"/>
         </exec>
     </target>
 
@@ -635,7 +635,7 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
         <!-- NB: don't forget the ${basedir}! -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <!-- /f ${dir.build}/setup/Signature/myprivatecert.pfx -->
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ../src/clients/Centricity/Analytics/AnalyticsUtilities/obj/Release/EnvisionAnalyticsUtilities.dll"/>
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} src/clients/Centricity/Analytics/AnalyticsUtilities/obj/Release/EnvisionAnalyticsUtilities.dll"/>
         </exec>
     </target>
 
@@ -647,19 +647,19 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
         <!-- English -->
         <!-- NB: don't forget the ${basedir}! -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ../src/clients/reporting/C2CReportingControls/Release/C2CReportingControls.ocx"/>
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} src/clients/reporting/C2CReportingControls/Release/C2CReportingControls.ocx"/>
         </exec>
         <!-- German -->
         <!-- NB: don't forget the ${basedir}! -->
         <!-- TODO Make sure signtool.exe is on the PATH -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ../src/clients/reporting/C2CReportingControls/ReleaseGerman/C2CReportingControls.ocx"/>
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} src/clients/reporting/C2CReportingControls/ReleaseGerman/C2CReportingControls.ocx"/>
         </exec>
         <!-- Spanish -->
         <!-- NB: don't forget the ${basedir}! -->
         <!-- TODO Make sure signtool.exe is on the PATH -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ../src/clients/reporting/C2CReportingControls/ReleaseSpanish/C2CReportingControls.ocx"/>
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} src/clients/reporting/C2CReportingControls/ReleaseSpanish/C2CReportingControls.ocx"/>
         </exec>
     </target>
 
@@ -670,7 +670,7 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
         <!-- NB: don't forget the ${basedir}! -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <!-- /f ${dir.build}/setup/Signature/myprivatecert.pfx -->
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ../src/clients/Centricity/Analytics/EnvisionCLR/obj/Release/EnvisionCLR.dll"/>
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} src/clients/Centricity/Analytics/EnvisionCLR/obj/Release/EnvisionCLR.dll"/>
         </exec>
     </target>
 
@@ -681,17 +681,17 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
         <!-- English -->
         <!-- NB: don't forget the ${basedir}! -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ${dir.workdir}/agentdesktop/WebControls.ocx"/>
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} workdir/agentdesktop/WebControls.ocx"/>
         </exec>
         <!-- German -->
         <!-- NB: don't forget the ${basedir}! -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ../src/clients/reporting/controls/ReleaseGerman/WebControls.ocx"/>
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} src/clients/reporting/controls/ReleaseGerman/WebControls.ocx"/>
         </exec>
         <!-- Spanish -->
         <!-- NB: don't forget the ${basedir}! -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} ../src/clients/reporting/controls/ReleaseSpanish/WebControls.ocx"/>
+            <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} src/clients/reporting/controls/ReleaseSpanish/WebControls.ocx"/>
         </exec>
     </target>
 </project>
