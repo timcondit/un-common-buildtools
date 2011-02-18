@@ -260,13 +260,16 @@
     <!-- Unzip the default Nuance profile for the Speech Server            -->
     <!-- ================================================================= -->
     <!-- TODO VIPER -timc 9/20/2010 -->
+    <!-- TODO don't use ${dir.bin}, get 7za.exe from the PATH -timc 2/17/2011 -->
     <target name="unzip-NuanceProfile" depends="propset">
         <unjar src="${dir.sdk}/Nuance/Envision.zip" dest="${dir.workdir}/AudioMining"/>
         <unjar src="${dir.sdk}/Nuance/EnvisionEnglishUK.zip" dest="${dir.workdir}/AudioMining"/>
         <unjar src="${dir.sdk}/Nuance/EnvisionGerman.zip" dest="${dir.workdir}/AudioMining"/>
+        <!-- <exec executable="7za.exe" vmlauncher="false" failonerror="false"> -->
         <exec dir="${dir.bin}" executable="7za.exe" vmlauncher="false" failonerror="false">
             <arg line="x ${dir.sdk}/Nuance/EnvisionSpanish.zip -o${dir.workdir}/AudioMining"/>
         </exec>
+        <!-- <exec executable="7za.exe" vmlauncher="false" failonerror="false"> -->
         <exec dir="${dir.bin}" executable="7za.exe" vmlauncher="false" failonerror="false">
             <arg line="x ${dir.sdk}/Nuance/EnvisionSpanishLA.zip -o${dir.workdir}/AudioMining"/>
         </exec>

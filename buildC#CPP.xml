@@ -423,7 +423,8 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!-- TODO Make sure mc.exe is on the PATH -->
     <target name="make-SmartAgentErrs" description="Makes SmartAgentErrs.dll">
         <exec dir="../src/clients/quality/agentsupport/smartagenterrs"
-            executable="C:/bin/mc.exe" vmlauncher="${vmlauncher}" failonerror="true">
+            executable="mc.exe" vmlauncher="${vmlauncher}" failonerror="true">
+<!-- executable="C:/bin/mc.exe" vmlauncher="${vmlauncher}" failonerror="true"> -->
             <arg line="-v -c -s -h ..\ -r .\ -x .\ -U smartagenterrs.mc"/>
         </exec>
         <build-cpp solution.file="src/clients/quality/agentsupport/smartagenterrs/SmartAgentErrs.vcproj"/>

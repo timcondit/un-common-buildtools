@@ -1760,7 +1760,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- Run BVT test (build verification test test?) automation           -->
     <!-- ================================================================= -->
     <target name="run-test-automation">
-        <!-- <exec dir="${dir.bin}" executable="${vs100_mstest}" failonerror="false"> -->
         <exec dir="${dir.bin}" executable="VMWareTests.exe" failonerror="false">
             <arg line="-commonDB PE6850_Common -localDB PE6850_Local -aspNETDB PE6850_ASPNET -hostIP 10.1.6.10 -imageIP 10.1.6.106 -serverName WIN2008-64C -site_retries 15 -emailto keith.myers@envisioninc.com"/>
         </exec>
