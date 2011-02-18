@@ -286,13 +286,13 @@
     <target name="make-ADIT" depends="prepare">
         <build-AI-installer
             product.name="ADIT"
-            installer.path="${dir.installs}/ADIT"
-            project.file="${dir.installs}/ADIT/ADIT.aip"/>
+            installer.path="setup/installs/ADIT"
+            project.file="setup/installs/ADIT/ADIT.aip"/>
     </target>
     <target name="release-ADIT" depends="make-ADIT">
         <release-AI-installer
             product.name="ADIT"
-            installer.path="${dir.installs}/ADIT"
+            installer.path="setup/installs/ADIT"
             product.path="${dir.utils}"/>
     </target>
 
@@ -303,13 +303,13 @@
     <target name="make-AgentSupport" depends="prepare">
         <build-AI-installer
             product.name="AgentSupport"
-            installer.path="${dir.installs}/AgentSupport"
-            project.file="${dir.installs}/AgentSupport/AgentSupport.aip"/>
+            installer.path="setup/installs/AgentSupport"
+            project.file="setup/installs/AgentSupport/AgentSupport.aip"/>
     </target>
     <target name="release-AgentSupport" depends="make-AgentSupport">
         <release-AI-installer
             product.name="AgentSupport"
-            installer.path="${dir.installs}/AgentSupport"
+            installer.path="setup/installs/AgentSupport"
             product.path="${target1}"/>
     </target>
 
@@ -319,13 +319,13 @@
     <target name="make-AGMS" depends="prepare">
         <build-AI-installer
             product.name="AGMS"
-            installer.path="${dir.installs}/AGMS"
-            project.file="${dir.installs}/AGMS/AGMS.aip"/>
+            installer.path="setup/installs/AGMS"
+            project.file="setup/installs/AGMS/AGMS.aip"/>
     </target>
     <target name="release-AGMS" depends="make-AGMS">
         <release-AI-installer
             product.name="AGMS"
-            installer.path="${dir.installs}/AGMS"
+            installer.path="setup/installs/AGMS"
             product.path="${dir.utils}"/>
     </target>
 
@@ -335,13 +335,13 @@
     <target name="make-Analytics" depends="prepare">
         <build-AI-installer
             product.name="Analytics"
-            installer.path="${dir.installs}/Analytics"
-            project.file="${dir.installs}/Analytics/Analytics.aip"/>
+            installer.path="setup/installs/Analytics"
+            project.file="setup/installs/Analytics/Analytics.aip"/>
     </target>
     <target name="release-Analytics" depends="make-Analytics">
         <release-AI-installer
             product.name="Analytics"
-            installer.path="${dir.installs}/Analytics"
+            installer.path="setup/installs/Analytics"
             product.path="${target2}"/>
     </target>
 
@@ -351,13 +351,13 @@
     <target name="make-CentricityQM">
         <build-AI-installer
             product.name="CentricityQM"
-            installer.path="${dir.installs}/CentricityQM"
-            project.file="${dir.installs}/CentricityQM/CentricityQM.aip"/>
+            installer.path="setup/installs/CentricityQM"
+            project.file="setup/installs/CentricityQM/CentricityQM.aip"/>
     </target>
     <target name="release-CentricityQM" depends="make-CentricityQM">
         <release-AI-installer
             product.name="CentricityQM"
-            installer.path="${dir.installs}/CentricityQM"
+            installer.path="setup/installs/CentricityQM"
             product.path="${dir.utils}"/>
     </target>
 
@@ -367,14 +367,14 @@
     <target name="make-ChannelManager-installer" depends="prepare">
         <build-AI-installer
             product.name="ChannelManager"
-            installer.path="${dir.installs}/ChannelManager"
-            project.file="${dir.installs}/ChannelManager/ChannelManager.aip"/>
+            installer.path="setup/installs/ChannelManager"
+            project.file="setup/installs/ChannelManager/ChannelManager.aip"/>
     </target>
     <target name="release-ChannelManager"
         depends="make-ChannelManager-installer">
         <release-AI-installer
             product.name="ChannelManager"
-            installer.path="${dir.installs}/ChannelManager"
+            installer.path="setup/installs/ChannelManager"
             product.path="${target2}"/>
     </target>
 
@@ -386,13 +386,13 @@
     <target name="make-CentricityWebApplications" depends="prepare">
         <build-AI-installer
             product.name="CentricityWebApplications"
-            installer.path="${dir.installs}/CentricityWebApplications"
-            project.file="${dir.installs}/CentricityWebApplications/CentricityWebApplications.aip"/>
+            installer.path="setup/installs/CentricityWebApplications"
+            project.file="setup/installs/CentricityWebApplications/CentricityWebApplications.aip"/>
     </target>
     <target name="release-CentricityWebApplications" depends="make-CentricityWebApplications">
         <release-AI-installer
             product.name="CentricityWebApplications"
-            installer.path="${dir.installs}/CentricityWebApplications"
+            installer.path="setup/installs/CentricityWebApplications"
             product.path="${target2}"/>
     </target>
 
@@ -402,13 +402,13 @@
     <target name="make-SpeechServerService" depends="prepare">
         <build-AI-installer
             product.name="SpeechServerService"
-            installer.path="${dir.installs}/SpeechServerService"
-            project.file="${dir.installs}/SpeechServerService/SpeechServerService.aip"/>
+            installer.path="setup/installs/SpeechServerService"
+            project.file="setup/installs/SpeechServerService/SpeechServerService.aip"/>
     </target>
     <target name="release-SpeechServerService" depends="make-SpeechServerService">
         <release-AI-installer
             product.name="SpeechServerService"
-            installer.path="${dir.installs}/SpeechServerService"
+            installer.path="setup/installs/SpeechServerService"
             product.path="${target2}"/>
     </target>
 
@@ -418,13 +418,13 @@
     <target name="make-SpeechProcessingClient" depends="prepare,unzip-NuanceProfile">
         <build-AI-installer
             product.name="SpeechProcessingClient"
-            installer.path="${dir.installs}/SpeechProcessingClient"
-            project.file="${dir.installs}/SpeechProcessingClient/SpeechProcessingClient.aip"/>
+            installer.path="setup/installs/SpeechProcessingClient"
+            project.file="setup/installs/SpeechProcessingClient/SpeechProcessingClient.aip"/>
     </target>
     <target name="release-SpeechProcessingClient" depends="make-SpeechProcessingClient">
         <release-AI-installer
             product.name="SpeechProcessingClient"
-            installer.path="${dir.installs}/SpeechProcessingClient"
+            installer.path="setup/installs/SpeechProcessingClient"
             product.path="${target2}"/>
     </target>
 
@@ -434,13 +434,13 @@
     <target name="make-DADI" depends="prepare">
         <build-AI-installer
             product.name="DADI"
-            installer.path="${dir.installs}/DADI"
-            project.file="${dir.installs}/DADI/DADI.aip"/>
+            installer.path="setup/installs/DADI"
+            project.file="setup/installs/DADI/DADI.aip"/>
     </target>
     <target name="release-DADI" depends="make-DADI">
         <release-AI-installer
             product.name="DADI"
-            installer.path="${dir.installs}/DADI"
+            installer.path="setup/installs/DADI"
             product.path="${dir.utils}"/>
     </target>
 
@@ -450,13 +450,13 @@
     <target name="make-DBMigration" depends="prepare">
         <build-AI-installer
             product.name="DBMigration"
-            installer.path="${dir.installs}/DBMigration"
-            project.file="${dir.installs}/DBMigration/DBMigration.aip"/>
+            installer.path="setup/installs/DBMigration"
+            project.file="setup/installs/DBMigration/DBMigration.aip"/>
     </target>
     <target name="release-DBMigration" depends="make-DBMigration">
         <release-AI-installer
             product.name="DBMigration"
-            installer.path="${dir.installs}/DBMigration"
+            installer.path="setup/installs/DBMigration"
             product.path="${dir.utils}"/>
     </target>
 
@@ -498,18 +498,18 @@
     <target name="make-ECC" depends="prepare">
         <build-AI-installer
             product.name="EvaluationConsistencyCheck"
-            installer.path="${dir.installs}/EvaluationConsistencyCheck"
-            project.file="${dir.installs}/EvaluationConsistencyCheck/EvaluationConsistencyCheck.aip"/>
+            installer.path="setup/installs/EvaluationConsistencyCheck"
+            project.file="setup/installs/EvaluationConsistencyCheck/EvaluationConsistencyCheck.aip"/>
     </target>
     <target name="release-ECC" depends="make-ECC">
         <release-AI-installer
             product.name="EvaluationConsistencyCheck"
-            installer.path="${dir.installs}/EvaluationConsistencyCheck"
+            installer.path="setup/installs/EvaluationConsistencyCheck"
             product.path="${dir.utils}"/>
         <!-- additional copy operation for this installer only -->
         <!-- <copy todir="${dir.utils}/EvaluationConsistencyCheck/QM"> -->
         <copy todir="${dir.utils}/EPS8.4_QMPublishedTemplateEditor">
-            <fileset dir="${dir.installs}/EvaluationConsistencyCheck/QM"/>
+            <fileset dir="setup/installs/EvaluationConsistencyCheck/QM"/>
         </copy>
     </target>
 
@@ -520,13 +520,13 @@
         depends="prepare, unzip-BI_WebHelp, unzip-Envision_JRE, unzip-PerformanceSuite-jars_ZIP">
         <build-AI-installer
             product.name="PerformanceSuite"
-            installer.path="${dir.installs}/PerformanceSuite"
-            project.file="${dir.installs}/PerformanceSuite/PerformanceSuite.aip"/>
+            installer.path="setup/installs/PerformanceSuite"
+            project.file="setup/installs/PerformanceSuite/PerformanceSuite.aip"/>
     </target>
     <target name="release-PerformanceSuite" depends="make-PerformanceSuite">
         <release-AI-installer
             product.name="PerformanceSuite"
-            installer.path="${dir.installs}/PerformanceSuite"
+            installer.path="setup/installs/PerformanceSuite"
             product.path="${target1}"/>
     </target>
 
@@ -539,13 +539,13 @@
         depends="prepare, unzip-BI_WebHelp, unzip-Envision_JRE, unzip-PerformanceSuite-jars_ZIP">
         <build-AI-installer
             product.name="Administrator"
-            installer.path="${dir.installs}/Administrator"
-            project.file="${dir.installs}/Administrator/Administrator.aip"/>
+            installer.path="setup/installs/Administrator"
+            project.file="setup/installs/Administrator/Administrator.aip"/>
     </target>
     <target name="release-Administrator" depends="make-Administrator-installer">
         <release-AI-installer
             product.name="Administrator"
-            installer.path="${dir.installs}/Administrator"
+            installer.path="setup/installs/Administrator"
             product.path="${target1}"/>
     </target>
 
@@ -556,13 +556,13 @@
         depends="prepare, unzip-WebHelp, unzip-Envision_JRE, unzip-Server-jars_ZIP">
         <build-AI-installer
             product.name="ServerSuite"
-            installer.path="${dir.installs}/ServerSuite"
-            project.file="${dir.installs}/ServerSuite/ServerSuite.aip"/>
+            installer.path="setup/installs/ServerSuite"
+            project.file="setup/installs/ServerSuite/ServerSuite.aip"/>
     </target>
     <target name="release-ServerSuite" depends="make-ServerSuite">
         <release-AI-installer
             product.name="ServerSuite"
-            installer.path="${dir.installs}/ServerSuite"
+            installer.path="setup/installs/ServerSuite"
             product.path="${target2}"/>
     </target>
 
@@ -572,13 +572,13 @@
     <target name="make-Tools" depends="prepare">
         <build-AI-installer
             product.name="Tools"
-            installer.path="${dir.installs}/Tools"
-            project.file="${dir.installs}/Tools/Tools.aip"/>
+            installer.path="setup/installs/Tools"
+            project.file="setup/installs/Tools/Tools.aip"/>
     </target>
     <target name="release-Tools" depends="make-Tools">
         <release-AI-installer
             product.name="Tools"
-            installer.path="${dir.installs}/Tools"
+            installer.path="setup/installs/Tools"
             product.path="${dir.utils}"/>
     </target>
 
@@ -588,13 +588,13 @@
     <target name="make-WMWrapperService" depends="prepare">
         <build-AI-installer
             product.name="WMWrapperService"
-            installer.path="${dir.installs}/WMWrapperService"
-            project.file="${dir.installs}/WMWrapperService/WMWrapperService.aip"/>
+            installer.path="setup/installs/WMWrapperService"
+            project.file="setup/installs/WMWrapperService/WMWrapperService.aip"/>
     </target>
     <target name="release-WMWrapperService" depends="make-WMWrapperService">
         <release-AI-installer
             product.name="WMWrapperService"
-            installer.path="${dir.installs}/WMWrapperService"
+            installer.path="setup/installs/WMWrapperService"
             product.path="${target2}"/>
     </target>
 

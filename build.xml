@@ -43,6 +43,8 @@
     <property name="vmlauncher" value="false"/>
     <property name="compiler.msbuild"
         value="C:/Windows/Microsoft.NET/Framework/v3.5/MSBuild.exe"/>
+    <property name="dir.installs" value="setup/installs"/>
+    <property name="compiler.ai" value="C:/Program Files/Caphyon/Advanced Installer 8.0.2/bin/x86/AdvancedInstaller.com"/>
 
     <!-- ================================================================= -->
     <!-- Make environment variables accessible in build.properties         -->
@@ -655,7 +657,7 @@
     up above with the version file commits.  -->
     <target name="commit-installers" depends="setup-installers">
         <svn username="buildmgr" password="buildmgr">
-            <commit dir="${dir.installs}"
+            <commit dir="setup/installs"
                 message="00000: Installer project file checkin for build ${version.product}"/>
         </svn>
     </target>
@@ -665,7 +667,7 @@
     <!-- ================================================================= -->
     <target name="commit-installers-no-depends">
         <svn username="buildmgr" password="buildmgr">
-            <commit dir="${dir.installs}"
+            <commit dir="setup/installs"
                 message="00000: Installer project file checkin for build ${version.product}"/>
         </svn>
     </target>
@@ -800,8 +802,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="make-ADIT-installer" depends="prepare">
         <build-AI-installer
             product.name="ADIT"
-            installer.path="${dir.installs}/ADIT"
-            project.file="${dir.installs}/ADIT/ADIT.aip"/>
+            installer.path="setup/installs/ADIT"
+            project.file="setup/installs/ADIT/ADIT.aip"/>
     </target>
 
     <!-- ================================================================= -->
@@ -810,8 +812,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="make-AgentSupport-installer" depends="prepare">
         <build-AI-installer
             product.name="AgentSupport"
-            installer.path="${dir.installs}/AgentSupport"
-            project.file="${dir.installs}/AgentSupport/AgentSupport.aip"/>
+            installer.path="setup/installs/AgentSupport"
+            project.file="setup/installs/AgentSupport/AgentSupport.aip"/>
     </target>
 
     <!-- ================================================================= -->
@@ -820,8 +822,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="make-AGMS-installer" depends="prepare">
         <build-AI-installer
             product.name="AGMS"
-            installer.path="${dir.installs}/AGMS"
-            project.file="${dir.installs}/AGMS/AGMS.aip"/>
+            installer.path="setup/installs/AGMS"
+            project.file="setup/installs/AGMS/AGMS.aip"/>
     </target>
 
     <!-- ================================================================= -->
@@ -830,8 +832,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="make-Analytics-installer" depends="prepare">
         <build-AI-installer
             product.name="Analytics"
-            installer.path="${dir.installs}/Analytics"
-            project.file="${dir.installs}/Analytics/Analytics.aip"/>
+            installer.path="setup/installs/Analytics"
+            project.file="setup/installs/Analytics/Analytics.aip"/>
     </target>
 
     <!-- ================================================================= -->
@@ -840,8 +842,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="make-Centricity-installer" depends="prepare,unzip-Centricity_WebHelp">
         <build-AI-installer
             product.name="Centricity"
-            installer.path="${dir.installs}/Centricity"
-            project.file="${dir.installs}/Centricity/Centricity.aip"/>
+            installer.path="setup/installs/Centricity"
+            project.file="setup/installs/Centricity/Centricity.aip"/>
     </target>
 
     <!-- ================================================================= -->
@@ -850,8 +852,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="make-CentricityQM-installer">
         <build-AI-installer
             product.name="CentricityQM"
-            installer.path="${dir.installs}/CentricityQM"
-            project.file="${dir.installs}/CentricityQM/CentricityQM.aip"/>
+            installer.path="setup/installs/CentricityQM"
+            project.file="setup/installs/CentricityQM/CentricityQM.aip"/>
     </target>
 
     <!-- ================================================================= -->
@@ -865,8 +867,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="make-DADI-installer" depends="prepare">
         <build-AI-installer
             product.name="DADI"
-            installer.path="${dir.installs}/DADI"
-            project.file="${dir.installs}/DADI/DADI.aip"/>
+            installer.path="setup/installs/DADI"
+            project.file="setup/installs/DADI/DADI.aip"/>
     </target>
 
     <!-- ================================================================= -->
@@ -875,8 +877,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="make-DBMigration-installer" depends="prepare">
         <build-AI-installer
             product.name="DBMigration"
-            installer.path="${dir.installs}/DBMigration"
-            project.file="${dir.installs}/DBMigration/DBMigration.aip"/>
+            installer.path="setup/installs/DBMigration"
+            project.file="setup/installs/DBMigration/DBMigration.aip"/>
     </target>
 
     <!-- ================================================================= -->
@@ -885,8 +887,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="make-ECC-installer" depends="prepare">
         <build-AI-installer
             product.name="EvaluationConsistencyCheck"
-            installer.path="${dir.installs}/EvaluationConsistencyCheck"
-            project.file="${dir.installs}/EvaluationConsistencyCheck/EvaluationConsistencyCheck.aip"/>
+            installer.path="setup/installs/EvaluationConsistencyCheck"
+            project.file="setup/installs/EvaluationConsistencyCheck/EvaluationConsistencyCheck.aip"/>
     </target>
 
     <!-- ================================================================= -->
@@ -995,8 +997,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         depends="prepare, unzip-BI_WebHelp, unzip-Envision_JRE, unzip-PerformanceSuite-jars_ZIP">
         <build-AI-installer
             product.name="PerformanceSuite"
-            installer.path="${dir.installs}/PerformanceSuite"
-            project.file="${dir.installs}/PerformanceSuite/PerformanceSuite.aip"/>
+            installer.path="setup/installs/PerformanceSuite"
+            project.file="setup/installs/PerformanceSuite/PerformanceSuite.aip"/>
     </target>
 
     <!-- ================================================================= -->
@@ -1006,8 +1008,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
         depends="prepare, unzip-WebHelp, unzip-Envision_JRE, unzip-Server-jars_ZIP">
         <build-AI-installer
             product.name="Server"
-            installer.path="${dir.installs}/Server"
-            project.file="${dir.installs}/Server/Server.aip"/>
+            installer.path="setup/installs/Server"
+            project.file="setup/installs/Server/Server.aip"/>
     </target>
 
     <!-- ================================================================= -->
@@ -1025,8 +1027,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="make-SpeechProcessingClient-installer" depends="prepare,unzip-NuanceProfile">
         <build-AI-installer
             product.name="SpeechProcessingClient"
-            installer.path="${dir.installs}/SpeechProcessingClient"
-            project.file="${dir.installs}/SpeechProcessingClient/SpeechProcessingClient.aip"/>
+            installer.path="setup/installs/SpeechProcessingClient"
+            project.file="setup/installs/SpeechProcessingClient/SpeechProcessingClient.aip"/>
     </target>
 
     <!-- ================================================================= -->
@@ -1035,8 +1037,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="make-SpeechServerService-installer" depends="prepare">
         <build-AI-installer
             product.name="SpeechServerService"
-            installer.path="${dir.installs}/SpeechServerService"
-            project.file="${dir.installs}/SpeechServerService/SpeechServerService.aip"/>
+            installer.path="setup/installs/SpeechServerService"
+            project.file="setup/installs/SpeechServerService/SpeechServerService.aip"/>
     </target>
 
     <!-- ================================================================= -->
@@ -1045,8 +1047,8 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="make-WMWrapperService-installer" depends="prepare">
         <build-AI-installer
             product.name="WMWrapperService"
-            installer.path="${dir.installs}/WMWrapperService"
-            project.file="${dir.installs}/WMWrapperService/WMWrapperService.aip"/>
+            installer.path="setup/installs/WMWrapperService"
+            project.file="setup/installs/WMWrapperService/WMWrapperService.aip"/>
     </target>
 
     <!-- ================================================================= -->
@@ -1104,7 +1106,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="release-ADIT" depends="make-ADIT-installer">
         <release-AI-installer
             product.name="ADIT"
-            installer.path="${dir.installs}/ADIT"
+            installer.path="setup/installs/ADIT"
             product.path="${dir.utils}"/>
     </target>
 
@@ -1115,7 +1117,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="release-AgentSupport" depends="make-AgentSupport-installer">
         <release-AI-installer
             product.name="AgentSupport"
-            installer.path="${dir.installs}/AgentSupport"
+            installer.path="setup/installs/AgentSupport"
             product.path="${target1}"/>
     </target>
 
@@ -1126,7 +1128,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="release-AGMS" depends="make-AGMS-installer">
         <release-AI-installer
             product.name="AGMS"
-            installer.path="${dir.installs}/AGMS"
+            installer.path="setup/installs/AGMS"
             product.path="${dir.utils}"/>
     </target>
 
@@ -1137,7 +1139,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="release-Analytics" depends="make-Analytics-installer">
         <release-AI-installer
             product.name="Analytics"
-            installer.path="${dir.installs}/Analytics"
+            installer.path="setup/installs/Analytics"
             product.path="${target2}"/>
     </target>
 
@@ -1170,7 +1172,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="release-Centricity" depends="make-Centricity-installer">
         <release-AI-installer
             product.name="Centricity"
-            installer.path="${dir.installs}/Centricity"
+            installer.path="setup/installs/Centricity"
             product.path="${dir.retired}"/>
     </target>
 
@@ -1181,7 +1183,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="release-CentricityQM" depends="make-CentricityQM-installer">
         <release-AI-installer
             product.name="CentricityQM"
-            installer.path="${dir.installs}/CentricityQM"
+            installer.path="setup/installs/CentricityQM"
             product.path="${dir.utils}"/>
     </target>
 
@@ -1192,7 +1194,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="release-DADI" depends="make-DADI-installer">
         <release-AI-installer
             product.name="DADI"
-            installer.path="${dir.installs}/DADI"
+            installer.path="setup/installs/DADI"
             product.path="${dir.utils}"/>
     </target>
 
@@ -1203,7 +1205,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="release-DBMigration" depends="make-DBMigration-installer">
         <release-AI-installer
             product.name="DBMigration"
-            installer.path="${dir.installs}/DBMigration"
+            installer.path="setup/installs/DBMigration"
             product.path="${dir.utils}"/>
     </target>
 
@@ -1246,12 +1248,12 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="release-ECC" depends="make-ECC-installer">
         <release-AI-installer
             product.name="EvaluationConsistencyCheck"
-            installer.path="${dir.installs}/EvaluationConsistencyCheck"
+            installer.path="setup/installs/EvaluationConsistencyCheck"
             product.path="${dir.utils}"/>
         <!-- additional copy operation for this installer only -->
         <!-- <copy todir="${dir.utils}/EvaluationConsistencyCheck/QM"> -->
         <copy todir="${dir.utils}/EPS8.4_QMPublishedTemplateEditor">
-            <fileset dir="${dir.installs}/EvaluationConsistencyCheck/QM"/>
+            <fileset dir="setup/installs/EvaluationConsistencyCheck/QM"/>
         </copy>
     </target>
 
@@ -1280,7 +1282,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="release-PerformanceSuite" depends="make-PerformanceSuite-installer">
         <release-AI-installer
             product.name="PerformanceSuite"
-            installer.path="${dir.installs}/PerformanceSuite"
+            installer.path="setup/installs/PerformanceSuite"
             product.path="${target1}"/>
     </target>
 
@@ -1291,7 +1293,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="release-SpeechProcessingClient" depends="make-SpeechProcessingClient-installer">
         <release-AI-installer
             product.name="SpeechProcessingClient"
-            installer.path="${dir.installs}/SpeechProcessingClient"
+            installer.path="setup/installs/SpeechProcessingClient"
             product.path="${target2}"/>
     </target>
 
@@ -1302,7 +1304,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="release-SpeechServerService" depends="make-SpeechServerService-installer">
         <release-AI-installer
             product.name="SpeechServerService"
-            installer.path="${dir.installs}/SpeechServerService"
+            installer.path="setup/installs/SpeechServerService"
             product.path="${target2}"/>
     </target>
 
@@ -1313,7 +1315,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <target name="release-WMWrapperService" depends="make-WMWrapperService-installer">
         <release-AI-installer
             product.name="WMWrapperService"
-            installer.path="${dir.installs}/WMWrapperService"
+            installer.path="setup/installs/WMWrapperService"
             product.path="${target2}"/>
     </target>
 
