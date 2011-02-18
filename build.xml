@@ -226,14 +226,6 @@
         <pathelement location="../src/tools/genstubskel"/>
     </path>
 
-    <!-- \\Bigfoot\Engineering\Projects -->
-    <!-- not used anymore? -timc 2/17/2011 -->
-    <!--
-    <pathconvert targetos="windows" property="dir.projects.converted">
-        <path path="${dir.projects}"/>
-    </pathconvert>
-    -->
-
     <!-- \\Bigfoot\Engineering\ProductBuilds -->
     <pathconvert targetos="windows" property="dir.products.converted">
         <path path="${dir.products}"/>
@@ -763,18 +755,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     </target>
 
     <!-- ================================================================= -->
-    <!-- Fetch source from SVN repository (svn co)                         -->
-    <!-- ================================================================= -->
-    <!-- TODO add ability to specify revision? -->
-    <!--
-    <target name="fetch-source" description="Get source from Subversion">
-        <svn>
-            <checkout url="${url.src}" destPath="${dir.build}"/>
-        </svn>
-    </target>
-    -->
-
-    <!-- ================================================================= -->
     <!-- Generate database schemas                                         -->
     <!-- ================================================================= -->
     <!-- TODO Do something about this. -timc 1/2/2009 -->
@@ -798,21 +778,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             <classpath refid="classpath-v2"/>
         </java>
     </target>
-
-    <!-- ================================================================= -->
-    <!-- Get the SVN revision for the entire working copy                  -->
-    <!-- ================================================================= -->
-    <!-- move-workdir-postbuild breaks without this, but for running inside
-    CI, that shouldn't matter -->
-    <!--
-    <target name="get-head-revision"
-        description="Get the HEAD revision for the working copy">
-        <svn>
-            <status path="${dir.build}" revisionProperty="repository.revision"/>
-        </svn>
-        <echo>repository.revision=${repository.revision}</echo>
-    </target>
-    -->
 
     <!-- TODO I'll need to do more work to use this as the default target.  It
     breaks the build runner. -->
@@ -1081,71 +1046,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     </target>
 
     <!-- ================================================================= -->
-    <!-- Move working copy directory to make way for upcoming build        -->
-    <!-- ================================================================= -->
-    <!-- I was keeping the working directory around for use and then nuking it at
-    the start of the build/setup/release cycle.  The problem was that way too
-    often, I'd leave a file or a command window open and the build would be
-    unable to nuke the workdir, effectively killing the build - and blocking
-    QA.
-    .
-    Now the whole working copy is moved right at the end of the
-    build/setup/release cycle to ensure that there are no resources holding
-    the directory hostage.
-    .
-    Side note: the move task fails with a useless error (example follows), so
-    now I use cmd.
-    .
-    C:\Source\buildtools\branches\9.6\Initial\base\build.xml:241: Failed to copy
-    C:\Source\9.6\Initial\base\path\to\file.xml to
-    C:\Source\9.6\Initial\base-2008.08.15_13:58\path\to\file.xml due to
-    C:\Source\9.6\Initial\base-2008.08.15_13:58\path\to\file.xml (The filename,
-    directory name, or volume label syntax is incorrect)
-    .
-    -timc 8/18/2008
-    -->
-    <!-- TODO rewrite this and get rid of dir.build.present - set propset for
-    ideas -timc 11/21/2009 -->
-    <!--
-    <target name="move-workdir-postbuild" depends="get-head-revision"
-        description="Move working directory after build completes">
-        <property name="dir.postbuild"
-            value="${dir.build}-${version.product}-r${repository.revision}"/>
-        <available type="dir" file="${dir.build}" property="dir.build.present"/>
-        <if>
-            <equals arg1="${dir.build.present}" arg2="true"/>
-            <then>
-                <echo message="moving ${dir.build} to ${dir.postbuild}"/>
-    -->
-                <!-- TODO WHY am I copying the build dir this way???  I seem
-                to recall it may have something to do with a race condition,
-                where doing the move with an Ant task runs into trouble.  Or
-                it may be that the Ant move task just doesn't work reliably on
-                Windows.  -timc 12/10/2009 -->
-    <!--
-                <exec dir="${basedir}" executable="cmd.exe" vmlauncher="${vmlauncher}" failonerror="true">
-                    <arg line="/c move ${dir.build} ${dir.postbuild}"/>
-                </exec>
-            </then>
-            <else>
-                <echo message="not moving ${dir.build} to ${dir.postbuild}"/>
-            </else>
-        </if>
-    </target>
-    -->
-
-    <!-- ================================================================= -->
-    <!-- Clean up the working directory, if any                            -->
-    <!-- ================================================================= -->
-    <!-- let Bamboo handle the working directory -timc 2/17/2011 -->
-    <!--
-    <target name="nuke-workdir"
-        description="CAUTION: Deletes the current build working directory">
-        <delete includeemptydirs="true" dir="${dir.build}" failonerror="true"/>
-    </target>
-    -->
-
-    <!-- ================================================================= -->
     <!-- Prepare the release share for the installers                      -->
     <!-- ================================================================= -->
     <!-- This is an official-build target.  It should not be used for
@@ -1382,20 +1282,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     </target>
 
     <!-- ================================================================= -->
-    <!-- Release Server installer                                          -->
-    <!-- ================================================================= -->
-    <!-- TODO append target name with "-installer" -->
-    <!-- probably don't need this anymore -timc 2/17/2011 -->
-    <!--
-    <target name="release-Server" depends="make-Server-installer">
-        <release-AI-installer
-            product.name="Server"
-            installer.path="${dir.installs}/Server"
-            product.path="${dir.retired}"/>
-    </target>
-    -->
-
-    <!-- ================================================================= -->
     <!-- Release SpeechProcessingClient installer                          -->
     <!-- ================================================================= -->
     <!-- TODO append target name with "-installer" -->
@@ -1589,24 +1475,6 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     </target>
 
     <!-- ================================================================= -->
-    <!-- test ant-contrib                                                  -->
-    <!-- ================================================================= -->
-    <!-- TEMP DEBUG target -->
-    <!--
-    <target name="test-if">
-        <if>
-            <equals arg1="${update-on-rebuild}" arg2="true"/>
-            <then>
-                <echo message="The value of property update-on-rebuild is true"/>
-            </then>
-            <else>
-                <echo message="The value of property update-on-rebuild is not true"/>
-            </else>
-        </if>
-    </target>
-    -->
-
-    <!-- ================================================================= -->
     <!-- Touch source files                                                -->
     <!-- ================================================================= -->
     <target name="touch-build">
@@ -1619,14 +1487,11 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- Unzip Agent_Desktop_Webhelp.zip for the Server installer          -->
     <!-- ================================================================= -->
     <target name="unzip-AgentDesktop_WebHelp">
-        <unjar
-            src="../Documentation/WebHelp/EN/Agent_Desktop_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/EN/Agent_Desktop_Webhelp.zip"
             dest="../Documentation/WebHelp/EN/Agent_Desktop_Webhelp"/>
-        <unjar
-            src="../Documentation/WebHelp/DE/Agent_Desktop_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/DE/Agent_Desktop_Webhelp.zip"
             dest="../Documentation/WebHelp/DE/Agent_Desktop_Webhelp"/>
-        <unjar
-            src="../Documentation/WebHelp/ES/Agent_Desktop_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/ES/Agent_Desktop_Webhelp.zip"
             dest="../Documentation/WebHelp/ES/Agent_Desktop_Webhelp"/>
     </target>
 
@@ -1635,8 +1500,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- ================================================================= -->
     <!-- BI is not localized -->
     <target name="unzip-BI_WebHelp">
-        <unjar
-            src="../Documentation/WebHelp/EN/BI_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/EN/BI_Webhelp.zip"
             dest="../Documentation/WebHelp/EN/BI_Webhelp"/>
     </target>
 
@@ -1653,14 +1517,11 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
             dest="../Documentation/WebHelp/DE/Centricity_Webhelp"/>
         <unjar src="../Documentation/WebHelp/ES/Centricity_Webhelp.zip"
             dest="../Documentation/WebHelp/ES/Centricity_Webhelp"/>
-        <unjar
-            src="../Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp.zip"
             dest="../Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp"/>
-        <unjar
-            src="../Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp.zip"
             dest="../Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp"/>
-        <unjar
-            src="../Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp.zip"
             dest="../Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp"/>
     </target>
 
@@ -1668,14 +1529,11 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- Unzip Classic reporting WebHelp for the Server installer          -->
     <!-- ================================================================= -->
     <target name="unzip-ClassicReports_WebHelp">
-        <unjar
-            src="../Documentation/WebHelp/EN/Classic_reports_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/EN/Classic_reports_Webhelp.zip"
             dest="../Documentation/WebHelp/EN/Classic_reports_Webhelp"/>
-        <unjar
-            src="../Documentation/WebHelp/DE/Classic_reports_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/DE/Classic_reports_Webhelp.zip"
             dest="../Documentation/WebHelp/DE/Classic_reports_Webhelp"/>
-        <unjar
-            src="../Documentation/WebHelp/ES/Classic_reports_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/ES/Classic_reports_Webhelp.zip"
             dest="../Documentation/WebHelp/ES/Classic_reports_Webhelp"/>
     </target>
 
@@ -1696,8 +1554,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     <!-- <target name="unzip-Envision_JRE" depends="propset"> -->
     <target name="unzip-Envision_JRE">
         <property name="Envision_JRE" value="jre1.6.0_14-Envision-no-jars.zip"/>
-        <unjar
-            src="${dir.jre}/${Envision_JRE}"
+        <unjar src="${dir.jre}/${Envision_JRE}"
             dest="${dir.sdk}/java"/>
     </target>
 
@@ -1732,8 +1589,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     possibly others as well. -timc, Cinco de Mayo 2010 -->
     <target name="unzip-PerformanceSuite-jars_ZIP">
         <property name="EPS-jars_ZIP" value="jar-files-EnvisionPerformanceSuite-9.10.zip"/>
-        <unjar
-            src="${dir.jre}/${EPS-jars_ZIP}"
+        <unjar src="${dir.jre}/${EPS-jars_ZIP}"
             dest="${dir.sdk}/java"/>
     </target>
 
@@ -1747,8 +1603,7 @@ Complete log here: ${dir.projects.converted}\unittests\${version.product}_verbos
     (make-Server depends on both of them.) -->
     <target name="unzip-Server-jars_ZIP">
         <property name="Server-jars_ZIP" value="jar-files-EnvisionServer-9.10SP3.zip"/>
-        <unjar
-            src="${dir.jre}/${Server-jars_ZIP}"
+        <unjar src="${dir.jre}/${Server-jars_ZIP}"
             dest="${dir.sdk}/java"/>
     </target>
 

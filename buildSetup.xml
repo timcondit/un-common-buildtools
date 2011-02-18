@@ -143,14 +143,11 @@
     <!-- Unzip Agent_Desktop_Webhelp.zip for the Server installer          -->
     <!-- ================================================================= -->
     <target name="unzip-AgentDesktop_WebHelp">
-        <unjar
-            src="../Documentation/WebHelp/EN/Agent_Desktop_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/EN/Agent_Desktop_Webhelp.zip"
             dest="../Documentation/WebHelp/EN/Agent_Desktop_Webhelp"/>
-        <unjar
-            src="../Documentation/WebHelp/DE/Agent_Desktop_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/DE/Agent_Desktop_Webhelp.zip"
             dest="../Documentation/WebHelp/DE/Agent_Desktop_Webhelp"/>
-        <unjar
-            src="../Documentation/WebHelp/ES/Agent_Desktop_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/ES/Agent_Desktop_Webhelp.zip"
             dest="../Documentation/WebHelp/ES/Agent_Desktop_Webhelp"/>
     </target>
 
@@ -159,8 +156,7 @@
     <!-- ================================================================= -->
     <!-- BI is not localized -->
     <target name="unzip-BI_WebHelp">
-        <unjar
-            src="../Documentation/WebHelp/EN/BI_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/EN/BI_Webhelp.zip"
             dest="../Documentation/WebHelp/EN/BI_Webhelp"/>
     </target>
 
@@ -168,24 +164,17 @@
     <!-- Unzip Centricity WebHelp for the Server installer                 -->
     <!-- ================================================================= -->
     <target name="unzip-Centricity_WebHelp" depends="propset">
-        <unjar
-            src="../Documentation/WebHelp/EN/Centricity_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/EN/Centricity_Webhelp.zip"
             dest="../Documentation/WebHelp/EN/Centricity_Webhelp"/>
-        <unjar
-            src="../Documentation/WebHelp/DE/Centricity_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/DE/Centricity_Webhelp.zip"
             dest="../Documentation/WebHelp/DE/Centricity_Webhelp"/>
-        <unjar
-            src="../Documentation/WebHelp/ES/Centricity_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/ES/Centricity_Webhelp.zip"
             dest="../Documentation/WebHelp/ES/Centricity_Webhelp"/>
-        <unjar
-            src="../Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp.zip"
             dest="../Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp"/>
-
-        <unjar
-            src="../Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp.zip"
             dest="../Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp"/>
-        <unjar
-            src="../Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp.zip"
             dest="../Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp"/>
     </target>
 
@@ -194,14 +183,11 @@
     <!-- ================================================================= -->
     <target name="unzip-ClassicReports_WebHelp">
         <!-- Maybe later this will become three separate tasks. -->
-        <unjar
-            src="../Documentation/WebHelp/EN/Classic_reports_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/EN/Classic_reports_Webhelp.zip"
             dest="../Documentation/WebHelp/EN/Classic_reports_Webhelp"/>
-        <unjar
-            src="../Documentation/WebHelp/DE/Classic_reports_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/DE/Classic_reports_Webhelp.zip"
             dest="../Documentation/WebHelp/DE/Classic_reports_Webhelp"/>
-        <unjar
-            src="../Documentation/WebHelp/ES/Classic_reports_Webhelp.zip"
+        <unjar src="../Documentation/WebHelp/ES/Classic_reports_Webhelp.zip"
             dest="../Documentation/WebHelp/ES/Classic_reports_Webhelp"/>
     </target>
 
@@ -221,8 +207,7 @@
     July09 (9.10) -> 1.6.0_14 -->
     <target name="unzip-Envision_JRE" depends="propset">
         <property name="Envision_JRE" value="jre1.6.0_14-Envision-no-jars.zip"/>
-        <unjar
-            src="${dir.jre}/${Envision_JRE}"
+        <unjar src="${dir.jre}/${Envision_JRE}"
             dest="${dir.sdk}/java"/>
     </target>
 
@@ -236,8 +221,7 @@
     (make-Server depends on both of them.) -->
     <target name="unzip-Server-jars_ZIP" depends="propset">
         <property name="Server-jars_ZIP" value="jar-files-EnvisionServer-9.10SP3.zip"/>
-        <unjar
-            src="${dir.jre}/${Server-jars_ZIP}"
+        <unjar src="${dir.jre}/${Server-jars_ZIP}"
             dest="${dir.sdk}/java"/>
     </target>
 
@@ -251,8 +235,7 @@
     (make-PerformanceSuite depends on both of them.) -->
     <target name="unzip-PerformanceSuite-jars_ZIP" depends="propset">
         <property name="EPS-jars_ZIP" value="jar-files-EnvisionPerformanceSuite-9.10.zip"/>
-        <unjar
-            src="${dir.jre}/${EPS-jars_ZIP}"
+        <unjar src="${dir.jre}/${EPS-jars_ZIP}"
             dest="${dir.sdk}/java"/>
     </target>
 
@@ -282,7 +265,6 @@
         <copy todir="${target3}">
             <fileset dir="${uncpath.cd3_sources}"/>
         </copy>
-        <!-- Brian's Envision Service Monitor -->
         <property name="dir.svcmon"
             value="../src/tools/EnvisionServiceMonitor/EnvisionServiceMonitor/bin/Release"/>
         <copy file="${dir.svcmon}/EnvisionServiceMonitor.exe" todir="${target3}"/>
