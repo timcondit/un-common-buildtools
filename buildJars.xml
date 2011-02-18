@@ -49,7 +49,7 @@
         <delete verbose="true" failonerror="false" includeEmptyDirs="true">
             <fileset dir="../src" includes="**/*.class"/>
         </delete>
-        <delete verbose="true" failonerror="false" file="Release/Envision.jar"/>
+        <delete verbose="true" failonerror="false" file="../Release/Envision.jar"/>
         <delete verbose="true" failonerror="false" file="../src/Envision.jar"/>
     </target>
 
@@ -355,8 +355,8 @@
     <!-- release_license                                                   -->
     <!-- ================================================================= -->
     <target name="release_license" description="Copies jar to release dir">
-        <delete verbose="true" failonerror="false" file="Release/license.jar"/>
-        <copy file="../src/server/com/et/license/license.jar" tofile="Release/license.jar"/>
+        <delete verbose="true" failonerror="false" file="../Release/license.jar"/>
+        <copy file="../src/server/com/et/license/license.jar" tofile="../Release/license.jar"/>
         <delete>
             <fileset dir="../src/server/com/et/license" includes="**/*.class"/>
         </delete>
@@ -366,8 +366,8 @@
     <!-- release_Envision                                                  -->
     <!-- ================================================================= -->
     <target name="release_Envision" description="copies jar to release dir">
-        <delete verbose="true" failonerror="false" file="Release/Envision.jar"/>
-        <copy file="../src/Envision.jar" tofile="Release/Envision.jar"/>
+        <delete verbose="true" failonerror="false" file="../Release/Envision.jar"/>
+        <copy file="../src/Envision.jar" tofile="../Release/Envision.jar"/>
         <delete verbose="true">
             <fileset dir="../src/com" />
         </delete>

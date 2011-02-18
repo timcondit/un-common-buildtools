@@ -694,9 +694,9 @@
     de Mayo 2010 -->
     <target name="create-release-dir" description="Creates Release directories">
         <delete quiet="true" failonerror="false" includeEmptyDirs="true" dir="${dir.build}/Release"/>
-        <mkdir dir="${dir.build}/Release"/>
-        <mkdir dir="${dir.build}/Release/Admin"/>
-        <mkdir dir="${dir.build}/Release/Common"/>
+        <mkdir dir="../Release"/>
+        <mkdir dir="../Release/Admin"/>
+        <mkdir dir="../Release/Common"/>
     </target>
 
     <!-- ================================================================= -->
