@@ -239,6 +239,9 @@
         <path path="${dir.products}"/>
     </pathconvert>
 
+    <!-- TODO delete me -->
+    <target name="get-head-revision"/>
+
     <!-- TODO aggregate these -timc 9/20/2010 -->
     <target name="official-build">
         <antcall target="begin"/>
