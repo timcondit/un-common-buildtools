@@ -59,7 +59,7 @@
     <target name="make-TSAPI_debug" description="Makes tsapi using devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/build Debug ${dir.src}/contactsources/tsapi/Tsapi.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -70,7 +70,7 @@
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false"
             failonerror="true">
             <arg line="/build Debug ${dir.src}/contactsources/netmerge/ctcLoader_6_0/ctcLoader_6_0.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -80,7 +80,7 @@
     <target name="make-CiscoICM_debug" description="Makes CiscoICM.dll using devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/build Debug ${dir.src}/contactsources/Ciscoicm.sln
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -90,7 +90,7 @@
     <target name="make-RegUtils_debug" description="Makes RegUtils.lib using devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/build Debug ${dir.src}/clients/quality/regutils/regutils.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -104,7 +104,7 @@
         </exec>
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/build Debug ${dir.src}/clients/quality/agentsupport/SmartAgentErrs/SmartAgentErrs.vcproj
-                /out ${dir.build}/BuildLog.txt" />
+                /out BuildLog.txt" />
         </exec>
     </target>
 
@@ -113,7 +113,7 @@
     <!-- ================================================================= -->
     <target name="make-AgentSupport_debug" description="Makes agentsupport using devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
-            <arg line="/build Debug ${dir.src}/clients/quality/agentsupport/AgentSupport.vcproj /out ${dir.build}/BuildLog.txt"/>
+            <arg line="/build Debug ${dir.src}/clients/quality/agentsupport/AgentSupport.vcproj /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -122,7 +122,7 @@
     <!-- ================================================================= -->
     <target name="make-QualityMonitoring_debug" description="Makes QM using devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
-            <arg line="/build Debug ${dir.src}/clients/quality/qm/qm.vcproj /out ${dir.build}/BuildLog.txt"/>
+            <arg line="/build Debug ${dir.src}/clients/quality/qm/qm.vcproj /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -131,7 +131,7 @@
     <!-- ================================================================= -->
     <target name="make-RO_debug" description="Makes ro_vcproj using devenv.exe">
         <exec dir="${dir.build}"  executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
-            <arg line="/build Debug ${dir.src}/server/ro/cpp/ro.vcproj /out ${dir.build}/BuildLog.txt" />
+            <arg line="/build Debug ${dir.src}/server/ro/cpp/ro.vcproj /out BuildLog.txt" />
         </exec>
     </target>
 
@@ -141,7 +141,7 @@
     <target name="make-NativeServiceWin32_debug" description="Make EnvisionServer.exe devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="false">
             <arg line="/build Debug ${dir.src}/server/nativeservicewin32/nativeServiceWin32.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -151,7 +151,7 @@
     <target name="make-XFloorWnd_debug" description="Makes XFloorWnd.ocx using devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/build Debug ${dir.src}/clients/quality/xfloorwnd/XFloorWnd.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -162,7 +162,7 @@
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false"
             failonerror="false">
             <arg line="/build Debug ${dir.src}/apis/automationapi/AgentAutomation.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -173,7 +173,7 @@
     <target name="make-SharedResources_debug" description="Makes sharedresources.dll using devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="false">
             <arg line="/build Debug ${dir.src}/clients/quality/sharedresources/SharedResources.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -183,7 +183,7 @@
     <target name="make-AgentX_OCX_debug" description="Makes AgentX.ocx using devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="false">
             <arg line="/build Debug ${dir.src}/clients/quality/agentdesktop/AgentX.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -192,7 +192,7 @@
     <!-- ================================================================= -->
     <target name="make-AgentAdherence_OCX_debug" description="Makes AgentAdherence using devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
-            <arg line="/build Debug ${dir.src}/clients/wfm/agentadherence/AgentAdherence.vcproj /out ${dir.build}/BuildLog.txt"/>
+            <arg line="/build Debug ${dir.src}/clients/wfm/agentadherence/AgentAdherence.vcproj /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -202,7 +202,7 @@
     <target name="make-AgentSchedule_OCX_debug" description="Makes AgentSchedule .ocx using devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/build Debug ${dir.src}/clients/wfm/agentschedule/AgentSchedule.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -213,7 +213,7 @@
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="false">
             <arg line="/build debug
                 ${dir.src}/clients/reporting/C2CReportingControls/C2CReportingControls.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -223,7 +223,7 @@
     <target name="make-WebControls_OCX_debug" description="Makes WebControls.ocx using devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/build Debug ${dir.src}/clients/reporting/controls/Webcontrols.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -233,7 +233,7 @@
     <target name="make-Shared_LIB_debug" description="Makes Shared Lib using devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/build Debug ${dir.src}/clients/quality/shared/Shared.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -243,7 +243,7 @@
     <target name="make-SourceRunner_debug" description="Makes SourceRunnerService.exe using devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/build Debug ${dir.src}/winservices/SourceRunnerService.sln
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -253,7 +253,7 @@
     <target name="make-JavaContactSource_debug" description="Makes javacontactsource.dll using devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/build Debug ${dir.src}/contactsources/javacontactsource/JavaContactSource.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -263,7 +263,7 @@
     <target name="make-NotificationWindow_LIB_debug" description="Makes notificationwindow.lib using devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/build Debug ${dir.src}/clients/quality/notificationwindow/NotificationWindow.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -274,7 +274,7 @@
         <echo file="${dir.build}\ProjectThatErrored.txt" message="NetMerge.dll"/>
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/Build Debug ${dir.src}/contactsources/NetMerge/NetMerge.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -285,7 +285,7 @@
         <echo file="${dir.build}\ProjectThatErrored.txt" message="NetMergeLoader.dll"/>
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/Build Debug ${dir.src}/contactsources/NetMerge/ctcLoader_6_0/ctcLoader_6_0.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -295,7 +295,7 @@
     <target name="make-ContactSourceUtilities_LIB_debug" description="Makes ContactSourceUtils.lib using devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/build Debug ${dir.src}/contactsources/contactsourceutilities/ContactSourceUtils.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -305,7 +305,7 @@
     <target name="make-Serializable_LIB_debug" description="Makes serializable devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/build Debug ${dir.src}/serializable/serializable.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -315,7 +315,7 @@
     <target name="make-Generated_debug" description="Makes generated devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/build Debug ${dir.src}/generated/generated.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -325,7 +325,7 @@
     <target name="make-UserTree_LIB_debug" description="Makes usertree devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/build Debug ${dir.src}/clients/quality/usertree/usertree.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -334,7 +334,7 @@
     <!-- ================================================================= -->
     <target name="make-ChannelManager_debug" description="Makes channelmanager devenv.exe">
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
-            <arg line="/build Debug ${dir.src}/winservices/ChannelManager.sln /out ${dir.build}/BuildLog.txt"/>
+            <arg line="/build Debug ${dir.src}/winservices/ChannelManager.sln /out BuildLog.txt"/>
         </exec>
     </target>
 
@@ -345,7 +345,7 @@
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="true">
             <arg line="/build DebugSR60
                 ${dir.src}/winservices/chanmgr/hosts/DialogicChannel/DialogicChannel.vcproj
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 </project>

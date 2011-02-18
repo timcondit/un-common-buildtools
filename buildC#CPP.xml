@@ -528,7 +528,7 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!-- timc: Do we need this any longer? -->
     <target name="publish-AVPlayer" description="Publishes Centricity AVPlayer (Click Once) using MSBuild">
         <exec dir="${dir.build}" executable="${compiler.msbuild}" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="/target:publish src/clients/AVPlayer/AVPlayer.csproj /property:Configuration=Release;PublishDir=${dir.workdir}/AVPlayer/ /l:FileLogger,Microsoft.Build.Engine;logfile=${dir.build}/BuildLog.txt;append=true"/>
+            <arg line="/target:publish src/clients/AVPlayer/AVPlayer.csproj /property:Configuration=Release;PublishDir=${dir.workdir}/AVPlayer/ /l:FileLogger,Microsoft.Build.Engine;logfile=BuildLog.txt;append=true"/>
         </exec>
     </target>
 
@@ -538,7 +538,7 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!-- timc: Do we need this any longer? -->
     <target name="publish-RecordingDownloadTool" description="Publishes Centricity RecordingDownloadTool (Click Once) using MSBuild">
         <exec dir="${dir.build}" executable="${compiler.msbuild}" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="/target:publish src/clients/RecordingDownloadTool/RecordingDownloadTool.csproj /property:Configuration=Release;PublishDir=${dir.workdir}/RecordingDownloadTool/ /l:FileLogger,Microsoft.Build.Engine;logfile=${dir.build}/BuildLog.txt;append=true"/>
+            <arg line="/target:publish src/clients/RecordingDownloadTool/RecordingDownloadTool.csproj /property:Configuration=Release;PublishDir=${dir.workdir}/RecordingDownloadTool/ /l:FileLogger,Microsoft.Build.Engine;logfile=BuildLog.txt;append=true"/>
         </exec>
     </target>
 

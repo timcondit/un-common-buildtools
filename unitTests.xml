@@ -28,7 +28,7 @@
         <exec dir="${dir.build}" executable="${compiler.cpp}" vmlauncher="false" failonerror="false">
             <arg line="/build Release
                 ${dir.src}/tests/DotNetUnitTests/DotNetUnitTests.sln
-                /out ${dir.build}/BuildLog.txt"/>
+                /out BuildLog.txt"/>
         </exec>
     </target>
 
