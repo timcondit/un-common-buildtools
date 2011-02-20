@@ -3,7 +3,7 @@
 <!-- ===================================================================== -->
 <!-- Project for building and running unit tests                           -->
 <!-- ===================================================================== -->
-<project name="RunUnitTests" default="do_nothing">
+<project name="RunUnitTests" default="do_nothing" basedir=".">
 
     <!-- ================================================================= -->
     <!-- Be conservative and do nothing here.  All builds should originate -->

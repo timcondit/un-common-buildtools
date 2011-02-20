@@ -5,7 +5,7 @@
 <!-- ===================================================================== -->
 <!-- <project name="buildJars" default="do_nothing" basedir="."
     xmlns:ac="antlib:net.sf.antcontrib"> -->
-<project name="buildJars" default="do_nothing">
+<project name="buildJars" default="do_nothing" basedir=".">
 
     <!-- ================================================================= -->
     <!-- Be conservative and do nothing here.  All builds should originate -->
@@ -17,14 +17,14 @@
     <!-- Make JARs                                                         -->
     <!-- ================================================================= -->
     <target name="build-jars">
-        <antcall target="clean_Envision"/>
-        <antcall target="compile_Envision"/>
-        <antcall target="jar_Envision"/>
-        <antcall target="release_Envision"/>
-        <antcall target="clean_license"/>
-        <antcall target="compile_license"/>
-        <antcall target="jar_license"/>
-        <antcall target="release_license"/>
+        <antcall target="clean-Envision"/>
+        <antcall target="compile-Envision"/>
+        <antcall target="jar-Envision"/>
+        <antcall target="release-Envision"/>
+        <antcall target="clean-license"/>
+        <antcall target="compile-license"/>
+        <antcall target="jar-license"/>
+        <antcall target="release-license"/>
 
         <!-- TEST -->
         <!-- <antcall target="compile-genstubskel-jar"/> -->
@@ -36,16 +36,16 @@
         or equal to" method, AFAIK. -->
         <!-- TODO add to propset -->
         <!-- TODO VIPER -timc 9/20/2010 -->
-        <antcall target="jar-EnvisionPlugin"/>
+        <!-- <antcall target="jar-EnvisionPlugin"/> -->
         <antcall target="jar-EnvisionPlugin"/>
     </target>
 
     <!-- ================================================================= -->
-    <!-- clean_Envision                                                    -->
+    <!-- clean-Envision                                                    -->
     <!-- ================================================================= -->
     <!-- timc: Obsolete?  Maybe not.  We call into this target (and the rest
     of the _Envision targets) twice. -->
-    <target name="clean_Envision" description="Deletes compiled classes and jars">
+    <target name="clean-Envision" description="Deletes compiled classes and jars">
         <delete verbose="true" failonerror="false" includeEmptyDirs="true">
             <fileset dir="src" includes="**/*.class"/>
         </delete>
@@ -54,9 +54,9 @@
     </target>
 
     <!-- ================================================================= -->
-    <!-- clean_license                                                     -->
+    <!-- clean-license                                                     -->
     <!-- ================================================================= -->
-    <target name="clean_license" description="Deletes existing compiled classes and jars">
+    <target name="clean-license" description="Deletes existing compiled classes and jars">
         <delete verbose="true" failonerror="false" includeEmptyDirs="true">
             <fileset dir="src/server/com/et/license/" includes="**/*.class"/>
         </delete>
@@ -66,9 +66,6 @@
     <!-- =================================================================== -->
     <!-- compile-genstubskel-jar                                             -->
     <!-- =================================================================== -->
-    <!--
-    <target name="compile-genstubskel-jar" depends="propset" description="Compiles genstubskel">
-    -->
     <target name="compile-genstubskel-jar" description="Compiles genstubskel">
         <javac srcdir="src/tools/genstubskel"
             destdir="src/tools/genstubskel"
@@ -84,9 +81,9 @@
     </target>
 
     <!-- ================================================================= -->
-    <!-- compile_Envision                                                  -->
+    <!-- compile-Envision                                                  -->
     <!-- ================================================================= -->
-    <target name="compile_Envision" description="Compiles Envision">
+    <target name="compile-Envision" description="Compiles Envision">
         <!-- TODO fork, memoryInitialSize & memoryMaximumSize need to go to
         build.properties (or, better, to runbuild.py -timc 2/5/2010 -->
         <javac srcdir="src" destdir="src"
@@ -148,11 +145,9 @@
     </target>
 
     <!-- ================================================================= -->
-    <!-- compile_license                                                   -->
+    <!-- compile-license                                                   -->
     <!-- ================================================================= -->
-    <target name="compile_license" description="Compiles license">
-        <!-- TODO fork, memoryInitialSize & memoryMaximumSize need to go to
-        build.properties (or, better, to runbuild.py -timc 2/5/2010 -->
+    <target name="compile-license" description="Compiles license">
         <javac srcdir="src/server/com/et/license/"
             destdir="src/server/"
             debug="${javac.debug}"
@@ -169,7 +164,6 @@
     <!-- ================================================================= -->
     <!-- Copy Envision jar resources                                       -->
     <!-- ================================================================= -->
-    <!-- timc: called from build.xml -->
     <target name="copy-jar-resources" description="Copy Envision jar resources">
         <copy todir="src/com/et">
             <fileset dir="src/Server/com/et"
@@ -200,6 +194,7 @@
         </copy>
 
         <!-- timc: Nothing with these extensions are present, AFAIK -->
+        <!--
         <copy todir="src/com/et">
             <fileset dir="src/Generated/com/et"
                 includes="
@@ -213,8 +208,10 @@
                 **/*.properties"
                 excludes="**/*UTF16.properties"/>
         </copy>
+        -->
 
         <!-- timc: Nothing with these extensions are present, AFAIK -->
+        <!-- correction: few properties files here -timc 2/19/2011 -->
         <copy todir="src/com/et">
             <fileset dir="src/apis/bi/com/et"
                 includes="
@@ -230,6 +227,7 @@
         </copy>
 
         <!-- timc: Nothing with these extensions are present, AFAIK -->
+        <!--
         <copy todir="src/com/et">
             <fileset dir="src/contactsources/avayapds/com/et"
                 includes="
@@ -243,8 +241,10 @@
                 **/*.properties"
                 excludes="**/*UTF16.properties"/>
         </copy>
+        -->
 
         <!-- timc: Nothing with these extensions are present, AFAIK -->
+        <!--
         <copy todir="src/com/et">
             <fileset dir="src/contactsources/cmiaspect/com/et"
                 includes="
@@ -258,8 +258,10 @@
                 **/*.properties"
                 excludes="**/*UTF16.properties"/>
         </copy>
+        -->
 
         <!-- timc: Nothing with these extensions are present, AFAIK -->
+        <!--
         <copy todir="src/com/et">
             <fileset dir="src/contactsources/concerto/com/et"
                 includes="
@@ -273,6 +275,7 @@
                 **/*.properties"
                 excludes="**/*UTF16.properties"/>
         </copy>
+        -->
     </target>
 
     <!-- ================================================================= -->
@@ -297,9 +300,9 @@
     </target>
 
     <!-- ================================================================= -->
-    <!-- jar_Envision                                                      -->
+    <!-- jar-Envision                                                      -->
     <!-- ================================================================= -->
-    <target name="jar_Envision" description="Jar Envision">
+    <target name="jar-Envision" description="Jar Envision">
         <jar destfile="src/Envision.jar"
             basedir="src"
             duplicate="preserve"
@@ -316,9 +319,9 @@
     </target>
 
     <!-- ================================================================= -->
-    <!-- jar_license                                                       -->
+    <!-- jar-license                                                       -->
     <!-- ================================================================= -->
-    <target name="jar_license" description="Jar license">
+    <target name="jar-license" description="Jar license">
         <copy file="src/server/com/et/license/LicenseManager.class"
             tofile="src/com/et/license/LicenseManager.class"/>
         <jar destfile="src/server/com/et/license/license.jar"
@@ -352,9 +355,9 @@
     </target>
 
     <!-- ================================================================= -->
-    <!-- release_license                                                   -->
+    <!-- release-license                                                   -->
     <!-- ================================================================= -->
-    <target name="release_license" description="Copies jar to release dir">
+    <target name="release-license" description="Copies jar to release dir">
         <delete verbose="true" failonerror="false" file="Release/license.jar"/>
         <copy file="src/server/com/et/license/license.jar" tofile="Release/license.jar"/>
         <delete>
@@ -363,10 +366,12 @@
     </target>
 
     <!-- ================================================================= -->
-    <!-- release_Envision                                                  -->
+    <!-- release-Envision                                                  -->
     <!-- ================================================================= -->
-    <target name="release_Envision" description="copies jar to release dir">
-        <delete verbose="true" failonerror="false" file="Release/Envision.jar"/>
+    <target name="release-Envision" description="copies jar to release dir">
+        <!-- <delete verbose="true" failonerror="false" file="Release/Envision.jar"/> -->
+        <delete verbose="true" failonerror="false" includeEmptyDirs="true" dir="Release"/>
+        <mkdir dir="Release"/>
         <copy file="src/Envision.jar" tofile="Release/Envision.jar"/>
         <delete verbose="true">
             <fileset dir="src/com" />

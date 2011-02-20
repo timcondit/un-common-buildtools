@@ -5,7 +5,7 @@
 <!-- ===================================================================== -->
 <!-- <project name="buildSetup" default="installers" basedir="."
     xmlns:ac="antlib:net.sf.antcontrib"> -->
-<project name="buildSetup" default="do_nothing">
+<project name="buildSetup" default="do_nothing" basedir=".">
 
     <!-- ================================================================= -->
     <!-- Be conservative and do nothing here.  All builds should originate -->
@@ -41,7 +41,7 @@
         <antcall target="release-Documentation-CD1"/>
 
         <!-- target2, all versions -->
-        <antcall target="release-Server"/>
+        <!-- <antcall target="release-Server"/> -->
         <antcall target="release-Documentation-CD2"/>
 
         <!-- target3 -->
@@ -49,7 +49,7 @@
 
         <!-- target2, 9.6.0000.0 and later -->
         <antcall target="release-Analytics"/>
-        <antcall target="release-Centricity"/>
+        <!-- <antcall target="release-Centricity"/> -->
         <antcall target="release-CentricityWebApplications"/>
         <antcall target="release-WMWrapperService"/>
 

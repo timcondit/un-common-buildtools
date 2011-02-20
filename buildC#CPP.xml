@@ -5,7 +5,7 @@
 <!-- ===================================================================== -->
 <!-- TODO need a default target, otherwise an implicit target that contains
 any and all top-level tasks and/or types will be executed (see Ant docs) -->
-<project name="BuildC++" default="do_nothing">
+<project name="BuildC++" default="do_nothing" basedir=".">
 
     <!-- ================================================================= -->
     <!-- Be conservative and do nothing here.  All builds should originate -->
@@ -58,10 +58,8 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     separating by languages.  See buildSetup.xml for an example. -->
     <target name="make-AgentSupport" description="Makes AgentSupport">
         <build-cpp solution.file="src/clients/AgentSupport.sln"/>
-        <build-cpp configuration="ReleaseGerman"
-            solution.file="src/clients/AgentSupport.sln"/>
-        <build-cpp configuration="ReleaseSpanish"
-            solution.file="src/clients/AgentSupport.sln"/>
+        <build-cpp configuration="ReleaseGerman" solution.file="src/clients/AgentSupport.sln"/>
+        <build-cpp configuration="ReleaseSpanish" solution.file="src/clients/AgentSupport.sln"/>
     </target>
 
     <!-- ================================================================= -->
@@ -351,10 +349,8 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!-- TODO is there a QM solution? -timc, Cinco de Mayo -->
     <target name="make-QualityMonitoring" description="Makes QM">
         <build-cpp solution.file="src/clients/quality/qm/qm.vcproj"/>
-        <build-cpp configuration="ReleaseGerman"
-            solution.file="src/clients/quality/qm/qm.vcproj"/>
-        <build-cpp configuration="ReleaseSpanish"
-            solution.file="src/clients/quality/qm/qm.vcproj"/>
+        <build-cpp configuration="ReleaseGerman" solution.file="src/clients/quality/qm/qm.vcproj"/>
+        <build-cpp configuration="ReleaseSpanish" solution.file="src/clients/quality/qm/qm.vcproj"/>
     </target>
 
     <!-- ================================================================= -->
@@ -364,8 +360,7 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <target name="make-RegUtils" description="Makes RegUtils.lib">
         <build-cpp solution.file="src/clients/quality/regutils/regutils.vcproj"/>
         <!-- TODO are we using this? -timc 5/27/2009 -->
-        <build-cpp configuration="Debug"
-            solution.file="src/clients/quality/regutils/regutils.vcproj"/>
+        <build-cpp configuration="Debug" solution.file="src/clients/quality/regutils/regutils.vcproj"/>
     </target>
 
     <!-- ================================================================= -->
@@ -433,7 +428,8 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!-- ================================================================= -->
     <!-- Make SourceRunnerService.exe                                      -->
     <!-- ================================================================= -->
-    <target name="make-SourceRunner" depends="make-ContactSourceUtilities_LIB" description="Makes SourceRunnerService.exe">
+    <target name="make-SourceRunner" depends="make-ContactSourceUtilities_LIB"
+        description="Makes SourceRunnerService.exe">
         <build-cpp solution.file="src/winservices/SourceRunnerService.sln"/>
     </target>
 
@@ -447,7 +443,8 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     Centricity except for the deployment piece here, but I'd rather not cause
     Centricity to be redeployed just to build audio mining.  It'll stay for
     now. -timc 2/5/2009 -->
-    <target name="make-Speech" depends="make-Centricity" description="Makes SpeechServerService and SpeechProcessingClient">
+    <target name="make-Speech" depends="make-Centricity"
+        description="Makes SpeechServerService and SpeechProcessingClient">
         <build-cpp solution.file="src/winservices/AudioMining.sln"/>
     </target>
 
@@ -510,7 +507,8 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!-- NB: this target depends on WMEncoder.exe being installed on the build
     machine.  It's available locally at
     \\Bigfoot\Engineering\Software\Installs\WindowsMediaEncoder9 -->
-    <target name="make-WMWrapperService" depends="register-NCT-binaries" description="Makes Windows Media wrapper service for Centricity">
+    <target name="make-WMWrapperService" depends="register-NCT-binaries"
+        description="Makes Windows Media wrapper service for Centricity">
         <build-cpp solution.file="src/winservices/WMWrapperService/WMWrapperService.sln"/>
     </target>
 
@@ -528,8 +526,11 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!-- timc: Do we need this any longer? -->
     <target name="publish-AVPlayer" description="Publishes Centricity AVPlayer (Click Once) using MSBuild">
         <exec executable="${compiler.msbuild}" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="/target:publish src/clients/AVPlayer/AVPlayer.csproj /property:Configuration=Release;PublishDir=workdir/AVPlayer/ /l:FileLogger,Microsoft.Build.Engine;logfile=BuildLog.txt;append=true"/>
+            <arg line="/target:publish src/clients/AVPlayer/AVPlayer.csproj /property:Configuration=Release;PublishDir=pubdir/ /l:FileLogger,Microsoft.Build.Engine;logfile=BuildLog.txt;append=true"/>
         </exec>
+        <move todir="workdir/AVPlayer">
+            <fileset dir="src/clients/AVPlayer/pubdir"/>
+        </move>
     </target>
 
     <!-- ================================================================= -->
@@ -538,8 +539,11 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!-- timc: Do we need this any longer? -->
     <target name="publish-RecordingDownloadTool" description="Publishes Centricity RecordingDownloadTool (Click Once) using MSBuild">
         <exec executable="${compiler.msbuild}" vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="/target:publish src/clients/RecordingDownloadTool/RecordingDownloadTool.csproj /property:Configuration=Release;PublishDir=workdir/RecordingDownloadTool/ /l:FileLogger,Microsoft.Build.Engine;logfile=BuildLog.txt;append=true"/>
+            <arg line="/target:publish src/clients/RecordingDownloadTool/RecordingDownloadTool.csproj /property:Configuration=Release;PublishDir=pubdir/ /l:FileLogger,Microsoft.Build.Engine;logfile=BuildLog.txt;append=true"/>
         </exec>
+        <move todir="workdir/RecordingDownloadTool">
+            <fileset dir="src/clients/RecordingDownloadTool/pubdir"/>
+        </move>
     </target>
 
     <!-- ================================================================= -->
@@ -574,7 +578,8 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!--  Sign AgentAdherence.ocx                                          -->
     <!-- ================================================================= -->
     <!-- TODO is there an AgentAdherence solution? -timc, Cinco de Mayo -->
-    <target name="sign-AgentAdherence_OCX" depends="make-AgentAdherence_OCX" description="Digitally signs AgentAdherence.ocx to verify its authenticity.">
+    <target name="sign-AgentAdherence_OCX" depends="make-AgentAdherence_OCX"
+        description="Digitally signs AgentAdherence.ocx to verify its authenticity.">
         <!-- NB: don't forget the ${basedir}! -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} workdir/wfm/AgentAdherence.ocx"/>
@@ -585,7 +590,8 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!--  Sign AgentSchedule.ocx                                           -->
     <!-- ================================================================= -->
     <!-- TODO is there an AgentSchedule solution? -timc, Cinco de Mayo -->
-    <target name="sign-AgentSchedule_OCX" depends="make-AgentSchedule_OCX" description="Digitally signs AgentSchedule.ocx to verify its authenticity.">
+    <target name="sign-AgentSchedule_OCX" depends="make-AgentSchedule_OCX"
+        description="Digitally signs AgentSchedule.ocx to verify its authenticity.">
         <!-- NB: don't forget the ${basedir}! -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} workdir/wfm/AgentSchedule.ocx"/>
@@ -596,7 +602,8 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!--  Sign AgentX.ocx                                                  -->
     <!-- ================================================================= -->
     <!-- TODO is there an AgentX solution? -timc, Cinco de Mayo -->
-    <target name="sign-AgentX_OCX" depends="make-AgentX_OCX" description="Digitally signs AgentX.ocx to verify its authenticity.">
+    <target name="sign-AgentX_OCX" depends="make-AgentX_OCX"
+        description="Digitally signs AgentX.ocx to verify its authenticity.">
         <!-- English -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${file.pfx} /p ${signtool.password} /t ${signtool.timestampurl} workdir/quality/AgentX.ocx"/>
@@ -620,7 +627,8 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     Originally I had a make-AnalyticsResources target, which compiled
     AnalyticsResources.csproj, but it's redundant. -->
     <!-- TODO is there an AnalyticsResources solution? -timc, Cinco de Mayo -->
-    <target name="sign-AnalyticsResources" depends="make-DeployAnalyticsTool" description="Digitally signs EnvisionAnalyticsResources.dll to verify its authenticity.">
+    <target name="sign-AnalyticsResources" depends="make-DeployAnalyticsTool"
+        description="Digitally signs EnvisionAnalyticsResources.dll to verify its authenticity.">
         <!-- NB: don't forget the ${basedir}! -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <!-- /f ${dir.build}/setup/Signature/myprivatecert.pfx -->
@@ -631,7 +639,8 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!-- ================================================================= -->
     <!-- Sign AnalyticsUtilities                                           -->
     <!-- ================================================================= -->
-    <target name="sign-AnalyticsUtilities" depends="make-AnalyticsUtilities" description="Digitally signs EnvisionAnalyticsUtilities.dll to verify its authenticity.">
+    <target name="sign-AnalyticsUtilities" depends="make-AnalyticsUtilities"
+        description="Digitally signs EnvisionAnalyticsUtilities.dll to verify its authenticity.">
         <!-- NB: don't forget the ${basedir}! -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <!-- /f ${dir.build}/setup/Signature/myprivatecert.pfx -->
@@ -643,7 +652,8 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!--  Sign C2CReportingControls.ocx                                    -->
     <!-- ================================================================= -->
     <!-- TODO is there a C2CReportingControls solution? -timc, Cinco de Mayo -->
-    <target name="sign-C2CReportingControls_OCX" depends="make-C2CReportingControls_OCX" description="Digitally signs C2CReportingControls.ocx to verify its authenticity.">
+    <target name="sign-C2CReportingControls_OCX" depends="make-C2CReportingControls_OCX"
+        description="Digitally signs C2CReportingControls.ocx to verify its authenticity.">
         <!-- English -->
         <!-- NB: don't forget the ${basedir}! -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
@@ -666,7 +676,8 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!-- ================================================================= -->
     <!-- Sign EnvisionCLR (includes DeployAnalyticsTool)                   -->
     <!-- ================================================================= -->
-    <target name="sign-EnvisionCLR" depends="make-EnvisionCLR" description="Digitally signs EnvisionCLR.dll to verify its authenticity.">
+    <target name="sign-EnvisionCLR" depends="make-EnvisionCLR"
+        description="Digitally signs EnvisionCLR.dll to verify its authenticity.">
         <!-- NB: don't forget the ${basedir}! -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <!-- /f ${dir.build}/setup/Signature/myprivatecert.pfx -->
@@ -677,7 +688,8 @@ any and all top-level tasks and/or types will be executed (see Ant docs) -->
     <!-- ================================================================= -->
     <!-- Sign WebControls.ocx                                              -->
     <!-- ================================================================= -->
-    <target name="sign-WebControls_OCX" depends="make-WebControls_OCX" description="Digitally signs WebControls.ocx to verify its authenticity.">
+    <target name="sign-WebControls_OCX" depends="make-WebControls_OCX"
+        description="Digitally signs WebControls.ocx to verify its authenticity.">
         <!-- English -->
         <!-- NB: don't forget the ${basedir}! -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
