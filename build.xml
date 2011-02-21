@@ -246,7 +246,6 @@
         depends="make-cstaLoader, make-ctcLoader6.0, make-ctcLoader7.0, make-hook"/>
 
     <target name="change-version" description="Update all version files">
-        <!-- TODO make this target name="..." depends="..." -timc 5/7/2010 -->
         <antcall target="chver-CPP"/>
         <antcall target="chver-CSharp"/>
         <antcall target="chver-Java"/>
@@ -262,183 +261,108 @@
         -r":x3cApplicationVersion:x3e9.4.0000.1:x3c:x2fApplicationVersion:x3e"
         -o AVPlayer.csproj -->
         <!-- this is Centricity web application #1 -->
-        <property name="AVPlayer_csproj"
-            value="src/clients/AVPlayer/AVPlayer.csproj"/>
+        <property name="AVPlayer_csproj" value="src/clients/AVPlayer/AVPlayer.csproj"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c80
-                -s:x3cApplicationVersion:x3e${version.previous}:x3c:x2fApplicationVersion:x3e
-                -r:x3cApplicationVersion:x3e${product.version}:x3c:x2fApplicationVersion:x3e
-                -o ${AVPlayer_csproj}"/>
+            <arg line="-c80 -s:x3cApplicationVersion:x3e${version.previous}:x3c:x2fApplicationVersion:x3e -r:x3cApplicationVersion:x3e${product.version}:x3c:x2fApplicationVersion:x3e -o ${AVPlayer_csproj}"/>
         </exec>
     </target>
 
     <target name="chver-CPP">
         <property name="version_info_h" value="src/include/version_info.h"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c40
-                -s:x20_PRODUCT_VERSION:x20${p_MAJOR}:x2C${p_MINOR}:x2C${p_RELEASE}:x2C${p_BUILD}
-                -r:x20_PRODUCT_VERSION:x20${MAJOR}:x2C${MINOR}:x2C${RELEASE}:x2C${BUILD}
-                -o ${version_info_h}"/>
+            <arg line="-c40 -s:x20_PRODUCT_VERSION:x20${p_MAJOR}:x2C${p_MINOR}:x2C${p_RELEASE}:x2C${p_BUILD} -r:x20_PRODUCT_VERSION:x20${MAJOR}:x2C${MINOR}:x2C${RELEASE}:x2C${BUILD} -o ${version_info_h}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c40
-                -s:x20_PRODUCT_VER_STR:x20:x22${p_MAJOR}.${p_MINOR}.${p_RELEASE}.${p_BUILD}
-                -r:x20_PRODUCT_VER_STR:x20:x22${product.version}
-                -o ${version_info_h}"/>
+            <arg line="-c40 -s:x20_PRODUCT_VER_STR:x20:x22${p_MAJOR}.${p_MINOR}.${p_RELEASE}.${p_BUILD} -r:x20_PRODUCT_VER_STR:x20:x22${product.version} -o ${version_info_h}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c40
-                -s:x20_PRODUCT_VER_LOGIN_STR:x20:x22${p_MAJOR}.${p_MINOR}.${p_RELEASE}.${p_BUILD}
-                -r:x20_PRODUCT_VER_LOGIN_STR:x20:x22${product.version}
-                -o ${version_info_h}"/>
+            <arg line="-c40 -s:x20_PRODUCT_VER_LOGIN_STR:x20:x22${p_MAJOR}.${p_MINOR}.${p_RELEASE}.${p_BUILD} -r:x20_PRODUCT_VER_LOGIN_STR:x20:x22${product.version} -o ${version_info_h}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c40
-                -s:x20_PRODUCT_ABOUT:x20:x22Version:x20${p_MAJOR}.${p_MINOR}.${p_RELEASE}.${p_BUILD}
-                -r:x20_PRODUCT_ABOUT:x20:x22Version:x20${product.version}
-                -o ${version_info_h}"/>
+            <arg line="-c40 -s:x20_PRODUCT_ABOUT:x20:x22Version:x20${p_MAJOR}.${p_MINOR}.${p_RELEASE}.${p_BUILD} -r:x20_PRODUCT_ABOUT:x20:x22Version:x20${product.version} -o ${version_info_h}"/>
         </exec>
     </target>
 
     <target name="chver-CSharp">
-        <property name="version_info_cs"
-            value="src/server/com/et/versioninfo/VersionInfo.cs"/>
+        <property name="version_info_cs" value="src/server/com/et/versioninfo/VersionInfo.cs"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30
-                -s:x20MAJOR:x20=:x20:x22${p_MAJOR}:x22;
-                -r:x20MAJOR:x20=:x20:x22${MAJOR}:x22;
-                -o ${version_info_cs}"/>
+            <arg line="-c30 -s:x20MAJOR:x20=:x20:x22${p_MAJOR}:x22; -r:x20MAJOR:x20=:x20:x22${MAJOR}:x22; -o ${version_info_cs}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30
-                -s:x20MINOR:x20=:x20:x22${p_MINOR}:x22;
-                -r:x20MINOR:x20=:x20:x22${MINOR}:x22;
-                -o ${version_info_cs}"/>
+            <arg line="-c30 -s:x20MINOR:x20=:x20:x22${p_MINOR}:x22; -r:x20MINOR:x20=:x20:x22${MINOR}:x22; -o ${version_info_cs}"/>
         </exec>
         <!-- prn20765: this is incompatible with VersionInfo.cs, and probably
         broken.  I just opened the PRN, so we'll see what comes of it.  WFM
         and BI use this file. -->
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30
-                -s:x20RELEASE:x20=:x20:x22${p_RELEASE}:x22;
-                -r:x20RELEASE:x20=:x20:x22${RELEASE}:x22;
-                -o ${version_info_cs}"/>
+            <arg line="-c30 -s:x20RELEASE:x20=:x20:x22${p_RELEASE}:x22; -r:x20RELEASE:x20=:x20:x22${RELEASE}:x22; -o ${version_info_cs}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30
-                -s:x20BUILD:x20=:x20:x22${p_BUILD}:x22;
-                -r:x20BUILD:x20=:x20:x22${BUILD}:x22;
-                -o ${version_info_cs}"/>
+            <arg line="-c30 -s:x20BUILD:x20=:x20:x22${p_BUILD}:x22; -r:x20BUILD:x20=:x20:x22${BUILD}:x22; -o ${version_info_cs}"/>
         </exec>
 
         <!-- prn18732 (in 9.0.4) hopefully temporary workaround -->
         <!-- this is removed in Charlie -timc 2/18/2011 -->
-        <property name="daisy_version_cs_SERVER"
-            value="src/server/com/et/wfm/daisy/DaisyVersion.cs"/>
+        <property name="daisy_version_cs_SERVER" value="src/server/com/et/wfm/daisy/DaisyVersion.cs"/>
         <!-- clients/wfm/WFMClient/com/et/daisy/DaisyVersion.cs -->
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30
-                -s:x20MAJOR:x20=:x20${p_MAJOR};
-                -r:x20MAJOR:x20=:x20${MAJOR};
-                -o ${daisy_version_cs_SERVER}"/>
+            <arg line="-c30 -s:x20MAJOR:x20=:x20${p_MAJOR}; -r:x20MAJOR:x20=:x20${MAJOR}; -o ${daisy_version_cs_SERVER}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30
-                -s:x20MINOR:x20=:x20${p_MINOR};
-                -r:x20MINOR:x20=:x20${MINOR};
-                -o ${daisy_version_cs_SERVER}"/>
+            <arg line="-c30 -s:x20MINOR:x20=:x20${p_MINOR}; -r:x20MINOR:x20=:x20${MINOR}; -o ${daisy_version_cs_SERVER}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30
-                -s:x20RELEASE:x20=:x20${p_RELEASE};
-                -r:x20RELEASE:x20=:x20${RELEASE};
-                -o ${daisy_version_cs_SERVER}"/>
+            <arg line="-c30 -s:x20RELEASE:x20=:x20${p_RELEASE}; -r:x20RELEASE:x20=:x20${RELEASE}; -o ${daisy_version_cs_SERVER}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30
-                -s:x20BUILD:x20=:x20${p_BUILD};
-                -r:x20BUILD:x20=:x20${BUILD};
-                -o ${daisy_version_cs_SERVER}"/>
+            <arg line="-c30 -s:x20BUILD:x20=:x20${p_BUILD}; -r:x20BUILD:x20=:x20${BUILD}; -o ${daisy_version_cs_SERVER}"/>
         </exec>
 
         <!-- prn18732 (in 9.0.4) hopefully temporary workaround -->
         <!-- this is removed in Charlie -timc 2/18/2011 -->
-        <property name="daisy_version_cs_CLIENT"
-            value="src/clients/wfm/WFMClient/com/et/daisy/DaisyVersion.cs"/>
+        <property name="daisy_version_cs_CLIENT" value="src/clients/wfm/WFMClient/com/et/daisy/DaisyVersion.cs"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30
-                -s:x20MAJOR:x20=:x20${p_MAJOR};
-                -r:x20MAJOR:x20=:x20${MAJOR};
-                -o ${daisy_version_cs_CLIENT}"/>
+            <arg line="-c30 -s:x20MAJOR:x20=:x20${p_MAJOR}; -r:x20MAJOR:x20=:x20${MAJOR}; -o ${daisy_version_cs_CLIENT}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30
-                -s:x20MINOR:x20=:x20${p_MINOR};
-                -r:x20MINOR:x20=:x20${MINOR};
-                -o ${daisy_version_cs_CLIENT}"/>
+            <arg line="-c30 -s:x20MINOR:x20=:x20${p_MINOR}; -r:x20MINOR:x20=:x20${MINOR}; -o ${daisy_version_cs_CLIENT}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30
-                -s:x20RELEASE:x20=:x20${p_RELEASE};
-                -r:x20RELEASE:x20=:x20${RELEASE};
-                -o ${daisy_version_cs_CLIENT}"/>
+            <arg line="-c30 -s:x20RELEASE:x20=:x20${p_RELEASE}; -r:x20RELEASE:x20=:x20${RELEASE}; -o ${daisy_version_cs_CLIENT}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30
-                -s:x20BUILD:x20=:x20${p_BUILD};
-                -r:x20BUILD:x20=:x20${BUILD};
-                -o ${daisy_version_cs_CLIENT}"/>
+            <arg line="-c30 -s:x20BUILD:x20=:x20${p_BUILD}; -r:x20BUILD:x20=:x20${BUILD}; -o ${daisy_version_cs_CLIENT}"/>
         </exec>
     </target>
 
     <target name="chver-EnvisionControls_INF">
         <!-- FileVersion=9,0,0,504 -->
-        <property name="EnvisionControls_INF"
-            value="setup/Signature/EnvisionControls.inf"/>
+        <property name="EnvisionControls_INF" value="setup/Signature/EnvisionControls.inf"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c80
-                -sFileVersion:x3d${p_MAJOR},${p_MINOR},${p_RELEASE},${p_BUILD}
-                -rFileVersion:x3d${MAJOR},${MINOR},${RELEASE},${BUILD}
-                -o ${EnvisionControls_INF}"/>
+            <arg line="-c80 -sFileVersion:x3d${p_MAJOR},${p_MINOR},${p_RELEASE},${p_BUILD} -rFileVersion:x3d${MAJOR},${MINOR},${RELEASE},${BUILD} -o ${EnvisionControls_INF}"/>
         </exec>
     </target>
 
     <target name="chver-Java">
         <property name="ProductVersion_java" value="src/server/com/et/startup/ProductVersion.java"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30
-                -s:x20MAJOR:x20=:x20${p_MAJOR};
-                -r:x20MAJOR:x20=:x20${MAJOR};
-                -o ${ProductVersion_java}"/>
+            <arg line="-c30 -s:x20MAJOR:x20=:x20${p_MAJOR}; -r:x20MAJOR:x20=:x20${MAJOR}; -o ${ProductVersion_java}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30
-                -s:x20MINOR:x20=:x20${p_MINOR};
-                -r:x20MINOR:x20=:x20${MINOR};
-                -o ${ProductVersion_java}"/>
+            <arg line="-c30 -s:x20MINOR:x20=:x20${p_MINOR}; -r:x20MINOR:x20=:x20${MINOR}; -o ${ProductVersion_java}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30
-                -s:x20RELEASE:x20=:x20:x22${p_RELEASE}:x22;
-                -r:x20RELEASE:x20=:x20:x22${RELEASE}:x22;
-                -o ${ProductVersion_java}"/>
+            <arg line="-c30 -s:x20RELEASE:x20=:x20:x22${p_RELEASE}:x22; -r:x20RELEASE:x20=:x20:x22${RELEASE}:x22; -o ${ProductVersion_java}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30
-                -s:x20BUILD:x20=:x20${p_BUILD};
-                -r:x20BUILD:x20=:x20${BUILD};
-                -o ${ProductVersion_java}"/>
+            <arg line="-c30 -s:x20BUILD:x20=:x20${p_BUILD}; -r:x20BUILD:x20=:x20${BUILD}; -o ${ProductVersion_java}"/>
         </exec>
     </target>
 
     <target name="chver-RecordingDownloadTool">
-        <property name="RecordingDownloadTool_csproj"
-            value="src/clients/RecordingDownloadTool/RecordingDownloadTool.csproj"/>
+        <property name="RecordingDownloadTool_csproj" value="src/clients/RecordingDownloadTool/RecordingDownloadTool.csproj"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c80
-                -s:x3cApplicationVersion:x3e${version.previous}:x3c:x2fApplicationVersion:x3e
-                -r:x3cApplicationVersion:x3e${product.version}:x3c:x2fApplicationVersion:x3e
-                -o ${RecordingDownloadTool_csproj}"/>
+            <arg line="-c80 -s:x3cApplicationVersion:x3e${version.previous}:x3c:x2fApplicationVersion:x3e -r:x3cApplicationVersion:x3e${product.version}:x3c:x2fApplicationVersion:x3e -o ${RecordingDownloadTool_csproj}"/>
         </exec>
     </target>
 
@@ -460,30 +384,20 @@
     <target name="commit-all" description="Commit all version and installer project files">
         <svn username="buildmgr" password="buildmgr">
             <commit message="00000: Version header and installer file commit for build ${product.version}">
-                <fileset
-                    dir="."
-                    includes="
-                    src/**/*.csproj
-                    src/**/*.cs
-                    src/**/*.h
-                    src/**/*.java
-                    setup/**/*.inf
-                    setup/installs/**/*.aip"/>
+                <fileset dir="." includes=" src/**/*.csproj src/**/*.cs src/**/*.h src/**/*.java setup/**/*.inf setup/installs/**/*.aip"/>
             </commit>
         </svn>
     </target>
 
     <target name="commit-installers" depends="setup-installers">
         <svn username="buildmgr" password="buildmgr">
-            <commit dir="setup/installs"
-                message="00000: Installer project file checkin for build ${product.version}"/>
+            <commit dir="setup/installs" message="00000: Installer project file checkin for build ${product.version}"/>
         </svn>
     </target>
 
     <target name="commit-installers-no-depends">
         <svn username="buildmgr" password="buildmgr">
-            <commit dir="setup/installs"
-                message="00000: Installer project file checkin for build ${product.version}"/>
+            <commit dir="setup/installs" message="00000: Installer project file checkin for build ${product.version}"/>
         </svn>
     </target>
 
@@ -492,99 +406,46 @@
         <svn username="buildmgr" password="buildmgr">
             <commit message="00000: Version file checkin for build ${product.version}">
                 <!-- fileset needs to include the extensions of all version files -->
-                <fileset dir="."
-                    includes="**/*.csproj,**/*.cs,**/*.h,**/*.java,**/*.inf"/>
+                <fileset dir="." includes="**/*.csproj,**/*.cs,**/*.h,**/*.java,**/*.inf"/>
             </commit>
         </svn>
     </target>
 
     <target name="compile-Envision" description="Compiles Envision">
-        <javac srcdir="src" destdir="src"
-            debug="${javac.debug}"
-            deprecation="${javac.deprecation}"
-            fork="yes"
-            memoryInitialSize="200m" memoryMaximumSize="1024m">
+        <javac srcdir="src" destdir="src" debug="${javac.debug}" deprecation="${javac.deprecation}" fork="yes" memoryInitialSize="200m" memoryMaximumSize="1024m">
             <classpath refid="project-classpath"/>
-            <!-- add to the classpath: see build.xml -->
             <classpath refid="classpath-v2"/>
         </javac>
 
         <!-- TODO do we need this? -->
-        <delete verbose="true" failonerror="true"
-            file="src/com/et/license/LicenseManager.class"/>
-        <delete verbose="true" failonerror="true"
-            file="src/server/com/et/license/LicenseManager.class"/>
-        <delete verbose="true" failonerror="true"
-            file="src/server/com/et/license/jar/LicenseManager.class"/>
+        <delete verbose="true" failonerror="true" file="src/com/et/license/LicenseManager.class"/>
+        <delete verbose="true" failonerror="true" file="src/server/com/et/license/LicenseManager.class"/>
+        <delete verbose="true" failonerror="true" file="src/server/com/et/license/jar/LicenseManager.class"/>
     </target>
 
     <target name="compile-genstubskel-jar" description="Compiles genstubskel">
-        <javac srcdir="src/tools/genstubskel"
-            destdir="src/tools/genstubskel"
-            debug="${javac.debug}"
-            deprecation="${javac.deprecation}"
-            source="${javac.source}"
-            optimize="on"
-            verbose="true">
+        <javac srcdir="src/tools/genstubskel" destdir="src/tools/genstubskel" debug="${javac.debug}" deprecation="${javac.deprecation}" source="${javac.source}" optimize="on" verbose="true">
             <classpath refid="project-classpath"/>
-            <!-- add to the classpath: see build.xml -->
             <classpath refid="classpath-v2"/>
         </javac>
     </target>
 
     <target name="compile-license" description="Compiles license">
-        <javac srcdir="src/server/com/et/license/"
-            destdir="src/server/"
-            debug="${javac.debug}"
-            deprecation="${javac.deprecation}"
-            fork="yes"
-            memoryInitialSize="100m"
-            memoryMaximumSize="100m" >
+        <javac srcdir="src/server/com/et/license/" destdir="src/server/" debug="${javac.debug}" deprecation="${javac.deprecation}" fork="yes" memoryInitialSize="100m" memoryMaximumSize="100m" >
             <classpath refid="project-classpath"/>
-            <!-- add to the classpath: see build.xml -->
             <classpath refid="classpath-v2"/>
         </javac>
     </target>
 
     <target name="copy-jar-resources" description="Copy Envision jar resources">
         <copy todir="src/com/et">
-            <fileset dir="src/Server/com/et"
-                includes="
-                **/*.xml
-                **/*.gif
-                **/*.jpg
-                **/*.png
-                **/*.html
-                **/*.js
-                **/*.ico
-                **/*.properties"
-                excludes="**/*UTF16.properties"/>
+            <fileset dir="src/Server/com/et" includes=" **/*.xml **/*.gif **/*.jpg **/*.png **/*.html **/*.js **/*.ico **/*.properties" excludes="**/*UTF16.properties"/>
         </copy>
         <copy todir="src/com/et">
-            <fileset dir="src/clients/admin/com/et"
-                includes="
-                **/*.xml
-                **/*.gif
-                **/*.jpg
-                **/*.png
-                **/*.html
-                **/*.js
-                **/*.ico
-                **/*.properties"
-                excludes="**/*UTF16.properties"/>
+            <fileset dir="src/clients/admin/com/et" includes=" **/*.xml **/*.gif **/*.jpg **/*.png **/*.html **/*.js **/*.ico **/*.properties" excludes="**/*UTF16.properties"/>
         </copy>
         <copy todir="src/com/et">
-            <fileset dir="src/apis/bi/com/et"
-                includes="
-                **/*.xml
-                **/*.gif
-                **/*.jpg
-                **/*.png
-                **/*.html
-                **/*.js
-                **/*.ico
-                **/*.properties"
-                excludes="**/*UTF16.properties"/>
+            <fileset dir="src/apis/bi/com/et" includes=" **/*.xml **/*.gif **/*.jpg **/*.png **/*.html **/*.js **/*.ico **/*.properties" excludes="**/*UTF16.properties"/>
         </copy>
     </target>
 
@@ -601,11 +462,7 @@
         In case it gets messed up, it's echo plus attributes, newline, then
         the message at column 0 on the following line, then close-echo
         directly following the end of the message. -->
-        <mail from="buildmgr@envisioninc.com"
-            tolist="${mail.to}"
-            mailhost="corpserv04.acme.envisiontelephony.com"
-            subject="build results, ${product.version} (r${repository.revision})"
-            encoding="plain">
+        <mail from="buildmgr@envisioninc.com" tolist="${mail.to}" mailhost="corpserv04.acme.envisiontelephony.com" subject="build results, ${product.version} (r${repository.revision})" encoding="plain">
             <message>
 Build is here: ${products.dir.converted}\${product.version}
 Log file is here: ${dir.projects.converted}\logs\build_${product.version}.xml
@@ -636,16 +493,14 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
         <echo>[${env.COMPUTERNAME}] Build completed: ${time.end}</echo>
     </target>
 
-    <target name="generate-dbschemas"
-        description="Generates Envision database schemas">
+    <target name="generate-dbschemas" description="Generates Envision database schemas">
         <exec dir="workdir" executable="cmd.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="/c GenDBSchemas.bat"/>
         </exec>
     </target>
 
     <target name="genstubskel-suite" description="genstubskel suite">
-        <java classname="genstubskel.GenStubSkel" dir="."
-            fork="true" args="GenStubSkel.xml">
+        <java classname="genstubskel.GenStubSkel" dir="." fork="true" args="GenStubSkel.xml">
             <classpath refid="project-classpath"/>
             <classpath refid="classpath-v2"/>
         </java>
@@ -661,46 +516,19 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
     </target>
 
     <target name="jar-Envision" description="Jar Envision">
-        <jar destfile="src/Envision.jar"
-            basedir="src"
-            duplicate="preserve"
-            includes="
-            com/**/*.class
-            com/**/*.xml
-            com/**/*.gif
-            com/**/*.jpg
-            com/**/*.png
-            com/**/*.html
-            com/**/*.js
-            com/**/*.ico
-            com/**/*.properties"/>
+        <jar destfile="src/Envision.jar" basedir="src" duplicate="preserve" includes=" com/**/*.class com/**/*.xml com/**/*.gif com/**/*.jpg com/**/*.png com/**/*.html com/**/*.js com/**/*.ico com/**/*.properties"/>
     </target>
 
     <target name="jar-EnvisionPlugin" description="Creates EnvisionPlugin.jar"
         depends="make-EnvisionPlugin">
         <!-- This plugin goes on the customer's PBX to pass contact source
         messages back and forth with the Server -->
-        <jar jarfile="${EnvisionPluginBasedir}/EnvisionPlugin.jar"
-            basedir="${EnvisionPluginBasedir}"
-            duplicate="preserve"
-            includes="
-            com/**/*.class
-            com/**/*.xml
-            com/**/*.html
-            com/**/*.gif
-            com/**/*.png
-            com/**/*.jpg
-            com/**/*.ico
-            com/**/*.properties"/>
+        <jar jarfile="${EnvisionPluginBasedir}/EnvisionPlugin.jar" basedir="${EnvisionPluginBasedir}" duplicate="preserve" includes=" com/**/*.class com/**/*.xml com/**/*.html com/**/*.gif com/**/*.png com/**/*.jpg com/**/*.ico com/**/*.properties"/>
     </target>
 
     <target name="jar-license" description="Jar license">
-        <copy file="src/server/com/et/license/LicenseManager.class"
-            tofile="src/com/et/license/LicenseManager.class"/>
-        <jar destfile="src/server/com/et/license/license.jar"
-            basedir="src"
-            duplicate="preserve"
-            includes="com/**/*.class"/>
+        <copy file="src/server/com/et/license/LicenseManager.class" tofile="src/com/et/license/LicenseManager.class"/>
+        <jar destfile="src/server/com/et/license/license.jar" basedir="src" duplicate="preserve" includes="com/**/*.class"/>
     </target>
 
     <target name="make-ADIT" description="Makes ADIT">
@@ -731,10 +559,8 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
 
     <target name="make-AgentX_OCX" description="Makes AgentX.ocx">
         <build-cpp solution.file="src/clients/quality/agentdesktop/AgentX.vcproj"/>
-        <build-cpp configuration="ReleaseGerman"
-            solution.file="src/clients/quality/agentdesktop/AgentX.vcproj"/>
-        <build-cpp configuration="ReleaseSpanish"
-            solution.file="src/clients/quality/agentdesktop/AgentX.vcproj"/>
+        <build-cpp configuration="ReleaseGerman" solution.file="src/clients/quality/agentdesktop/AgentX.vcproj"/>
+        <build-cpp configuration="ReleaseSpanish" solution.file="src/clients/quality/agentdesktop/AgentX.vcproj"/>
     </target>
 
     <target name="make-AGMS" description="Makes AGMS">
@@ -755,9 +581,7 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
 
     <target name="make-BVT-AgentCentricity">
         <exec executable="${vs100_devenv}" vmlauncher="false" failonerror="false">
-            <arg line="/build Release
-                src/tools/testapps/AgentCentricity/AgentCentricity.sln
-                /out BuildLog.txt"/>
+            <arg line="/build Release src/tools/testapps/AgentCentricity/AgentCentricity.sln /out BuildLog.txt"/>
         </exec>
         <copy todir="${dir.projects.converted}\BVTs">
             <fileset file="src/tools/testapps/AgentCentricity/AgentCentricity/bin/Release/AgentCentricity.dll"/>
@@ -765,9 +589,7 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
     </target>
     <target name="make-BVT-CentricityBVT">
         <exec executable="${vs100_devenv}" vmlauncher="false" failonerror="false">
-            <arg line="/build Release
-                src/tools/testapps/CentricityBVT/autotest.sln
-                /out BuildLog.txt"/>
+            <arg line="/build Release src/tools/testapps/CentricityBVT/autotest.sln /out BuildLog.txt"/>
         </exec>
         <copy todir="${dir.projects.converted}\BVTs">
             <fileset file="src/tools/testapps/CentricityBVT/autotest/bin/Release/autotest.dll"/>
@@ -775,9 +597,7 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
     </target>
     <target name="make-BVT-ReviewAdvocate">
         <exec executable="${vs100_devenv}" vmlauncher="false" failonerror="false">
-            <arg line="/build Release
-                src/tools/testapps/ReviewAdvocate/ReviewAdvocate.sln
-                /out BuildLog.txt"/>
+            <arg line="/build Release src/tools/testapps/ReviewAdvocate/ReviewAdvocate.sln /out BuildLog.txt"/>
         </exec>
         <copy todir="${dir.projects.converted}\BVTs">
             <fileset file="src/tools/testapps/ReviewAdvocate/ReviewAdvocate/bin/Release/ReviewAdvocate.dll"/>
@@ -798,10 +618,8 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
 
     <target name="make-C2CReportingControls_OCX" description="Makes C2CReportingControls.ocx">
         <build-cpp solution.file="src/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
-        <build-cpp configuration="ReleaseGerman"
-            solution.file="src/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
-        <build-cpp configuration="ReleaseSpanish"
-            solution.file="src/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
+        <build-cpp configuration="ReleaseGerman" solution.file="src/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
+        <build-cpp configuration="ReleaseSpanish" solution.file="src/clients/reporting/C2CReportingControls/C2CReportingControls.sln"/>
     </target>
 
     <target name="make-CallTagger_CS" description="Makes BI Call Tagger">
@@ -832,18 +650,13 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
 
     <target name="make-cstaLoader" description="Makes cstaLoader">
         <build-cpp solution.file="src/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
-        <build-cpp configuration="Release_1_2"
-            solution.file="src/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
-        <build-cpp configuration="Release_1_3_3"
-            solution.file="src/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
-        <build-cpp configuration="Release_3_33"
-            solution.file="src/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
+        <build-cpp configuration="Release_1_2" solution.file="src/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
+        <build-cpp configuration="Release_1_3_3" solution.file="src/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
+        <build-cpp configuration="Release_3_33" solution.file="src/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
         <!-- Note the different path.  This is for Alcatel. -timc 9/29/2010 -->
         <build-cpp configuration="Release_6_4_3" solution.file="src/winservices/SourceRunnerService.sln"/>
-        <build-cpp configuration="Release_9_1"
-            solution.file="src/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
-        <build-cpp configuration="Release_9_5"
-            solution.file="src/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
+        <build-cpp configuration="Release_9_1" solution.file="src/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
+        <build-cpp configuration="Release_9_5" solution.file="src/contactsources/tsapi/cstaLoader/cstaLoader.vcproj"/>
     </target>
 
     <target name="make-ctcLoader6.0" description="Makes ctcLoader6.0">
@@ -893,110 +706,60 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
     </target>
 
     <!-- German -->
-    <target name="make-EnvisionControls_CAB_DE"
-        description="Makes EnvisionControls.cab (German) using CabArc">
+    <target name="make-EnvisionControls_CAB_DE" description="Makes EnvisionControls.cab (German) using CabArc">
         <property name="dir.toCab_DE" value="setup/Signature/DE/toCab"/>
-
-        <copy file="setup/Signature/EnvisionControls.inf"
-            tofile="${dir.toCab_DE}/EnvisionControls.inf"/>
-        <copy file="${dir.sdk}/ISource/_ISource.dll"
-            tofile="${dir.toCab_DE}/_ISource.dll"/>
-        <copy file="${dir.sdk}/MS/mfc80.dll"
-            tofile="${dir.toCab_DE}/mfc80.dll"/>
-
+        <copy file="setup/Signature/EnvisionControls.inf" tofile="${dir.toCab_DE}/EnvisionControls.inf"/>
+        <copy file="${dir.sdk}/ISource/_ISource.dll" tofile="${dir.toCab_DE}/_ISource.dll"/>
+        <copy file="${dir.sdk}/MS/mfc80.dll" tofile="${dir.toCab_DE}/mfc80.dll"/>
         <!-- specific to this CAB -->
-        <copy file="src/clients/Quality/agentdesktop/ReleaseGerman/AgentX.ocx"
-            tofile="${dir.toCab_DE}/AgentX.ocx"/>
-        <copy file="src/clients/reporting/C2CReportingControls/ReleaseGerman/C2CReportingControls.ocx"
-            tofile="${dir.toCab_DE}/C2CReportingControls.ocx"/>
-        <copy file="src/clients/reporting/controls/ReleaseGerman/WebControls.ocx"
-            tofile="${dir.toCab_DE}/WebControls.ocx"/>
-        <copy file="src/clients/quality/sharedresources/ReleaseGerman/SharedResources.dll"
-            tofile="${dir.toCab_DE}/SharedResources.dll"/>
-
-        <cab cabfile="setup/Signature/DE/EnvisionControls.cab"
-            basedir="${dir.toCab_DE}"
-            options="-s 6144"
-            includes="AgentX.ocx, C2CReportingControls.ocx, WebControls.ocx,
-            EnvisionControls.inf, _ISource.dll, mfc80.dll, SharedResources.dll"
+        <copy file="src/clients/Quality/agentdesktop/ReleaseGerman/AgentX.ocx" tofile="${dir.toCab_DE}/AgentX.ocx"/>
+        <copy file="src/clients/reporting/C2CReportingControls/ReleaseGerman/C2CReportingControls.ocx" tofile="${dir.toCab_DE}/C2CReportingControls.ocx"/>
+        <copy file="src/clients/reporting/controls/ReleaseGerman/WebControls.ocx" tofile="${dir.toCab_DE}/WebControls.ocx"/>
+        <copy file="src/clients/quality/sharedresources/ReleaseGerman/SharedResources.dll" tofile="${dir.toCab_DE}/SharedResources.dll"/>
+        <cab cabfile="setup/Signature/DE/EnvisionControls.cab" basedir="${dir.toCab_DE}" options="-s 6144"
+            includes="AgentX.ocx, C2CReportingControls.ocx, WebControls.ocx, EnvisionControls.inf, _ISource.dll, mfc80.dll, SharedResources.dll"
             verbose="yes"/>
     </target>
 
     <!-- English -->
-    <target name="make-EnvisionControls_CAB_EN"
-        description="Makes EnvisionControls.cab (English) using CabArc">
+    <target name="make-EnvisionControls_CAB_EN" description="Makes EnvisionControls.cab (English) using CabArc">
         <property name="dir.toCab_EN" value="setup/Signature/EN/toCab"/>
-
-        <copy file="setup/Signature/EnvisionControls.inf"
-            tofile="${dir.toCab_EN}/EnvisionControls.inf"/>
-        <copy file="${dir.sdk}/ISource/_ISource.dll"
-            tofile="${dir.toCab_EN}/_ISource.dll"/>
-        <copy file="${dir.sdk}/MS/mfc80.dll"
-            tofile="${dir.toCab_EN}/mfc80.dll"/>
-
+        <copy file="setup/Signature/EnvisionControls.inf" tofile="${dir.toCab_EN}/EnvisionControls.inf"/>
+        <copy file="${dir.sdk}/ISource/_ISource.dll" tofile="${dir.toCab_EN}/_ISource.dll"/>
+        <copy file="${dir.sdk}/MS/mfc80.dll" tofile="${dir.toCab_EN}/mfc80.dll"/>
         <!-- specific to this CAB -->
-        <copy file="workdir/Quality/AgentX.ocx"
-            tofile="${dir.toCab_EN}/AgentX.ocx"/>
-        <copy file="src/clients/reporting/C2CReportingControls/Release/C2CReportingControls.ocx"
-            tofile="${dir.toCab_EN}/C2CReportingControls.ocx"/>
-        <copy file="workdir/agentdesktop/WebControls.ocx"
-            tofile="${dir.toCab_EN}/WebControls.ocx"/>
-        <copy file="workdir/quality/SharedResources.dll"
-            tofile="${dir.toCab_EN}/SharedResources.dll"/>
-
-        <cab cabfile="setup/Signature/EN/EnvisionControls.cab"
-            basedir="${dir.toCab_EN}"
-            options="-s 6144"
-            includes="AgentX.ocx, C2CReportingControls.ocx, WebControls.ocx,
-            EnvisionControls.inf, _ISource.dll, mfc80.dll, SharedResources.dll"
+        <copy file="workdir/Quality/AgentX.ocx" tofile="${dir.toCab_EN}/AgentX.ocx"/>
+        <copy file="src/clients/reporting/C2CReportingControls/Release/C2CReportingControls.ocx" tofile="${dir.toCab_EN}/C2CReportingControls.ocx"/>
+        <copy file="workdir/agentdesktop/WebControls.ocx" tofile="${dir.toCab_EN}/WebControls.ocx"/>
+        <copy file="workdir/quality/SharedResources.dll" tofile="${dir.toCab_EN}/SharedResources.dll"/>
+        <cab cabfile="setup/Signature/EN/EnvisionControls.cab" basedir="${dir.toCab_EN}" options="-s 6144"
+            includes="AgentX.ocx, C2CReportingControls.ocx, WebControls.ocx, EnvisionControls.inf, _ISource.dll, mfc80.dll, SharedResources.dll"
             verbose="yes"/>
     </target>
 
     <!-- Spanish -->
-    <target name="make-EnvisionControls_CAB_ES"
-        description="Makes EnvisionControls.cab (Spanish) using CabArc">
+    <target name="make-EnvisionControls_CAB_ES" description="Makes EnvisionControls.cab (Spanish) using CabArc">
         <property name="dir.toCab_ES" value="setup/Signature/ES/toCab"/>
-
-        <copy file="setup/Signature/EnvisionControls.inf"
-            tofile="${dir.toCab_ES}/EnvisionControls.inf"/>
-        <copy file="${dir.sdk}/ISource/_ISource.dll"
-            tofile="${dir.toCab_ES}/_ISource.dll"/>
-        <copy file="${dir.sdk}/MS/mfc80.dll"
-            tofile="${dir.toCab_ES}/mfc80.dll"/>
-
+        <copy file="setup/Signature/EnvisionControls.inf" tofile="${dir.toCab_ES}/EnvisionControls.inf"/>
+        <copy file="${dir.sdk}/ISource/_ISource.dll" tofile="${dir.toCab_ES}/_ISource.dll"/>
+        <copy file="${dir.sdk}/MS/mfc80.dll" tofile="${dir.toCab_ES}/mfc80.dll"/>
         <!-- specific to this CAB -->
-        <copy file="src/clients/Quality/agentdesktop/ReleaseSpanish/AgentX.ocx"
-            tofile="${dir.toCab_ES}/AgentX.ocx"/>
-        <copy file="src/clients/reporting/C2CReportingControls/ReleaseSpanish/C2CReportingControls.ocx"
-            tofile="${dir.toCab_ES}/C2CReportingControls.ocx"/>
-        <copy file="src/clients/reporting/controls/ReleaseSpanish/WebControls.ocx"
-            tofile="${dir.toCab_ES}/WebControls.ocx"/>
-        <copy file="src/clients/quality/sharedresources/ReleaseSpanish/SharedResources.dll"
-            tofile="${dir.toCab_ES}/SharedResources.dll"/>
-
-        <cab cabfile="setup/Signature/ES/EnvisionControls.cab"
-            basedir="${dir.toCab_ES}"
-            options="-s 6144"
-            includes="AgentX.ocx, C2CReportingControls.ocx, WebControls.ocx,
-            EnvisionControls.inf, _ISource.dll, mfc80.dll, SharedResources.dll"
+        <copy file="src/clients/Quality/agentdesktop/ReleaseSpanish/AgentX.ocx" tofile="${dir.toCab_ES}/AgentX.ocx"/>
+        <copy file="src/clients/reporting/C2CReportingControls/ReleaseSpanish/C2CReportingControls.ocx" tofile="${dir.toCab_ES}/C2CReportingControls.ocx"/>
+        <copy file="src/clients/reporting/controls/ReleaseSpanish/WebControls.ocx" tofile="${dir.toCab_ES}/WebControls.ocx"/>
+        <copy file="src/clients/quality/sharedresources/ReleaseSpanish/SharedResources.dll" tofile="${dir.toCab_ES}/SharedResources.dll"/>
+        <cab cabfile="setup/Signature/ES/EnvisionControls.cab" basedir="${dir.toCab_ES}" options="-s 6144"
+            includes="AgentX.ocx, C2CReportingControls.ocx, WebControls.ocx, EnvisionControls.inf, _ISource.dll, mfc80.dll, SharedResources.dll"
             verbose="yes"/>
     </target>
 
     <target name="make-EnvisionPlugin" description="Compiles EnvisionPlugin">
         <!-- This plugin goes on the customer's PBX to pass contact source
         messages back and forth with the Server -->
-        <property name="EnvisionPluginBasedir"
-            value="workdir/ContactSourceRunner/EnvisionPlugin/"/>
+        <property name="EnvisionPluginBasedir" value="workdir/ContactSourceRunner/EnvisionPlugin/"/>
         <mkdir dir="${EnvisionPluginBasedir}"/>
-        <javac srcdir="src/contactSources/nuasisPlugin/"
-            destdir="${EnvisionPluginBasedir}"
-            debug="${javac.debug}"
-            deprecation="${javac.deprecation}"
-            fork="yes"
-            memoryInitialSize="100m"
-            memoryMaximumSize="100m" >
+        <javac srcdir="src/contactSources/nuasisPlugin/" destdir="${EnvisionPluginBasedir}" debug="${javac.debug}" deprecation="${javac.deprecation}" fork="yes" memoryInitialSize="100m" memoryMaximumSize="100m" >
             <classpath refid="project-classpath"/>
-            <!-- add to the classpath: see build.xml -->
             <classpath refid="classpath-v2"/>
         </javac>
     </target>
@@ -1098,28 +861,23 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
         <!-- 9.10.x or later, localization with Release for English -->
         <echo message="Release, ReleaseGerman, ReleaseSpanish"/>
         <build-cpp solution.file="src/clients/quality/sharedresources/SharedResources.vcproj"/>
-        <build-cpp configuration="ReleaseGerman"
-            solution.file="src/clients/quality/sharedresources/SharedResources.vcproj"/>
-        <build-cpp configuration="ReleaseSpanish"
-            solution.file="src/clients/quality/sharedresources/SharedResources.vcproj"/>
+        <build-cpp configuration="ReleaseGerman" solution.file="src/clients/quality/sharedresources/SharedResources.vcproj"/>
+        <build-cpp configuration="ReleaseSpanish" solution.file="src/clients/quality/sharedresources/SharedResources.vcproj"/>
     </target>
 
     <target name="make-SmartAgentErrs" description="Makes SmartAgentErrs.dll">
         <!-- TODO Make sure mc.exe is on the PATH -->
-        <exec dir="src/clients/quality/agentsupport/smartagenterrs"
-            executable="mc.exe" vmlauncher="${vmlauncher}" failonerror="true">
+        <exec dir="src/clients/quality/agentsupport/smartagenterrs" executable="mc.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="-v -c -s -h ..\ -r .\ -x .\ -U smartagenterrs.mc"/>
         </exec>
         <build-cpp solution.file="src/clients/quality/agentsupport/smartagenterrs/SmartAgentErrs.vcproj"/>
     </target>
 
-    <target name="make-SourceRunner" depends="make-ContactSourceUtilities_LIB"
-        description="Makes SourceRunnerService.exe">
+    <target name="make-SourceRunner" depends="make-ContactSourceUtilities_LIB" description="Makes SourceRunnerService.exe">
         <build-cpp solution.file="src/winservices/SourceRunnerService.sln"/>
     </target>
 
-    <target name="make-Speech" depends="make-Centricity"
-        description="Makes SpeechServerService and SpeechProcessingClient">
+    <target name="make-Speech" depends="make-Centricity" description="Makes SpeechServerService and SpeechProcessingClient">
         <build-cpp solution.file="src/winservices/AudioMining.sln"/>
     </target>
 
@@ -1141,18 +899,15 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
 
     <target name="make-WebControls_OCX" description="Makes WebControls.ocx">
         <build-cpp solution.file="src/clients/reporting/controls/WebControls.vcproj"/>
-        <build-cpp configuration="ReleaseGerman"
-            solution.file="src/clients/reporting/controls/WebControls.vcproj"/>
-        <build-cpp configuration="ReleaseSpanish"
-            solution.file="src/clients/reporting/controls/WebControls.vcproj"/>
+        <build-cpp configuration="ReleaseGerman" solution.file="src/clients/reporting/controls/WebControls.vcproj"/>
+        <build-cpp configuration="ReleaseSpanish" solution.file="src/clients/reporting/controls/WebControls.vcproj"/>
     </target>
 
     <target name="make-WFM" description="Makes WFM">
         <build-cpp solution.file="src/clients/wfm/wfm.sln"/>
     </target>
 
-    <target name="make-WMWrapperService" depends="register-NCT-binaries"
-        description="Makes Windows Media wrapper service for Centricity">
+    <target name="make-WMWrapperService" depends="register-NCT-binaries" description="Makes Windows Media wrapper service for Centricity">
         <!-- src\winservices\WMWrapperService\Redist\setup.bat -->
         <!-- NB: this target depends on WMEncoder.exe being installed on the
         build machine.  It's available locally at
@@ -1184,12 +939,9 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
         </move>
     </target>
 
-    <target name="publish-CSUnitTests" depends="run-CSUnitTests"
-        description="Publish the results of the C# unit tests">
-        <copy file="src/tests/DotNetUnitTests/UT_BLL/bin/Release/results_summary.txt"
-            tofile="${dir.projects.converted}/unittests/${product.version}_summary.txt"/>
-        <copy file="src/tests/DotNetUnitTests/UT_BLL/bin/Release/results_verbose.xml"
-            tofile="${dir.projects.converted}/unittests/${product.version}_verbose.xml"/>
+    <target name="publish-CSUnitTests" depends="run-CSUnitTests" description="Publish the results of the C# unit tests">
+        <copy file="src/tests/DotNetUnitTests/UT_BLL/bin/Release/results_summary.txt" tofile="${dir.projects.converted}/unittests/${product.version}_summary.txt"/>
+        <copy file="src/tests/DotNetUnitTests/UT_BLL/bin/Release/results_verbose.xml" tofile="${dir.projects.converted}/unittests/${product.version}_verbose.xml"/>
     </target>
 
     <target name="publish-RecordingDownloadTool" description="Publishes Centricity RecordingDownloadTool (Click Once) using MSBuild">
@@ -1201,15 +953,13 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
         </move>
     </target>
 
-    <target name="publish-unit-test-results"
-        description="Publishes the results of the unit tests">
+    <target name="publish-unit-test-results" description="Publishes the results of the unit tests">
         <antcall target="publish-CSUnitTests"/>
 
         <!-- this is where JUnit test results can be published -->
 
         <!-- load the results summary into a property -->
-        <loadfile property="unittest.csharpresults"
-            srcFile="${dir.projects.converted}\unittests\${product.version}_summary.txt"/>
+        <loadfile property="unittest.csharpresults" srcFile="${dir.projects.converted}\unittests\${product.version}_summary.txt"/>
     </target>
 
     <target name="rebuild">
@@ -1252,25 +1002,20 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
                 <exclude name="Install_Upgrade.pdf"/>
             </fileset>
         </copy>
-        <copy file="Documentation/ReleaseNotes/ReleaseNotes.pdf"
-            tofile="${target1}/Documentation/ReleaseNotes.pdf"/>
-        <copy file="Documentation/AdbeRdr70_enu.exe"
-            tofile="${target1}/Documentation/AdbeRdr70_enu.exe"/>
+        <copy file="Documentation/ReleaseNotes/ReleaseNotes.pdf" tofile="${target1}/Documentation/ReleaseNotes.pdf"/>
+        <copy file="Documentation/AdbeRdr70_enu.exe" tofile="${target1}/Documentation/AdbeRdr70_enu.exe"/>
     </target>
     <target name="release-CD2-Documentation" depends="prepare">
         <!-- release notes only to target2 -->
-        <copy file="Documentation/ReleaseNotes/ReleaseNotes.pdf"
-            tofile="${target2}/Documentation/ReleaseNotes.pdf"/>
-        <copy file="Documentation/AdbeRdr70_enu.exe"
-            tofile="${target2}/Documentation/AdbeRdr70_enu.exe"/>
+        <copy file="Documentation/ReleaseNotes/ReleaseNotes.pdf" tofile="${target2}/Documentation/ReleaseNotes.pdf"/>
+        <copy file="Documentation/AdbeRdr70_enu.exe" tofile="${target2}/Documentation/AdbeRdr70_enu.exe"/>
     </target>
 
     <target name="release-CD3" depends="prepare">
         <copy todir="${target3}">
             <fileset dir="${uncpath.cd3_sources}"/>
         </copy>
-        <property name="dir.svcmon"
-            value="src/tools/EnvisionServiceMonitor/EnvisionServiceMonitor/bin/Release"/>
+        <property name="dir.svcmon" value="src/tools/EnvisionServiceMonitor/EnvisionServiceMonitor/bin/Release"/>
         <copy file="${dir.svcmon}/EnvisionServiceMonitor.exe" todir="${target3}/tools"/>
         <copy file="${dir.svcmon}/EnvisionServiceMonitor.exe.config" todir="${target3}/tools"/>
     </target>
@@ -1294,10 +1039,8 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
     <target name="release-EnvisionPlugin" depends="prepare">
         <!-- This plugin goes on the customer's PBX to pass contact source
         messages back and forth with the Server -->
-        <property name="EnvisionPluginBasedir"
-            value="workdir/ContactSourceRunner/EnvisionPlugin/"/>
-        <copy file="${EnvisionPluginBasedir}/EnvisionPlugin.jar"
-            tofile="${dir.nuasis-plugin}/EnvisionPlugin.jar"/>
+        <property name="EnvisionPluginBasedir" value="workdir/ContactSourceRunner/EnvisionPlugin/"/>
+        <copy file="${EnvisionPluginBasedir}/EnvisionPlugin.jar" tofile="${dir.nuasis-plugin}/EnvisionPlugin.jar"/>
     </target>
 
     <target name="release-license" description="Copies jar to release dir">
@@ -1326,8 +1069,7 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
         <delete file="src/tests/DotNetUnitTests/UT_BLL/bin/Release/results_verbose.xml"/>
         <!-- Run the unit tests -->
         <exec executable="${unittest.nunit.bin}/nunit-console.exe" vmlauncher="${vmlauncher}" failonerror="false">
-            <arg line="src/tests/DotNetUnitTests/UT_Release.nunit
-                /xml:src\tests\DotNetUnitTests\UT_BLL\bin\Release\results_verbose.xml"/>
+            <arg line="src/tests/DotNetUnitTests/UT_Release.nunit /xml:src\tests\DotNetUnitTests\UT_BLL\bin\Release\results_verbose.xml"/>
             <redirector output="src\tests\DotNetUnitTests\UT_BLL\bin\Release\results_summary.txt" alwayslog="true"/>
         </exec>
     </target>
@@ -1348,22 +1090,19 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
         <antcall target="release-installers"/>
     </target>
 
-    <target name="sign-AgentAdherence_OCX" depends="make-AgentAdherence_OCX"
-        description="Digitally signs AgentAdherence.ocx to verify its authenticity.">
+    <target name="sign-AgentAdherence_OCX" depends="make-AgentAdherence_OCX" description="Digitally signs AgentAdherence.ocx to verify its authenticity.">
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${cert.envision} /p ${signtool.password} /t ${signtool.timestampurl} workdir/wfm/AgentAdherence.ocx"/>
         </exec>
     </target>
 
-    <target name="sign-AgentSchedule_OCX" depends="make-AgentSchedule_OCX"
-        description="Digitally signs AgentSchedule.ocx to verify its authenticity.">
+    <target name="sign-AgentSchedule_OCX" depends="make-AgentSchedule_OCX" description="Digitally signs AgentSchedule.ocx to verify its authenticity.">
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${cert.envision} /p ${signtool.password} /t ${signtool.timestampurl} workdir/wfm/AgentSchedule.ocx"/>
         </exec>
     </target>
 
-    <target name="sign-AgentX_OCX" depends="make-AgentX_OCX"
-        description="Digitally signs AgentX.ocx to verify its authenticity.">
+    <target name="sign-AgentX_OCX" depends="make-AgentX_OCX" description="Digitally signs AgentX.ocx to verify its authenticity.">
         <!-- TODO Make sure signtool.exe is on the PATH -->
         <!-- English -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
@@ -1379,22 +1118,19 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
         </exec>
     </target>
 
-    <target name="sign-AnalyticsResources" depends="make-DeployAnalyticsTool"
-        description="Digitally signs EnvisionAnalyticsResources.dll to verify its authenticity.">
+    <target name="sign-AnalyticsResources" depends="make-DeployAnalyticsTool" description="Digitally signs EnvisionAnalyticsResources.dll to verify its authenticity.">
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${cert.envision} /p ${signtool.password} /t ${signtool.timestampurl} src/clients/Centricity/Analytics/AnalyticsResources/obj/Release/EnvisionAnalyticsResources.dll"/>
         </exec>
     </target>
 
-    <target name="sign-AnalyticsUtilities" depends="make-AnalyticsUtilities"
-        description="Digitally signs EnvisionAnalyticsUtilities.dll to verify its authenticity.">
+    <target name="sign-AnalyticsUtilities" depends="make-AnalyticsUtilities" description="Digitally signs EnvisionAnalyticsUtilities.dll to verify its authenticity.">
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${cert.envision} /p ${signtool.password} /t ${signtool.timestampurl} src/clients/Centricity/Analytics/AnalyticsUtilities/obj/Release/EnvisionAnalyticsUtilities.dll"/>
         </exec>
     </target>
 
-    <target name="sign-C2CReportingControls_OCX" depends="make-C2CReportingControls_OCX"
-        description="Digitally signs C2CReportingControls.ocx to verify its authenticity.">
+    <target name="sign-C2CReportingControls_OCX" depends="make-C2CReportingControls_OCX" description="Digitally signs C2CReportingControls.ocx to verify its authenticity.">
         <!-- TODO Make sure signtool.exe is on the PATH -->
         <!-- English -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
@@ -1410,8 +1146,7 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
         </exec>
     </target>
 
-    <target name="sign-EnvisionCLR" depends="make-EnvisionCLR"
-        description="Digitally signs EnvisionCLR.dll to verify its authenticity.">
+    <target name="sign-EnvisionCLR" depends="make-EnvisionCLR" description="Digitally signs EnvisionCLR.dll to verify its authenticity.">
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${cert.envision} /p ${signtool.password} /t ${signtool.timestampurl} src/clients/Centricity/Analytics/EnvisionCLR/obj/Release/EnvisionCLR.dll"/>
         </exec>
@@ -1424,44 +1159,25 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
     </target>
 
     <!-- English -->
-    <target name="sign-EnvisionControls_CAB_EN" depends="make-EnvisionControls_CAB_EN"
-        description="Signs EnvisionControls.cab (English) using signtool">
-        <exec executable="signtool.exe"
-            vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a
-                /f ${cert.envision}
-                /p ${signtool.password}
-                /t ${signtool.timestampurl}
-                setup/Signature/EN/EnvisionControls.cab"/>
+    <target name="sign-EnvisionControls_CAB_EN" depends="make-EnvisionControls_CAB_EN" description="Signs EnvisionControls.cab (English) using signtool">
+        <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
+            <arg line="sign /a /f ${cert.envision} /p ${signtool.password} /t ${signtool.timestampurl} setup/Signature/EN/EnvisionControls.cab"/>
         </exec>
     </target>
     <!-- German -->
-    <target name="sign-EnvisionControls_CAB_DE" depends="make-EnvisionControls_CAB_DE"
-        description="Signs EnvisionControls.cab (German) using signtool">
-        <exec executable="signtool.exe"
-            vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a
-                /f ${cert.envision}
-                /p ${signtool.password}
-                /t ${signtool.timestampurl}
-                setup/Signature/DE/EnvisionControls.cab"/>
+    <target name="sign-EnvisionControls_CAB_DE" depends="make-EnvisionControls_CAB_DE" description="Signs EnvisionControls.cab (German) using signtool">
+        <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
+            <arg line="sign /a /f ${cert.envision} /p ${signtool.password} /t ${signtool.timestampurl} setup/Signature/DE/EnvisionControls.cab"/>
         </exec>
     </target>
     <!-- Spanish -->
-    <target name="sign-EnvisionControls_CAB_ES" depends="make-EnvisionControls_CAB_ES"
-        description="Signs EnvisionControls.cab (Spanish) using signtool">
-        <exec executable="signtool.exe"
-            vmlauncher="${vmlauncher}" failonerror="true">
-            <arg line="sign /a
-                /f ${cert.envision}
-                /p ${signtool.password}
-                /t ${signtool.timestampurl}
-                setup/Signature/ES/EnvisionControls.cab"/>
+    <target name="sign-EnvisionControls_CAB_ES" depends="make-EnvisionControls_CAB_ES" description="Signs EnvisionControls.cab (Spanish) using signtool">
+        <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
+            <arg line="sign /a /f ${cert.envision} /p ${signtool.password} /t ${signtool.timestampurl} setup/Signature/ES/EnvisionControls.cab"/>
         </exec>
     </target>
 
-    <target name="sign-WebControls_OCX" depends="make-WebControls_OCX"
-        description="Digitally signs WebControls.ocx to verify its authenticity.">
+    <target name="sign-WebControls_OCX" depends="make-WebControls_OCX" description="Digitally signs WebControls.ocx to verify its authenticity.">
         <!-- English -->
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${cert.envision} /p ${signtool.password} /t ${signtool.timestampurl} workdir/agentdesktop/WebControls.ocx"/>
@@ -1494,20 +1210,16 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
     <!-- Note 3: THIS TARGET FAILS if the parent directories are not already
     present.  svnant does not provide a way to get at the 'parents' option, so
     beware. -->
-    <target name="tag-build" depends="get-head-revision"
-        description="Tag nightly build with version header and project file commits">
+    <target name="tag-build" depends="get-head-revision" description="Tag nightly build with version header and project file commits">
         <tstamp>
             <format property="datestamp" pattern="yyMMdd" locale="en_US"/>
         </tstamp>
-        <property name="url.tag"
-            value="${url.tags}/${datestamp}-${product.version}-r${repository.revision}"/>
+        <property name="url.tag" value="${url.tags}/${datestamp}-${product.version}-r${repository.revision}"/>
         <echo message="tag-build: ${url.tag}"/>
         <trycatch>
             <try>
                 <svn username="buildmgr" password="buildmgr">
-                    <mkdir
-                        message="00000: Creating tags dir for ${MAJOR}.${MINOR}.${RELEASE} builds"
-                        url="${url.tags}"/>
+                    <mkdir message="00000: Creating tags dir for ${MAJOR}.${MINOR}.${RELEASE} builds" url="${url.tags}"/>
                 </svn>
             </try>
 
@@ -1517,9 +1229,7 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
 
             <finally>
                 <svn username="buildmgr" password="buildmgr">
-                    <copy message="00000: Creating tag for build ${product.version}"
-                        srcUrl="${url.src}" destUrl="${url.tag}"
-                        revision="${repository.revision}"/>
+                    <copy message="00000: Creating tag for build ${product.version}" srcUrl="${url.src}" destUrl="${url.tag}" revision="${repository.revision}"/>
                 </svn>
             </finally>
         </trycatch>
@@ -1532,46 +1242,33 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
     </target>
 
     <target name="unzip-AgentDesktop_WebHelp">
-        <unjar src="Documentation/WebHelp/EN/Agent_Desktop_Webhelp.zip"
-            dest="Documentation/WebHelp/EN/Agent_Desktop_Webhelp"/>
-        <unjar src="Documentation/WebHelp/DE/Agent_Desktop_Webhelp.zip"
-            dest="Documentation/WebHelp/DE/Agent_Desktop_Webhelp"/>
-        <unjar src="Documentation/WebHelp/ES/Agent_Desktop_Webhelp.zip"
-            dest="Documentation/WebHelp/ES/Agent_Desktop_Webhelp"/>
+        <unjar src="Documentation/WebHelp/EN/Agent_Desktop_Webhelp.zip" dest="Documentation/WebHelp/EN/Agent_Desktop_Webhelp"/>
+        <unjar src="Documentation/WebHelp/DE/Agent_Desktop_Webhelp.zip" dest="Documentation/WebHelp/DE/Agent_Desktop_Webhelp"/>
+        <unjar src="Documentation/WebHelp/ES/Agent_Desktop_Webhelp.zip" dest="Documentation/WebHelp/ES/Agent_Desktop_Webhelp"/>
     </target>
 
     <target name="unzip-BI_WebHelp">
-        <unjar src="Documentation/WebHelp/EN/BI_Webhelp.zip"
-            dest="Documentation/WebHelp/EN/BI_Webhelp"/>
+        <unjar src="Documentation/WebHelp/EN/BI_Webhelp.zip" dest="Documentation/WebHelp/EN/BI_Webhelp"/>
     </target>
 
     <target name="unzip-Centricity_WebHelp">
         <!-- Centricity documentation for Supervisors -->
-        <unjar src="Documentation/WebHelp/EN/Centricity_Webhelp.zip"
-            dest="Documentation/WebHelp/EN/Centricity_Webhelp"/>
-        <unjar src="Documentation/WebHelp/DE/Centricity_Webhelp.zip"
-            dest="Documentation/WebHelp/DE/Centricity_Webhelp"/>
-        <unjar src="Documentation/WebHelp/ES/Centricity_Webhelp.zip"
-            dest="Documentation/WebHelp/ES/Centricity_Webhelp"/>
-        <unjar src="Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp.zip"
-            dest="Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp"/>
+        <unjar src="Documentation/WebHelp/EN/Centricity_Webhelp.zip" dest="Documentation/WebHelp/EN/Centricity_Webhelp"/>
+        <unjar src="Documentation/WebHelp/DE/Centricity_Webhelp.zip" dest="Documentation/WebHelp/DE/Centricity_Webhelp"/>
+        <unjar src="Documentation/WebHelp/ES/Centricity_Webhelp.zip" dest="Documentation/WebHelp/ES/Centricity_Webhelp"/>
+        <unjar src="Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp.zip" dest="Documentation/WebHelp/EN/Agent_Desktop_Centricity_Webhelp"/>
 
         <!-- localized documentation is currently in 9.10 SP2 only -->
         <!--
-        <unjar src="Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp.zip"
-            dest="Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp"/>
-        <unjar src="Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp.zip"
-            dest="Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp"/>
+        <unjar src="Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp.zip" dest="Documentation/WebHelp/DE/Agent_Desktop_Centricity_Webhelp"/>
+        <unjar src="Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp.zip" dest="Documentation/WebHelp/ES/Agent_Desktop_Centricity_Webhelp"/>
         -->
     </target>
 
     <target name="unzip-ClassicReports_WebHelp">
-        <unjar src="Documentation/WebHelp/EN/Classic_reports_Webhelp.zip"
-            dest="Documentation/WebHelp/EN/Classic_reports_Webhelp"/>
-        <unjar src="Documentation/WebHelp/DE/Classic_reports_Webhelp.zip"
-            dest="Documentation/WebHelp/DE/Classic_reports_Webhelp"/>
-        <unjar src="Documentation/WebHelp/ES/Classic_reports_Webhelp.zip"
-            dest="Documentation/WebHelp/ES/Classic_reports_Webhelp"/>
+        <unjar src="Documentation/WebHelp/EN/Classic_reports_Webhelp.zip" dest="Documentation/WebHelp/EN/Classic_reports_Webhelp"/>
+        <unjar src="Documentation/WebHelp/DE/Classic_reports_Webhelp.zip" dest="Documentation/WebHelp/DE/Classic_reports_Webhelp"/>
+        <unjar src="Documentation/WebHelp/ES/Classic_reports_Webhelp.zip" dest="Documentation/WebHelp/ES/Classic_reports_Webhelp"/>
     </target>
 
     <!-- ================================================================= -->
@@ -1592,8 +1289,7 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
     ServerSuite and whatever else needs the JRE? -->
     <target name="unzip-Envision_JRE">
         <property name="Envision_JRE" value="jre1.6.0_14-Envision-no-jars.zip"/>
-        <unjar src="${jre.dir}/${Envision_JRE}"
-            dest="${dir.sdk}/java"/>
+        <unjar src="${jre.dir}/${Envision_JRE}" dest="${dir.sdk}/java"/>
     </target>
 
     <target name="unzip-NuanceProfile">
@@ -1615,8 +1311,7 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
         unzip-Server-jars_ZIP would otherwise depend on unzip-Envision_JRE.
         (make-PerformanceSuite depends on both of them.) -->
         <property name="EPS-jars_ZIP" value="jar-files-EnvisionPerformanceSuite-9.10.zip"/>
-        <unjar src="${jre.dir}/${EPS-jars_ZIP}"
-            dest="${dir.sdk}/java"/>
+        <unjar src="${jre.dir}/${EPS-jars_ZIP}" dest="${dir.sdk}/java"/>
     </target>
 
     <target name="unzip-Server-jars_ZIP">
@@ -1626,177 +1321,96 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
         unzip-Server-jars_ZIP would otherwise depend on unzip-Envision_JRE.
         (make-Server depends on both of them.) -->
         <property name="Server-jars_ZIP" value="jar-files-EnvisionServer-9.10SP3.zip"/>
-        <unjar src="${jre.dir}/${Server-jars_ZIP}"
-            dest="${dir.sdk}/java"/>
+        <unjar src="${jre.dir}/${Server-jars_ZIP}" dest="${dir.sdk}/java"/>
     </target>
 
-    <target name="unzip-WebHelp"
-        depends="unzip-AgentDesktop_WebHelp, unzip-BI_WebHelp,
-        unzip-Centricity_WebHelp, unzip-ClassicReports_WebHelp"/>
+    <target name="unzip-WebHelp" depends="unzip-AgentDesktop_WebHelp, unzip-BI_WebHelp, unzip-Centricity_WebHelp, unzip-ClassicReports_WebHelp"/>
 
     <!-- ================================================================= -->
     <!-- postbuild targets                                                -->
     <!-- ================================================================= -->
-    <target name="make-Administrator-installer"
-        depends="prepare, unzip-BI_WebHelp, unzip-Envision_JRE, unzip-PerformanceSuite-jars_ZIP">
-        <build-AI-installer
-            product.name="Administrator"
-            installer.path="setup/installs/Administrator"
-            project.file="Administrator.aip"/>
+    <target name="make-Administrator-installer" depends="prepare, unzip-BI_WebHelp, unzip-Envision_JRE, unzip-PerformanceSuite-jars_ZIP">
+        <build-AI-installer product.name="Administrator" installer.path="setup/installs/Administrator" project.file="Administrator.aip"/>
     </target>
     <target name="release-Administrator-installer" depends="make-Administrator-installer">
-        <release-AI-installer
-            product.name="Administrator"
-            installer.path="setup/installs/Administrator"
-            product.path="${target1}"/>
+        <release-AI-installer product.name="Administrator" installer.path="setup/installs/Administrator" product.path="${target1}"/>
     </target>
 
     <target name="make-AgentSupport-installer" depends="prepare">
-        <build-AI-installer
-            product.name="AgentSupport"
-            installer.path="setup/installs/AgentSupport"
-            project.file="AgentSupport.aip"/>
+        <build-AI-installer product.name="AgentSupport" installer.path="setup/installs/AgentSupport" project.file="AgentSupport.aip"/>
     </target>
     <target name="release-AgentSupport-installer" depends="make-AgentSupport-installer">
-        <release-AI-installer
-            product.name="AgentSupport"
-            installer.path="setup/installs/AgentSupport"
-            product.path="${target1}"/>
+        <release-AI-installer product.name="AgentSupport" installer.path="setup/installs/AgentSupport" product.path="${target1}"/>
     </target>
 
     <target name="make-Analytics-installer" depends="prepare">
-        <build-AI-installer
-            product.name="Analytics"
-            installer.path="setup/installs/Analytics"
-            project.file="Analytics.aip"/>
+        <build-AI-installer product.name="Analytics" installer.path="setup/installs/Analytics" project.file="Analytics.aip"/>
     </target>
     <target name="release-Analytics-installer" depends="make-Analytics-installer">
-        <release-AI-installer
-            product.name="Analytics"
-            installer.path="setup/installs/Analytics"
-            product.path="${target2}"/>
+        <release-AI-installer product.name="Analytics" installer.path="setup/installs/Analytics" product.path="${target2}"/>
     </target>
 
     <target name="make-CentricityQM-installer">
-        <build-AI-installer
-            product.name="CentricityQM"
-            installer.path="setup/installs/CentricityQM"
-            project.file="CentricityQM.aip"/>
+        <build-AI-installer product.name="CentricityQM" installer.path="setup/installs/CentricityQM" project.file="CentricityQM.aip"/>
     </target>
     <target name="release-CentricityQM-installer" depends="make-CentricityQM-installer">
-        <release-AI-installer
-            product.name="CentricityQM"
-            installer.path="setup/installs/CentricityQM"
-            product.path="${dir.utils}"/>
+        <release-AI-installer product.name="CentricityQM" installer.path="setup/installs/CentricityQM" product.path="${dir.utils}"/>
     </target>
 
     <target name="make-CentricityWebApplications-installer">
-        <build-AI-installer
-            product.name="CentricityWebApplications"
-            installer.path="setup/installs/CentricityWebApplications"
-            project.file="CentricityWebApplications.aip"/>
+        <build-AI-installer product.name="CentricityWebApplications" installer.path="setup/installs/CentricityWebApplications" project.file="CentricityWebApplications.aip"/>
     </target>
-    <target name="release-CentricityWebApplications-installer"
-        depends="make-CentricityWebApplications-installer">
-        <release-AI-installer
-            product.name="CentricityWebApplications"
-            installer.path="setup/installs/CentricityWebApplications"
-            product.path="${target2}"/>
+    <target name="release-CentricityWebApplications-installer" depends="make-CentricityWebApplications-installer">
+        <release-AI-installer product.name="CentricityWebApplications" installer.path="setup/installs/CentricityWebApplications" product.path="${target2}"/>
     </target>
 
     <target name="make-ChannelManager-installer" depends="prepare">
-        <build-AI-installer
-            product.name="ChannelManager"
-            installer.path="setup/installs/ChannelManager"
-            project.file="ChannelManager.aip"/>
+        <build-AI-installer product.name="ChannelManager" installer.path="setup/installs/ChannelManager" project.file="ChannelManager.aip"/>
     </target>
     <target name="release-ChannelManager-installer" depends="make-ChannelManager-installer">
-        <release-AI-installer
-            product.name="ChannelManager"
-            installer.path="setup/installs/ChannelManager"
-            product.path="${target2}"/>
+        <release-AI-installer product.name="ChannelManager" installer.path="setup/installs/ChannelManager" product.path="${target2}"/>
     </target>
 
-    <target name="make-PerformanceSuite-installer"
-        depends="prepare, unzip-BI_WebHelp, unzip-Envision_JRE, unzip-PerformanceSuite-jars_ZIP">
-        <build-AI-installer
-            product.name="PerformanceSuite"
-            installer.path="setup/installs/PerformanceSuite"
-            project.file="PerformanceSuite.aip"/>
+    <target name="make-PerformanceSuite-installer" depends="prepare, unzip-BI_WebHelp, unzip-Envision_JRE, unzip-PerformanceSuite-jars_ZIP">
+        <build-AI-installer product.name="PerformanceSuite" installer.path="setup/installs/PerformanceSuite" project.file="PerformanceSuite.aip"/>
     </target>
     <target name="release-PerformanceSuite-installer" depends="make-PerformanceSuite-installer">
-        <release-AI-installer
-            product.name="PerformanceSuite"
-            installer.path="setup/installs/PerformanceSuite"
-            product.path="${target1}"/>
+        <release-AI-installer product.name="PerformanceSuite" installer.path="setup/installs/PerformanceSuite" product.path="${target1}"/>
     </target>
 
-    <target name="make-ServerSuite-installer"
-        depends="prepare, unzip-WebHelp, unzip-Envision_JRE, unzip-Server-jars_ZIP">
-        <build-AI-installer
-            product.name="ServerSuite"
-            installer.path="setup/installs/ServerSuite"
-            project.file="ServerSuite.aip"/>
+    <target name="make-ServerSuite-installer" depends="prepare, unzip-WebHelp, unzip-Envision_JRE, unzip-Server-jars_ZIP">
+        <build-AI-installer product.name="ServerSuite" installer.path="setup/installs/ServerSuite" project.file="ServerSuite.aip"/>
     </target>
     <target name="release-ServerSuite-installer" depends="make-ServerSuite-installer">
-        <release-AI-installer
-            product.name="ServerSuite"
-            installer.path="setup/installs/ServerSuite"
-            product.path="${target2}"/>
+        <release-AI-installer product.name="ServerSuite" installer.path="setup/installs/ServerSuite" product.path="${target2}"/>
     </target>
 
     <target name="make-SpeechProcessingClient-installer" depends="prepare,unzip-NuanceProfile">
-        <build-AI-installer
-            product.name="SpeechProcessingClient"
-            installer.path="setup/installs/SpeechProcessingClient"
-            project.file="SpeechProcessingClient.aip"/>
+        <build-AI-installer product.name="SpeechProcessingClient" installer.path="setup/installs/SpeechProcessingClient" project.file="SpeechProcessingClient.aip"/>
     </target>
-    <target name="release-SpeechProcessingClient-installer"
-        depends="make-SpeechProcessingClient-installer">
-        <release-AI-installer
-            product.name="SpeechProcessingClient"
-            installer.path="setup/installs/SpeechProcessingClient"
-            product.path="${target2}"/>
+    <target name="release-SpeechProcessingClient-installer" depends="make-SpeechProcessingClient-installer">
+        <release-AI-installer product.name="SpeechProcessingClient" installer.path="setup/installs/SpeechProcessingClient" product.path="${target2}"/>
     </target>
 
     <target name="make-SpeechServerService-installer" depends="prepare">
-        <build-AI-installer
-            product.name="SpeechServerService"
-            installer.path="setup/installs/SpeechServerService"
-            project.file="SpeechServerService.aip"/>
+        <build-AI-installer product.name="SpeechServerService" installer.path="setup/installs/SpeechServerService" project.file="SpeechServerService.aip"/>
     </target>
-    <target name="release-SpeechServerService-installer"
-        depends="make-SpeechServerService-installer">
-        <release-AI-installer
-            product.name="SpeechServerService"
-            installer.path="setup/installs/SpeechServerService"
-            product.path="${target2}"/>
+    <target name="release-SpeechServerService-installer" depends="make-SpeechServerService-installer">
+        <release-AI-installer product.name="SpeechServerService" installer.path="setup/installs/SpeechServerService" product.path="${target2}"/>
     </target>
 
     <target name="make-Tools-installer" depends="prepare">
-        <build-AI-installer
-            product.name="Tools"
-            installer.path="setup/installs/Tools"
-            project.file="Tools.aip"/>
+        <build-AI-installer product.name="Tools" installer.path="setup/installs/Tools" project.file="Tools.aip"/>
     </target>
     <target name="release-Tools-installer" depends="make-Tools-installer">
-        <release-AI-installer
-            product.name="Tools"
-            installer.path="setup/installs/Tools"
-            product.path="${dir.utils}"/>
+        <release-AI-installer product.name="Tools" installer.path="setup/installs/Tools" product.path="${dir.utils}"/>
     </target>
 
     <target name="make-WMWrapperService-installer" depends="prepare">
-        <build-AI-installer
-            product.name="WMWrapperService"
-            installer.path="setup/installs/WMWrapperService"
-            project.file="WMWrapperService.aip"/>
+        <build-AI-installer product.name="WMWrapperService" installer.path="setup/installs/WMWrapperService" project.file="WMWrapperService.aip"/>
     </target>
     <target name="release-WMWrapperService-installer" depends="make-WMWrapperService-installer">
-        <release-AI-installer
-            product.name="WMWrapperService"
-            installer.path="setup/installs/WMWrapperService"
-            product.path="${target2}"/>
+        <release-AI-installer product.name="WMWrapperService" installer.path="setup/installs/WMWrapperService" product.path="${target2}"/>
     </target>
 
 
