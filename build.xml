@@ -28,7 +28,7 @@
     <property name="product.version" value="10.1.0000.1020"/>
 
     <!-- ================================================================= -->
-    <!-- classpaths                                                        -->
+    <!-- Classpaths                                                        -->
     <!-- ================================================================= -->
     <path id="project-classpath">
         <fileset dir="${dir.sdk}/cti_libs">
@@ -119,6 +119,19 @@
     </path>
 
     <!-- ================================================================= -->
+    <!-- Convert UNC paths                                                 -->
+    <!-- ================================================================= -->
+    <pathconvert targetos="windows" property="products.dir.converted">
+        <!-- \\Bigfoot\Engineering\ProductBuilds -->
+        <path path="${products.dir}"/>
+    </pathconvert>
+
+    <pathconvert targetos="windows" property="dir.projects.converted">
+        <!-- \\Bigfoot\Engineering\Projects -->
+        <path path="${dir.projects}"/>
+    </pathconvert>
+
+    <!-- ================================================================= -->
     <!-- Build targets                                                     -->
     <!-- ================================================================= -->
 
@@ -153,7 +166,8 @@
         <antcall target="make-ServiceMonitor"/>
         <antcall target="sign-EnvisionControls_CAB"/>
         <antcall target="touch-build"/>
-        <antcall target="setup-installers"/>
+        <antcall target="make-installers"/>
+        <antcall target="release-installers"/>
         <!-- <antcall target="commit-all"/> -->
         <antcall target="publish-unit-test-results"/>
         <antcall target="email-build-complete"/>
@@ -389,27 +403,35 @@
         </svn>
     </target>
 
-    <target name="commit-installers" depends="setup-installers">
+    <!-- not using this right now
+    <target name="commit-installers" depends="make-installers, release-installers">
         <svn username="buildmgr" password="buildmgr">
             <commit dir="setup/installs" message="00000: Installer project file checkin for build ${product.version}"/>
         </svn>
     </target>
+    -->
 
+    <!-- not using this right now
     <target name="commit-installers-no-depends">
         <svn username="buildmgr" password="buildmgr">
             <commit dir="setup/installs" message="00000: Installer project file checkin for build ${product.version}"/>
         </svn>
     </target>
+    -->
 
+    <!-- not using this right now
     <target name="commit-version-files" depends="change-version"
         description="Commit all changed src files [intended to pick up only version files]">
         <svn username="buildmgr" password="buildmgr">
             <commit message="00000: Version file checkin for build ${product.version}">
+    -->
                 <!-- fileset needs to include the extensions of all version files -->
+    <!--
                 <fileset dir="." includes="**/*.csproj,**/*.cs,**/*.h,**/*.java,**/*.inf"/>
             </commit>
         </svn>
     </target>
+    -->
 
     <target name="compile-Envision" description="Compiles Envision">
         <javac srcdir="src" destdir="src" debug="${javac.debug}" deprecation="${javac.deprecation}" fork="yes" memoryInitialSize="200m" memoryMaximumSize="1024m">
@@ -583,37 +605,54 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
         <exec executable="${vs100_devenv}" vmlauncher="false" failonerror="false">
             <arg line="/build Release src/tools/testapps/AgentCentricity/AgentCentricity.sln /out BuildLog.txt"/>
         </exec>
+    </target>
+    <target name="publish-BVT-AgentCentricity">
         <copy todir="${dir.projects.converted}\BVTs">
             <fileset file="src/tools/testapps/AgentCentricity/AgentCentricity/bin/Release/AgentCentricity.dll"/>
         </copy>
     </target>
+
     <target name="make-BVT-CentricityBVT">
         <exec executable="${vs100_devenv}" vmlauncher="false" failonerror="false">
             <arg line="/build Release src/tools/testapps/CentricityBVT/autotest.sln /out BuildLog.txt"/>
         </exec>
+    </target>
+    <target name="publish-BVT-CentricityBVT">
         <copy todir="${dir.projects.converted}\BVTs">
             <fileset file="src/tools/testapps/CentricityBVT/autotest/bin/Release/autotest.dll"/>
         </copy>
     </target>
+
     <target name="make-BVT-ReviewAdvocate">
         <exec executable="${vs100_devenv}" vmlauncher="false" failonerror="false">
             <arg line="/build Release src/tools/testapps/ReviewAdvocate/ReviewAdvocate.sln /out BuildLog.txt"/>
         </exec>
+    </target>
+    <target name="publish-BVT-ReviewAdvocate">
         <copy todir="${dir.projects.converted}\BVTs">
             <fileset file="src/tools/testapps/ReviewAdvocate/ReviewAdvocate/bin/Release/ReviewAdvocate.dll"/>
         </copy>
     </target>
 
     <target name="make-BVTs">
+        <antcall target="make-BVT-AgentCentricity"/>
+        <antcall target="make-BVT-CentricityBVT"/>
+        <antcall target="make-BVT-ReviewAdvocate"/>
+    </target>
+
+    <!-- Run this with make-BVTs to publish the BVTs.  There are no
+    dependencies configured on the make-BVT targets, so they can be run only
+    as needed. -->
+    <target name="publish-BVTs">
         <echo message="dir.projects.converted: ${dir.projects.converted}"/>
         <!-- delete the contents first, directory second -->
         <delete failonerror="False">
             <fileset dir="${dir.projects.converted}\BVTs" erroronmissingdir="False"/>
         </delete>
         <delete failonerror="False" dir="${dir.projects.converted}\BVTs"/>
-        <antcall target="make-BVT-AgentCentricity"/>
-        <antcall target="make-BVT-CentricityBVT"/>
-        <antcall target="make-BVT-ReviewAdvocate"/>
+        <antcall target="publish-BVT-AgentCentricity"/>
+        <antcall target="publish-BVT-CentricityBVT"/>
+        <antcall target="publish-BVT-ReviewAdvocate"/>
     </target>
 
     <target name="make-C2CReportingControls_OCX" description="Makes C2CReportingControls.ocx">
@@ -627,10 +666,13 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
     </target>
 
     <target name="make-Centricity" description="Makes Centricity web app">
-        <!-- Dependencies:
-        . \\Bigfoot\Engineering\Software\MICROSOFT\VS2005Pro-SP1
-        . \\Bigfoot\Engineering\Software\MICROSOFT\VS2005 Addins\webdeploymentsetup.msi
-        . ASPAJAXExtSetup.msi [ASP.NET 2.0 AJAX Extensions 1.0] -->
+        <!-- VS2005 dependencies - \\Bigfoot\Engineering\Software\...
+        . MICROSOFT\VS2005Pro-SP1
+        . MICROSOFT\VS2005 Addins\webdeploymentsetup.msi
+        . MICROSOFT\VS2005 Addins\ASPAJAXExtSetup.msi
+        . MICROSOFT\ReportViewer\VS2005-SP1\ReportViewer.exe
+        . MICROSOFT\MS Chart Controls for NET 3.5\NET Framework 3.5 Chart Controls\MSChart.exe
+        -->
         <build-cpp configuration="Production" solution.file="src/clients/centricity/Centricity.sln"/>
     </target>
 
@@ -1086,10 +1128,6 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
         <!-- this is where JUnit tests can go -->
     </target>
 
-    <target name="setup-installers" description="Create and deploy the installers">
-        <antcall target="release-installers"/>
-    </target>
-
     <target name="sign-AgentAdherence_OCX" depends="make-AgentAdherence_OCX" description="Digitally signs AgentAdherence.ocx to verify its authenticity.">
         <exec executable="signtool.exe" vmlauncher="${vmlauncher}" failonerror="true">
             <arg line="sign /a /f ${cert.envision} /p ${signtool.password} /t ${signtool.timestampurl} workdir/wfm/AgentAdherence.ocx"/>
@@ -1329,93 +1367,126 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
     <!-- ================================================================= -->
     <!-- postbuild targets                                                -->
     <!-- ================================================================= -->
-    <target name="make-Administrator-installer" depends="prepare, unzip-BI_WebHelp, unzip-Envision_JRE, unzip-PerformanceSuite-jars_ZIP">
+    <target name="make-installers" depends="
+        make-Administrator-installer,
+        make-AgentSupport-installer,
+        make-Analytics-installer,
+        make-CentricityQM-installer,
+        make-CentricityWebApplications-installer,
+        make-ChannelManager-installer,
+        make-PerformanceSuite-installer,
+        make-ServerSuite-installer,
+        make-SpeechProcessingClient-installer,
+        make-SpeechServerService-installer,
+        make-Tools-installer,
+        make-WMWrapperService-installer"/>
+
+    <!-- Run this with make-installers to publish the installers.  There are
+    no dependencies configured on the make-installer targets, so they can be
+    run only as needed. -->
+    <target name="release-installers" depends="
+        prepare,
+        release-Administrator-installer,
+        release-AgentSupport-installer,
+        release-Analytics-installer,
+        release-CentricityQM-installer,
+        release-CentricityWebApplications-installer,
+        release-ChannelManager-installer,
+        release-PerformanceSuite-installer,
+        release-ServerSuite-installer,
+        release-SpeechProcessingClient-installer,
+        release-SpeechServerService-installer,
+        release-Tools-installer,
+        release-WMWrapperService-installer"/>
+
+
+    <target name="make-Administrator-installer" depends="unzip-BI_WebHelp, unzip-Envision_JRE, unzip-PerformanceSuite-jars_ZIP">
         <build-AI-installer product.name="Administrator" installer.path="setup/installs/Administrator" project.file="Administrator.aip"/>
     </target>
-    <target name="release-Administrator-installer" depends="make-Administrator-installer">
+    <target name="release-Administrator-installer">
         <release-AI-installer product.name="Administrator" installer.path="setup/installs/Administrator" product.path="${target1}"/>
     </target>
 
-    <target name="make-AgentSupport-installer" depends="prepare">
+    <target name="make-AgentSupport-installer">
         <build-AI-installer product.name="AgentSupport" installer.path="setup/installs/AgentSupport" project.file="AgentSupport.aip"/>
     </target>
-    <target name="release-AgentSupport-installer" depends="make-AgentSupport-installer">
+    <target name="release-AgentSupport-installer">
         <release-AI-installer product.name="AgentSupport" installer.path="setup/installs/AgentSupport" product.path="${target1}"/>
     </target>
 
-    <target name="make-Analytics-installer" depends="prepare">
+    <target name="make-Analytics-installer">
         <build-AI-installer product.name="Analytics" installer.path="setup/installs/Analytics" project.file="Analytics.aip"/>
     </target>
-    <target name="release-Analytics-installer" depends="make-Analytics-installer">
+    <target name="release-Analytics-installer">
         <release-AI-installer product.name="Analytics" installer.path="setup/installs/Analytics" product.path="${target2}"/>
     </target>
 
     <target name="make-CentricityQM-installer">
         <build-AI-installer product.name="CentricityQM" installer.path="setup/installs/CentricityQM" project.file="CentricityQM.aip"/>
     </target>
-    <target name="release-CentricityQM-installer" depends="make-CentricityQM-installer">
+    <target name="release-CentricityQM-installer">
         <release-AI-installer product.name="CentricityQM" installer.path="setup/installs/CentricityQM" product.path="${dir.utils}"/>
     </target>
 
     <target name="make-CentricityWebApplications-installer">
         <build-AI-installer product.name="CentricityWebApplications" installer.path="setup/installs/CentricityWebApplications" project.file="CentricityWebApplications.aip"/>
     </target>
-    <target name="release-CentricityWebApplications-installer" depends="make-CentricityWebApplications-installer">
+    <target name="release-CentricityWebApplications-installer">
         <release-AI-installer product.name="CentricityWebApplications" installer.path="setup/installs/CentricityWebApplications" product.path="${target2}"/>
     </target>
 
-    <target name="make-ChannelManager-installer" depends="prepare">
+    <target name="make-ChannelManager-installer">
         <build-AI-installer product.name="ChannelManager" installer.path="setup/installs/ChannelManager" project.file="ChannelManager.aip"/>
     </target>
-    <target name="release-ChannelManager-installer" depends="make-ChannelManager-installer">
+    <target name="release-ChannelManager-installer">
         <release-AI-installer product.name="ChannelManager" installer.path="setup/installs/ChannelManager" product.path="${target2}"/>
     </target>
 
-    <target name="make-PerformanceSuite-installer" depends="prepare, unzip-BI_WebHelp, unzip-Envision_JRE, unzip-PerformanceSuite-jars_ZIP">
+    <target name="make-PerformanceSuite-installer" depends="unzip-BI_WebHelp, unzip-Envision_JRE, unzip-PerformanceSuite-jars_ZIP">
         <build-AI-installer product.name="PerformanceSuite" installer.path="setup/installs/PerformanceSuite" project.file="PerformanceSuite.aip"/>
     </target>
-    <target name="release-PerformanceSuite-installer" depends="make-PerformanceSuite-installer">
+    <target name="release-PerformanceSuite-installer">
         <release-AI-installer product.name="PerformanceSuite" installer.path="setup/installs/PerformanceSuite" product.path="${target1}"/>
     </target>
 
-    <target name="make-ServerSuite-installer" depends="prepare, unzip-WebHelp, unzip-Envision_JRE, unzip-Server-jars_ZIP">
+    <target name="make-ServerSuite-installer" depends="unzip-WebHelp, unzip-Envision_JRE, unzip-Server-jars_ZIP">
         <build-AI-installer product.name="ServerSuite" installer.path="setup/installs/ServerSuite" project.file="ServerSuite.aip"/>
     </target>
-    <target name="release-ServerSuite-installer" depends="make-ServerSuite-installer">
+    <target name="release-ServerSuite-installer">
         <release-AI-installer product.name="ServerSuite" installer.path="setup/installs/ServerSuite" product.path="${target2}"/>
     </target>
 
-    <target name="make-SpeechProcessingClient-installer" depends="prepare,unzip-NuanceProfile">
+    <target name="make-SpeechProcessingClient-installer" depends="unzip-NuanceProfile">
         <build-AI-installer product.name="SpeechProcessingClient" installer.path="setup/installs/SpeechProcessingClient" project.file="SpeechProcessingClient.aip"/>
     </target>
-    <target name="release-SpeechProcessingClient-installer" depends="make-SpeechProcessingClient-installer">
+    <target name="release-SpeechProcessingClient-installer">
         <release-AI-installer product.name="SpeechProcessingClient" installer.path="setup/installs/SpeechProcessingClient" product.path="${target2}"/>
     </target>
 
-    <target name="make-SpeechServerService-installer" depends="prepare">
+    <target name="make-SpeechServerService-installer">
         <build-AI-installer product.name="SpeechServerService" installer.path="setup/installs/SpeechServerService" project.file="SpeechServerService.aip"/>
     </target>
-    <target name="release-SpeechServerService-installer" depends="make-SpeechServerService-installer">
+    <target name="release-SpeechServerService-installer">
         <release-AI-installer product.name="SpeechServerService" installer.path="setup/installs/SpeechServerService" product.path="${target2}"/>
     </target>
 
-    <target name="make-Tools-installer" depends="prepare">
+    <target name="make-Tools-installer">
         <build-AI-installer product.name="Tools" installer.path="setup/installs/Tools" project.file="Tools.aip"/>
     </target>
-    <target name="release-Tools-installer" depends="make-Tools-installer">
+    <target name="release-Tools-installer">
         <release-AI-installer product.name="Tools" installer.path="setup/installs/Tools" product.path="${dir.utils}"/>
     </target>
 
-    <target name="make-WMWrapperService-installer" depends="prepare">
+    <target name="make-WMWrapperService-installer">
         <build-AI-installer product.name="WMWrapperService" installer.path="setup/installs/WMWrapperService" project.file="WMWrapperService.aip"/>
     </target>
-    <target name="release-WMWrapperService-installer" depends="make-WMWrapperService-installer">
+    <target name="release-WMWrapperService-installer">
         <release-AI-installer product.name="WMWrapperService" installer.path="setup/installs/WMWrapperService" product.path="${target2}"/>
     </target>
 
 
     <!-- ================================================================= -->
-    <!-- Macros and misc.                                                  -->
+    <!-- Macros                                                            -->
     <!-- ================================================================= -->
     <macrodef name="build-cpp">
         <attribute name="configuration" default="Release"/>
@@ -1459,11 +1530,6 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
             </copy>
         </sequential>
     </macrodef>
-
-    <pathconvert targetos="windows" property="products.dir.converted">
-        <!-- \\Bigfoot\Engineering\ProductBuilds -->
-        <path path="${products.dir}"/>
-    </pathconvert>
 
 </project>
 
