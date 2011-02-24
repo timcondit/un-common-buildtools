@@ -23,9 +23,26 @@
     <property name="compiler.ai" value="C:/Program Files/Caphyon/Advanced Installer 8.0.2/bin/x86/AdvancedInstaller.com"/>
 
     <!-- TODO temp for testing only -->
-    <property name="products.dir" value="C:\Engineering\build\10.1.0000"/>
+    <property name="products.dir" value="C:/Engineering/Builds/10.1.0000"/>
+    <property name="projects.dir" value="C:/Engineering/Projects/build/10.1.0000"/>
+    <!-- <property name="products.dir" value="//Bigfoot/Engineering/Builds/10.1.0000"/>
+    <property name="products.dir" value="//Bigfoot/Engineering/Projects/build/10.1.0000"/> -->
     <property name="jre.dir" value="//Bigfoot/Engineering/SDK/Java/JRE"/>
-    <property name="product.version" value="10.1.0000.1020"/>
+
+    <!-- MAJOR, MINOR and RELEASE should be stable over the life of any given
+    project.  They can be used for current and previous version numbers,
+    although for updating the version headers between releases p_MAJOR,
+    p_MINOR, and p_RELEASE are convenient. -->
+    <property name="MAJOR" value="10"/>
+    <property name="MINOR" value="1"/>
+    <property name="RELEASE" value="0000"/>
+
+    <!-- these need to be passed in from Bamboo -->
+    <property name="p_BUILD" value="268"/>
+    <property name="BUILD" value="269"/>
+
+    <property name="previous.version" value="${MAJOR}.${MINOR}.${RELEASE}.${p_BUILD}"/>
+    <property name="product.version"  value="${MAJOR}.${MINOR}.${RELEASE}.${BUILD}"/>
 
     <!-- ================================================================= -->
     <!-- Classpaths                                                        -->
@@ -126,9 +143,9 @@
         <path path="${products.dir}"/>
     </pathconvert>
 
-    <pathconvert targetos="windows" property="dir.projects.converted">
+    <pathconvert targetos="windows" property="projects.dir.converted">
         <!-- \\Bigfoot\Engineering\Projects -->
-        <path path="${dir.projects}"/>
+        <path path="${projects.dir}"/>
     </pathconvert>
 
     <!-- ================================================================= -->
@@ -169,7 +186,8 @@
         <antcall target="make-installers"/>
         <antcall target="release-installers"/>
         <!-- <antcall target="commit-all"/> -->
-        <antcall target="publish-unit-test-results"/>
+        <!-- TODO get this back in service
+        <antcall target="publish-unit-test-results"/> -->
         <antcall target="email-build-complete"/>
         <antcall target="tag-build"/>
 
@@ -277,39 +295,39 @@
         <!-- this is Centricity web application #1 -->
         <property name="AVPlayer_csproj" value="src/clients/AVPlayer/AVPlayer.csproj"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c80 -s:x3cApplicationVersion:x3e${version.previous}:x3c:x2fApplicationVersion:x3e -r:x3cApplicationVersion:x3e${product.version}:x3c:x2fApplicationVersion:x3e -o ${AVPlayer_csproj}"/>
+            <arg line="-c80 -s:x3cApplicationVersion:x3e${previous.version}:x3c:x2fApplicationVersion:x3e -r:x3cApplicationVersion:x3e${product.version}:x3c:x2fApplicationVersion:x3e -o ${AVPlayer_csproj}"/>
         </exec>
     </target>
 
     <target name="chver-CPP">
         <property name="version_info_h" value="src/include/version_info.h"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c40 -s:x20_PRODUCT_VERSION:x20${p_MAJOR}:x2C${p_MINOR}:x2C${p_RELEASE}:x2C${p_BUILD} -r:x20_PRODUCT_VERSION:x20${MAJOR}:x2C${MINOR}:x2C${RELEASE}:x2C${BUILD} -o ${version_info_h}"/>
+            <arg line="-c40 -s:x20_PRODUCT_VERSION:x20${MAJOR}:x2C${MINOR}:x2C${RELEASE}:x2C${p_BUILD} -r:x20_PRODUCT_VERSION:x20${MAJOR}:x2C${MINOR}:x2C${RELEASE}:x2C${BUILD} -o ${version_info_h}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c40 -s:x20_PRODUCT_VER_STR:x20:x22${p_MAJOR}.${p_MINOR}.${p_RELEASE}.${p_BUILD} -r:x20_PRODUCT_VER_STR:x20:x22${product.version} -o ${version_info_h}"/>
+            <arg line="-c40 -s:x20_PRODUCT_VER_STR:x20:x22${MAJOR}.${MINOR}.${RELEASE}.${p_BUILD} -r:x20_PRODUCT_VER_STR:x20:x22${product.version} -o ${version_info_h}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c40 -s:x20_PRODUCT_VER_LOGIN_STR:x20:x22${p_MAJOR}.${p_MINOR}.${p_RELEASE}.${p_BUILD} -r:x20_PRODUCT_VER_LOGIN_STR:x20:x22${product.version} -o ${version_info_h}"/>
+            <arg line="-c40 -s:x20_PRODUCT_VER_LOGIN_STR:x20:x22${MAJOR}.${MINOR}.${RELEASE}.${p_BUILD} -r:x20_PRODUCT_VER_LOGIN_STR:x20:x22${product.version} -o ${version_info_h}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c40 -s:x20_PRODUCT_ABOUT:x20:x22Version:x20${p_MAJOR}.${p_MINOR}.${p_RELEASE}.${p_BUILD} -r:x20_PRODUCT_ABOUT:x20:x22Version:x20${product.version} -o ${version_info_h}"/>
+            <arg line="-c40 -s:x20_PRODUCT_ABOUT:x20:x22Version:x20${MAJOR}.${MINOR}.${RELEASE}.${p_BUILD} -r:x20_PRODUCT_ABOUT:x20:x22Version:x20${product.version} -o ${version_info_h}"/>
         </exec>
     </target>
 
     <target name="chver-CSharp">
         <property name="version_info_cs" value="src/server/com/et/versioninfo/VersionInfo.cs"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30 -s:x20MAJOR:x20=:x20:x22${p_MAJOR}:x22; -r:x20MAJOR:x20=:x20:x22${MAJOR}:x22; -o ${version_info_cs}"/>
+            <arg line="-c30 -s:x20MAJOR:x20=:x20:x22${MAJOR}:x22; -r:x20MAJOR:x20=:x20:x22${MAJOR}:x22; -o ${version_info_cs}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30 -s:x20MINOR:x20=:x20:x22${p_MINOR}:x22; -r:x20MINOR:x20=:x20:x22${MINOR}:x22; -o ${version_info_cs}"/>
+            <arg line="-c30 -s:x20MINOR:x20=:x20:x22${MINOR}:x22; -r:x20MINOR:x20=:x20:x22${MINOR}:x22; -o ${version_info_cs}"/>
         </exec>
         <!-- prn20765: this is incompatible with VersionInfo.cs, and probably
         broken.  I just opened the PRN, so we'll see what comes of it.  WFM
         and BI use this file. -->
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30 -s:x20RELEASE:x20=:x20:x22${p_RELEASE}:x22; -r:x20RELEASE:x20=:x20:x22${RELEASE}:x22; -o ${version_info_cs}"/>
+            <arg line="-c30 -s:x20RELEASE:x20=:x20:x22${RELEASE}:x22; -r:x20RELEASE:x20=:x20:x22${RELEASE}:x22; -o ${version_info_cs}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30 -s:x20BUILD:x20=:x20:x22${p_BUILD}:x22; -r:x20BUILD:x20=:x20:x22${BUILD}:x22; -o ${version_info_cs}"/>
@@ -320,13 +338,13 @@
         <property name="daisy_version_cs_SERVER" value="src/server/com/et/wfm/daisy/DaisyVersion.cs"/>
         <!-- clients/wfm/WFMClient/com/et/daisy/DaisyVersion.cs -->
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30 -s:x20MAJOR:x20=:x20${p_MAJOR}; -r:x20MAJOR:x20=:x20${MAJOR}; -o ${daisy_version_cs_SERVER}"/>
+            <arg line="-c30 -s:x20MAJOR:x20=:x20${MAJOR}; -r:x20MAJOR:x20=:x20${MAJOR}; -o ${daisy_version_cs_SERVER}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30 -s:x20MINOR:x20=:x20${p_MINOR}; -r:x20MINOR:x20=:x20${MINOR}; -o ${daisy_version_cs_SERVER}"/>
+            <arg line="-c30 -s:x20MINOR:x20=:x20${MINOR}; -r:x20MINOR:x20=:x20${MINOR}; -o ${daisy_version_cs_SERVER}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30 -s:x20RELEASE:x20=:x20${p_RELEASE}; -r:x20RELEASE:x20=:x20${RELEASE}; -o ${daisy_version_cs_SERVER}"/>
+            <arg line="-c30 -s:x20RELEASE:x20=:x20${RELEASE}; -r:x20RELEASE:x20=:x20${RELEASE}; -o ${daisy_version_cs_SERVER}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30 -s:x20BUILD:x20=:x20${p_BUILD}; -r:x20BUILD:x20=:x20${BUILD}; -o ${daisy_version_cs_SERVER}"/>
@@ -336,13 +354,13 @@
         <!-- this is removed in Charlie -timc 2/18/2011 -->
         <property name="daisy_version_cs_CLIENT" value="src/clients/wfm/WFMClient/com/et/daisy/DaisyVersion.cs"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30 -s:x20MAJOR:x20=:x20${p_MAJOR}; -r:x20MAJOR:x20=:x20${MAJOR}; -o ${daisy_version_cs_CLIENT}"/>
+            <arg line="-c30 -s:x20MAJOR:x20=:x20${MAJOR}; -r:x20MAJOR:x20=:x20${MAJOR}; -o ${daisy_version_cs_CLIENT}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30 -s:x20MINOR:x20=:x20${p_MINOR}; -r:x20MINOR:x20=:x20${MINOR}; -o ${daisy_version_cs_CLIENT}"/>
+            <arg line="-c30 -s:x20MINOR:x20=:x20${MINOR}; -r:x20MINOR:x20=:x20${MINOR}; -o ${daisy_version_cs_CLIENT}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30 -s:x20RELEASE:x20=:x20${p_RELEASE}; -r:x20RELEASE:x20=:x20${RELEASE}; -o ${daisy_version_cs_CLIENT}"/>
+            <arg line="-c30 -s:x20RELEASE:x20=:x20${RELEASE}; -r:x20RELEASE:x20=:x20${RELEASE}; -o ${daisy_version_cs_CLIENT}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30 -s:x20BUILD:x20=:x20${p_BUILD}; -r:x20BUILD:x20=:x20${BUILD}; -o ${daisy_version_cs_CLIENT}"/>
@@ -353,20 +371,20 @@
         <!-- FileVersion=9,0,0,504 -->
         <property name="EnvisionControls_INF" value="setup/Signature/EnvisionControls.inf"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c80 -sFileVersion:x3d${p_MAJOR},${p_MINOR},${p_RELEASE},${p_BUILD} -rFileVersion:x3d${MAJOR},${MINOR},${RELEASE},${BUILD} -o ${EnvisionControls_INF}"/>
+            <arg line="-c80 -sFileVersion:x3d${MAJOR},${MINOR},${RELEASE},${p_BUILD} -rFileVersion:x3d${MAJOR},${MINOR},${RELEASE},${BUILD} -o ${EnvisionControls_INF}"/>
         </exec>
     </target>
 
     <target name="chver-Java">
         <property name="ProductVersion_java" value="src/server/com/et/startup/ProductVersion.java"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30 -s:x20MAJOR:x20=:x20${p_MAJOR}; -r:x20MAJOR:x20=:x20${MAJOR}; -o ${ProductVersion_java}"/>
+            <arg line="-c30 -s:x20MAJOR:x20=:x20${MAJOR}; -r:x20MAJOR:x20=:x20${MAJOR}; -o ${ProductVersion_java}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30 -s:x20MINOR:x20=:x20${p_MINOR}; -r:x20MINOR:x20=:x20${MINOR}; -o ${ProductVersion_java}"/>
+            <arg line="-c30 -s:x20MINOR:x20=:x20${MINOR}; -r:x20MINOR:x20=:x20${MINOR}; -o ${ProductVersion_java}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c30 -s:x20RELEASE:x20=:x20:x22${p_RELEASE}:x22; -r:x20RELEASE:x20=:x20:x22${RELEASE}:x22; -o ${ProductVersion_java}"/>
+            <arg line="-c30 -s:x20RELEASE:x20=:x20:x22${RELEASE}:x22; -r:x20RELEASE:x20=:x20:x22${RELEASE}:x22; -o ${ProductVersion_java}"/>
         </exec>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
             <arg line="-c30 -s:x20BUILD:x20=:x20${p_BUILD}; -r:x20BUILD:x20=:x20${BUILD}; -o ${ProductVersion_java}"/>
@@ -376,7 +394,7 @@
     <target name="chver-RecordingDownloadTool">
         <property name="RecordingDownloadTool_csproj" value="src/clients/RecordingDownloadTool/RecordingDownloadTool.csproj"/>
         <exec executable="insert.exe" vmlauncher="${vmlauncher}">
-            <arg line="-c80 -s:x3cApplicationVersion:x3e${version.previous}:x3c:x2fApplicationVersion:x3e -r:x3cApplicationVersion:x3e${product.version}:x3c:x2fApplicationVersion:x3e -o ${RecordingDownloadTool_csproj}"/>
+            <arg line="-c80 -s:x3cApplicationVersion:x3e${previous.version}:x3c:x2fApplicationVersion:x3e -r:x3cApplicationVersion:x3e${product.version}:x3c:x2fApplicationVersion:x3e -o ${RecordingDownloadTool_csproj}"/>
         </exec>
     </target>
 
@@ -487,7 +505,7 @@
         <mail from="buildmgr@envisioninc.com" tolist="${mail.to}" mailhost="corpserv04.acme.envisiontelephony.com" subject="build results, ${product.version} (r${repository.revision})" encoding="plain">
             <message>
 Build is here: ${products.dir.converted}\${product.version}
-Log file is here: ${dir.projects.converted}\logs\build_${product.version}.xml
+Log file is here: ${projects.dir.converted}\logs\build_${product.version}.xml
 
 
 Compiled from source revision ${repository.revision}
@@ -499,7 +517,7 @@ C# Unit Tests Results
 ${unittest.csharpresults}
 
 
-Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbose.xml
+Complete log here: ${projects.dir.converted}\unittests\${product.version}_verbose.xml
 ===========================================================
             </message>
         </mail>
@@ -607,7 +625,7 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
         </exec>
     </target>
     <target name="publish-BVT-AgentCentricity">
-        <copy todir="${dir.projects.converted}\BVTs">
+        <copy todir="${projects.dir.converted}\BVTs">
             <fileset file="src/tools/testapps/AgentCentricity/AgentCentricity/bin/Release/AgentCentricity.dll"/>
         </copy>
     </target>
@@ -618,7 +636,7 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
         </exec>
     </target>
     <target name="publish-BVT-CentricityBVT">
-        <copy todir="${dir.projects.converted}\BVTs">
+        <copy todir="${projects.dir.converted}\BVTs">
             <fileset file="src/tools/testapps/CentricityBVT/autotest/bin/Release/autotest.dll"/>
         </copy>
     </target>
@@ -629,7 +647,7 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
         </exec>
     </target>
     <target name="publish-BVT-ReviewAdvocate">
-        <copy todir="${dir.projects.converted}\BVTs">
+        <copy todir="${projects.dir.converted}\BVTs">
             <fileset file="src/tools/testapps/ReviewAdvocate/ReviewAdvocate/bin/Release/ReviewAdvocate.dll"/>
         </copy>
     </target>
@@ -644,12 +662,12 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
     dependencies configured on the make-BVT targets, so they can be run only
     as needed. -->
     <target name="publish-BVTs">
-        <echo message="dir.projects.converted: ${dir.projects.converted}"/>
+        <echo message="projects.dir.converted: ${projects.dir.converted}"/>
         <!-- delete the contents first, directory second -->
         <delete failonerror="False">
-            <fileset dir="${dir.projects.converted}\BVTs" erroronmissingdir="False"/>
+            <fileset dir="${projects.dir.converted}\BVTs" erroronmissingdir="False"/>
         </delete>
-        <delete failonerror="False" dir="${dir.projects.converted}\BVTs"/>
+        <delete failonerror="False" dir="${projects.dir.converted}\BVTs"/>
         <antcall target="publish-BVT-AgentCentricity"/>
         <antcall target="publish-BVT-CentricityBVT"/>
         <antcall target="publish-BVT-ReviewAdvocate"/>
@@ -982,8 +1000,8 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
     </target>
 
     <target name="publish-CSUnitTests" depends="run-CSUnitTests" description="Publish the results of the C# unit tests">
-        <copy file="src/tests/DotNetUnitTests/UT_BLL/bin/Release/results_summary.txt" tofile="${dir.projects.converted}/unittests/${product.version}_summary.txt"/>
-        <copy file="src/tests/DotNetUnitTests/UT_BLL/bin/Release/results_verbose.xml" tofile="${dir.projects.converted}/unittests/${product.version}_verbose.xml"/>
+        <copy file="src/tests/DotNetUnitTests/UT_BLL/bin/Release/results_summary.txt" tofile="${projects.dir.converted}/unittests/${product.version}_summary.txt"/>
+        <copy file="src/tests/DotNetUnitTests/UT_BLL/bin/Release/results_verbose.xml" tofile="${projects.dir.converted}/unittests/${product.version}_verbose.xml"/>
     </target>
 
     <target name="publish-RecordingDownloadTool" description="Publishes Centricity RecordingDownloadTool (Click Once) using MSBuild">
@@ -1001,7 +1019,7 @@ Complete log here: ${dir.projects.converted}\unittests\${product.version}_verbos
         <!-- this is where JUnit test results can be published -->
 
         <!-- load the results summary into a property -->
-        <loadfile property="unittest.csharpresults" srcFile="${dir.projects.converted}\unittests\${product.version}_summary.txt"/>
+        <loadfile property="unittest.csharpresults" srcFile="${projects.dir.converted}\unittests\${product.version}_summary.txt"/>
     </target>
 
     <target name="rebuild">
